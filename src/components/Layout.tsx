@@ -39,7 +39,7 @@ const Layout = () => {
           <div className="flex flex-col gap-1">
             <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider px-3 mb-1">MENU CHÍNH</div>
             <NavLink 
-              to="/" 
+              to="/dashboard" 
               className={({isActive}) => `flex items-center gap-3 px-3 py-2.5 rounded-lg font-semibold transition-colors ${isActive ? 'text-blue-600 bg-blue-50 border border-blue-100' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'}`}
             >
               <SquaresFour size={20} />
@@ -50,21 +50,21 @@ const Layout = () => {
           <div className="flex flex-col gap-1">
             <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider px-3 mb-1">PHÒNG KHÁM</div>
             <NavLink 
-              to="/doctors" 
+              to="/dashboard/doctors" 
               className={({isActive}) => `flex items-center gap-3 px-3 py-2.5 rounded-lg font-semibold transition-colors ${isActive ? 'text-blue-600 bg-blue-50 border border-blue-100' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'}`}
             >
               <User size={20} />
               <span>Bác sĩ</span>
             </NavLink>
             <NavLink 
-              to="/patients" 
+              to="/dashboard/patients" 
               className={({isActive}) => `flex items-center gap-3 px-3 py-2.5 rounded-lg font-semibold transition-colors ${isActive ? 'text-blue-600 bg-blue-50 border border-blue-100' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'}`}
             >
               <Users size={20} />
               <span>Bệnh nhân</span>
             </NavLink>
             <NavLink
-              to="/appointments"
+              to="/dashboard/appointments"
               className={({isActive}) => `flex items-center gap-3 px-3 py-2.5 rounded-lg font-semibold transition-colors ${isActive ? 'text-blue-600 bg-blue-50 border border-blue-100' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'}`}
             >
               <CalendarBlank size={20} />
@@ -75,14 +75,14 @@ const Layout = () => {
           <div className="flex flex-col gap-1">
             <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider px-3 mb-1">NHÂN SỰ</div>
             <NavLink
-              to="/staff"
+              to="/dashboard/staff"
               className={({isActive}) => `flex items-center gap-3 px-3 py-2.5 rounded-lg font-semibold transition-colors ${isActive ? 'text-blue-600 bg-blue-50 border border-blue-100' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'}`}
             >
               <UsersThree size={20} />
               <span>Nhân viên</span>
             </NavLink>
             <NavLink
-              to="/schedule"
+              to="/dashboard/schedule"
               className={({isActive}) => `flex items-center gap-3 px-3 py-2.5 rounded-lg font-semibold transition-colors ${isActive ? 'text-blue-600 bg-blue-50 border border-blue-100' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'}`}
             >
               <Clock size={20} />
@@ -93,14 +93,14 @@ const Layout = () => {
           <div className="flex flex-col gap-1">
             <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider px-3 mb-1">TÀI CHÍNH & KẾ TOÁN</div>
             <NavLink
-              to="/invoices"
+              to="/dashboard/invoices"
               className={({isActive}) => `flex items-center gap-3 px-3 py-2.5 rounded-lg font-semibold transition-colors ${isActive ? 'text-blue-600 bg-blue-50 border border-blue-100' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'}`}
             >
               <CreditCard size={20} />
               <span>Hóa đơn</span>
             </NavLink>
             <NavLink
-              to="/expenses"
+              to="/dashboard/expenses"
               className={({isActive}) => `flex items-center gap-3 px-3 py-2.5 rounded-lg font-semibold transition-colors ${isActive ? 'text-blue-600 bg-blue-50 border border-blue-100' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'}`}
             >
               <Receipt size={20} />

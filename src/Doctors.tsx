@@ -5,10 +5,12 @@ import {
   Stethoscope
 } from '@phosphor-icons/react';
 import Modal from './components/Modal';
+import { useToast } from './contexts/ToastContext';
 
 const Doctors = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { showToast } = useToast();
   
   // Form State
   const [formData, setFormData] = useState({ name: '', phone: '', specialty: '' });
@@ -73,7 +75,10 @@ const Doctors = () => {
           <p className="text-sm text-slate-500 mt-1">Quản lý hồ sơ, lịch làm việc và chuyên khoa của bác sĩ</p>
         </div>
         <div className="flex gap-3">
-          <button className="flex items-center gap-2 bg-white border border-slate-200 hover:bg-slate-50 px-4 py-2 rounded-lg font-semibold text-sm text-slate-700 transition-colors shadow-sm">
+          <button 
+            onClick={() => showToast('Đã xuất danh sách thành công!')}
+            className="flex items-center gap-2 bg-white border border-slate-200 hover:bg-slate-50 px-4 py-2 rounded-lg font-semibold text-sm text-slate-700 transition-colors shadow-sm"
+          >
             <DownloadSimple size={18} /> Xuất danh sách
           </button>
           <button 

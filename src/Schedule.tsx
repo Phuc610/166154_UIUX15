@@ -4,6 +4,7 @@ import {
   CaretDown, X, SunHorizon, Sun, Moon, Warning
 } from '@phosphor-icons/react';
 import Modal from './components/Modal';
+import { useToast } from './contexts/ToastContext';
 
 // ── Types ──────────────────────────────────────────────────
 type ShiftId = 'morning' | 'afternoon' | 'evening';
@@ -96,6 +97,7 @@ const EMPTY_ERRORS = { dayIndex: '', shiftId: '', doctorId: '' };
 
 // ── Component ──────────────────────────────────────────────
 const Schedule = () => {
+  const { showToast } = useToast();
   const [monday, setMonday]         = useState<Date>(getMondayOf(new Date()));
   const [entries, setEntries]       = useState<ShiftEntry[]>(INITIAL_ENTRIES);
   const [filterDept, setFilterDept] = useState('Tất cả khoa');
@@ -184,7 +186,7 @@ const Schedule = () => {
             <CaretDown size={13} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
           </div>
           <button
-            onClick={() => window.print()}
+            onClick={() => showToast('Đã xuất lịch PDF thành công!')}
             className="flex items-center gap-2 bg-white border border-slate-200 hover:bg-slate-50 px-4 py-2 rounded-lg font-semibold text-sm text-slate-700 transition-colors shadow-sm"
           >
             <DownloadSimple size={18} /> Xuất lịch PDF

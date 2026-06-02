@@ -5,6 +5,7 @@ import {
   ArrowDown, ArrowUp, Money, Pill, Gauge, Megaphone
 } from '@phosphor-icons/react';
 import Modal from './components/Modal';
+import { useToast } from './contexts/ToastContext';
 
 // ── Types ──────────────────────────────────────────────────
 type ExpenseStatus = 'paid' | 'pending' | 'rejected';
@@ -63,6 +64,7 @@ const EMPTY_ERRORS = { category: '', title: '', method: '', date: '', amount: ''
 
 // ── Component ──────────────────────────────────────────────
 const Expenses = () => {
+  const { showToast } = useToast();
   const [expenses, setExpenses]     = useState<Expense[]>(INITIAL_EXPENSES);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterMonth, setFilterMonth] = useState('Tháng này');
@@ -154,7 +156,7 @@ const Expenses = () => {
           <p className="text-sm text-slate-500 mt-1">Theo dõi và kiểm soát toàn bộ chi phí hoạt động của phòng khám</p>
         </div>
         <div className="flex gap-3">
-          <button onClick={() => window.print()} className="flex items-center gap-2 bg-white border border-slate-200 hover:bg-slate-50 px-4 py-2 rounded-lg font-semibold text-sm text-slate-700 transition-colors shadow-sm">
+          <button onClick={() => showToast('Đã xuất báo cáo thành công!')} className="flex items-center gap-2 bg-white border border-slate-200 hover:bg-slate-50 px-4 py-2 rounded-lg font-semibold text-sm text-slate-700 transition-colors shadow-sm">
             <DownloadSimple size={18} /> Xuất báo cáo
           </button>
           <button onClick={() => setIsModalOpen(true)} className="flex items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg font-semibold text-sm transition-colors shadow-sm">

@@ -4,6 +4,7 @@ import {
   DownloadSimple, CalendarBlank, User, Users,
   ChartBar, TrendUp, TrendDown, Clock, CheckCircle
 } from '@phosphor-icons/react';
+import { useToast } from './contexts/ToastContext';
 
 // ── Mock data per report type ──────────────────────────────
 const FINANCE_STATS = [
@@ -55,6 +56,7 @@ const REPORT_TYPES = [
 
 // ── Component ──────────────────────────────────────────────
 const ExportReport = () => {
+  const { showToast } = useToast();
   const [activeReport, setActiveReport] = useState('finance');
   const [period, setPeriod]   = useState('Tháng này (05/2026)');
   const [branch, setBranch]   = useState('Tất cả chi nhánh & khoa');
@@ -317,7 +319,7 @@ const ExportReport = () => {
                   <td className="py-4 text-right">
                     {row.status === 'done' ? (
                       <button
-                        onClick={() => window.print()}
+                        onClick={() => showToast('Đã tải xuống báo cáo thành công!')}
                         className="inline-flex items-center gap-1.5 bg-white border border-slate-200 hover:bg-slate-50 px-3 py-1.5 rounded-md font-medium text-slate-700 transition-colors shadow-sm text-xs"
                       >
                         <DownloadSimple size={14} /> Tải về

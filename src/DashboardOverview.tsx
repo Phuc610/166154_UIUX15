@@ -45,13 +45,13 @@ const DashboardOverview = () => {
         <h1 className="text-2xl font-bold">Trang tổng quan Quản lý</h1>
         <div className="flex gap-3">
           <button
-            onClick={() => navigate('/export')}
+            onClick={() => navigate('/dashboard/export')}
             className="flex items-center gap-2 bg-white border border-slate-200 hover:bg-slate-50 px-4 py-2 rounded-lg font-semibold text-sm text-slate-700 transition-colors shadow-sm"
           >
             <DownloadSimple size={18} /> Xuất báo cáo
           </button>
           <button
-            onClick={() => navigate('/doctors')}
+            onClick={() => navigate('/dashboard/doctors')}
             className="flex items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg font-semibold text-sm transition-colors shadow-sm"
           >
             + Thêm nhân sự
@@ -63,7 +63,7 @@ const DashboardOverview = () => {
       <div className="grid grid-cols-3 gap-6 mb-8">
         <div
           className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm cursor-pointer hover:border-blue-300 hover:shadow-md transition-all"
-          onClick={() => navigate('/export')}
+          onClick={() => navigate('/dashboard/export')}
         >
           <div className="flex justify-between items-start mb-4">
             <h3 className="text-sm font-medium text-slate-500">Tổng doanh thu (Tháng)</h3>
@@ -80,7 +80,7 @@ const DashboardOverview = () => {
 
         <div
           className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm cursor-pointer hover:border-blue-300 hover:shadow-md transition-all"
-          onClick={() => navigate('/patients')}
+          onClick={() => navigate('/dashboard/patients')}
         >
           <div className="flex justify-between items-start mb-4">
             <h3 className="text-sm font-medium text-slate-500">Tổng bệnh nhân</h3>
@@ -97,7 +97,7 @@ const DashboardOverview = () => {
 
         <div
           className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm cursor-pointer hover:border-blue-300 hover:shadow-md transition-all"
-          onClick={() => navigate('/appointments')}
+          onClick={() => navigate('/dashboard/appointments')}
         >
           <div className="flex justify-between items-start mb-4">
             <h3 className="text-sm font-medium text-slate-500">Lịch hẹn toàn cơ sở</h3>
@@ -135,7 +135,7 @@ const DashboardOverview = () => {
               <CaretDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" />
             </div>
             <button
-              onClick={() => navigate('/appointments')}
+              onClick={() => navigate('/dashboard/appointments')}
               className="flex items-center gap-1.5 text-blue-600 text-sm font-semibold hover:underline"
             >
               Xem tất cả <ArrowRight size={14} />
@@ -185,14 +185,14 @@ const DashboardOverview = () => {
                       </button>
                       <button
                         title="Xem hồ sơ bệnh nhân"
-                        onClick={() => navigate('/patients')}
+                        onClick={() => navigate('/dashboard/patients')}
                         className="w-8 h-8 rounded border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors"
                       >
                         <FileText size={16} />
                       </button>
                       <button
                         title="Xem toàn bộ lịch hẹn"
-                        onClick={() => navigate('/appointments')}
+                        onClick={() => navigate('/dashboard/appointments')}
                         className="w-8 h-8 rounded border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors"
                       >
                         <DotsThreeVertical size={16} />
@@ -246,7 +246,7 @@ const DashboardOverview = () => {
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-lg font-bold">Nhân sự trực hôm nay</h2>
             <button
-              onClick={() => navigate('/doctors')}
+              onClick={() => navigate('/dashboard/doctors')}
               className="text-blue-600 text-sm font-semibold hover:underline flex items-center gap-1"
             >
               Xem tất cả <ArrowRight size={14} />
@@ -261,7 +261,7 @@ const DashboardOverview = () => {
               <div
                 key={staff.name}
                 className="flex justify-between items-center cursor-pointer hover:bg-slate-50 rounded-lg px-2 py-1 -mx-2 transition-colors"
-                onClick={() => navigate('/doctors')}
+                onClick={() => navigate('/dashboard/doctors')}
               >
                 <div className="flex items-center gap-4">
                   <div className={`w-12 h-12 rounded-full ${staff.avatarColor} shrink-0`}></div>
@@ -312,7 +312,7 @@ const DashboardOverview = () => {
             </div>
             <div className="px-6 py-4 border-t border-slate-200 flex justify-between">
               <button onClick={() => setDetailRow(null)} className="px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 font-medium text-sm transition-colors">Đóng</button>
-              <button onClick={() => { setDetailRow(null); navigate('/appointments'); }} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold text-sm transition-colors">
+              <button onClick={() => { setDetailRow(null); navigate('/dashboard/appointments'); }} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold text-sm transition-colors">
                 <ArrowRight size={16} weight="bold" /> Xem lịch hẹn
               </button>
             </div>

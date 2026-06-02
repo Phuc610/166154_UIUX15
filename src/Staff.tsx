@@ -5,6 +5,7 @@ import {
   X, Users, UserCheck, Buildings, CaretDown, Warning
 } from '@phosphor-icons/react';
 import Modal from './components/Modal';
+import { useToast } from './contexts/ToastContext';
 
 // ── Types ──────────────────────────────────────────────────
 type StaffStatus = 'active' | 'leave' | 'remote';
@@ -45,6 +46,7 @@ const EMPTY_ERRORS = { name: '', email: '', role: '', department: '', phone: '' 
 
 // ── Component ──────────────────────────────────────────────
 const Staff = () => {
+  const { showToast } = useToast();
   const [staffList, setStaffList]   = useState<StaffMember[]>(INITIAL_STAFF);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterDept, setFilterDept] = useState('Tất cả');
@@ -133,7 +135,7 @@ const Staff = () => {
         </div>
         <div className="flex gap-3">
           <button
-            onClick={() => window.print()}
+            onClick={() => showToast('Đã xuất báo cáo thành công!')}
             className="flex items-center gap-2 bg-white border border-slate-200 hover:bg-slate-50 px-4 py-2 rounded-lg font-semibold text-sm text-slate-700 transition-colors shadow-sm"
           >
             <DownloadSimple size={18} /> Xuất báo cáo
