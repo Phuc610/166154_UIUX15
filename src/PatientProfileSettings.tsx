@@ -34,22 +34,7 @@ const PatientProfileSettings: React.FC = () => {
 
       {/* Content */}
       <div className="p-8 max-w-7xl mx-auto">
-        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col md:flex-row min-h-[600px]">
-          {/* Inner Sidebar */}
-          <div className="w-full md:w-64 shrink-0 border-r border-slate-100 p-6 flex flex-col gap-1">
-            <NavLink to="/patient/settings/profile" className={({ isActive }) => `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive ? 'text-blue-600 bg-blue-50/50' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'}`}>
-              <User size={18} />
-              Cài đặt hồ sơ
-            </NavLink>
-            <NavLink to="/patient/settings/password" className={({ isActive }) => `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive ? 'text-blue-600 bg-blue-50/50' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'}`}>
-              <Lock size={18} />
-              Đổi mật khẩu
-            </NavLink>
-            <NavLink to="/patient/settings/notifications" className={({ isActive }) => `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive ? 'text-blue-600 bg-blue-50/50' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'}`}>
-              <Bell size={18} />
-              Thông báo
-            </NavLink>
-          </div>
+        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden min-h-[600px]">
 
           {/* Main Form */}
           <div className="flex-1 min-w-0">

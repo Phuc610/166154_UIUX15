@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import {
   Hexagon, CaretLeft, CaretDown,
   SquaresFour, CalendarBlank, User, FileText, Receipt, Gear,
@@ -59,6 +59,7 @@ const LogoutModal = ({ open, onConfirm, onCancel }: LogoutModalProps) => {
 
 const PatientLayout = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [displayName, setDisplayName] = useState('Nguyễn Văn A');
   const [avatarOpen, setAvatarOpen] = useState(false);
@@ -353,7 +354,9 @@ const PatientLayout = () => {
 
         {/* Content */}
         <main className="flex-1 overflow-y-auto bg-slate-50">
-          <Outlet />
+          <div key={location.pathname} className="animate-fade-in-up h-full">
+            <Outlet />
+          </div>
         </main>
       </div>
 

@@ -37,6 +37,7 @@ const Patients = () => {
   // Form State
   const [formData, setFormData] = useState({ id: '', name: '', phone: '', gender: '', age: '' });
   const [formErrors, setFormErrors] = useState({ name: '', phone: '', gender: '', age: '' });
+  const [animIn, setAnimIn] = useState(false);
 
   // Filtering
   const filteredPatients = MOCK_PATIENTS_LIST.filter(p => {
@@ -59,10 +60,19 @@ const Patients = () => {
 
   // Click outside to close dropdown
   useEffect(() => {
+    const timer = setTimeout(() => setAnimIn(true), 50);
     const closeDropdown = () => setOpenDropdownId(null);
     window.addEventListener('click', closeDropdown);
-    return () => window.removeEventListener('click', closeDropdown);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('click', closeDropdown);
+    };
   }, []);
+
+  const getStaggStyle = (idx: number) => ({
+    transitionDelay: `${idx * 100}ms`
+  });
+  const staggClass = `transition-all duration-700 ease-out transform ${animIn ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`;
 
   const handleExport = () => {
     showToast('Đã xuất danh sách thành công!');
@@ -116,7 +126,7 @@ const Patients = () => {
     <div className="relative">
 
       {/* Header */}
-      <div className="flex justify-between items-center mb-6">
+      <div className={`flex justify-between items-center mb-6 ${staggClass}`} style={getStaggStyle(1)}>
         <div>
           <h1 className="text-2xl font-bold">Quản lý Bệnh nhân</h1>
           <p className="text-sm text-slate-500 mt-1">Quản lý hồ sơ, thông tin cá nhân và lịch sử khám của bệnh nhân</p>
@@ -132,7 +142,7 @@ const Patients = () => {
       </div>
 
       {/* Filters Area */}
-      <div className="bg-white border border-slate-200 rounded-xl p-4 mb-6 flex items-center justify-between shadow-sm">
+      <div className={`bg-white border border-slate-200 rounded-xl p-4 mb-6 flex items-center justify-between shadow-sm ${staggClass}`} style={getStaggStyle(2)}>
         <div className="flex items-center gap-4 flex-1">
           <div className="relative w-80">
             <MagnifyingGlass size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -162,7 +172,7 @@ const Patients = () => {
       </div>
 
       {/* Table Area */}
-      <div className="bg-white border border-slate-200 rounded-xl shadow-sm flex flex-col min-h-[500px]">
+      <div className={`bg-white border border-slate-200 rounded-xl shadow-sm flex flex-col min-h-[500px] ${staggClass}`} style={getStaggStyle(3)}>
         <div className="overflow-x-auto flex-1">
           <table className="w-full text-left border-collapse">
             <thead>

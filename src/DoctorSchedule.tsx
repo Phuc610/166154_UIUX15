@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   CalendarBlank, CaretLeft, CaretRight, CheckCircle,
@@ -137,125 +137,155 @@ const PatientModal = ({ appt, onClose }: { appt: Appointment; onClose: () => voi
   const cs = cardStyle(appt.type);
   const endH = appt.startHour + Math.floor((appt.startMin + appt.durationMin) / 60);
   const endM = (appt.startMin + appt.durationMin) % 60;
+  const [animIn, setAnimIn] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setAnimIn(true), 50);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const getStaggStyle = (idx: number) => ({
+    transitionDelay: `${idx * 100}ms`
+  });
+  const staggClass = `transition-all duration-700 ease-out transform ${animIn ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4"
          role="dialog" aria-modal="true" aria-labelledby="pat-modal-title">
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onClick={onClose} aria-hidden="true" />
+      <div className={`absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity duration-500 ${animIn ? 'opacity-100' : 'opacity-0'}`} onClick={onClose} aria-hidden="true" />
 
       {/* Card */}
-      <div className="relative z-10 bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div className={`relative z-10 bg-white/95 backdrop-blur-xl border border-white shadow-[0_20px_50px_rgba(8,_112,_184,_0.1)] rounded-3xl w-full max-w-lg overflow-hidden transition-all duration-500 transform ${animIn ? 'scale-100 opacity-100 translate-y-0' : 'scale-95 opacity-0 translate-y-4'}`}>
 
         {/* Header */}
-        <div className={`px-6 py-5 ${cs.bg} border-b border-slate-100 flex items-center justify-between`}>
+        <div className={`px-6 py-5 ${cs.bg} border-b border-slate-100/50 flex items-center justify-between ${staggClass}`} style={getStaggStyle(1)}>
           <div className="flex items-center gap-4">
-            <div className={`w-14 h-14 rounded-full ${appt.avatarBg} flex items-center justify-center shrink-0 shadow-sm`}>
-              <span className="font-bold text-slate-700 text-lg">{appt.initials}</span>
+            <div className={`w-14 h-14 rounded-full ${appt.avatarBg} flex items-center justify-center shrink-0 shadow-sm border-2 border-white`}>
+              <span className="font-black text-slate-700 text-xl">{appt.initials}</span>
             </div>
             <div>
-              <h2 id="pat-modal-title" className="text-lg font-bold text-slate-900">{appt.patientName}</h2>
-              <div className="flex items-center gap-3 mt-1 flex-wrap">
-                <span className="text-sm text-slate-500">{appt.age} tuổi · {appt.gender} · Nhóm máu <strong>{appt.bloodType}</strong></span>
+              <h2 id="pat-modal-title" className="text-xl font-black text-slate-900">{appt.patientName}</h2>
+              <div className="flex items-center gap-2 mt-1 flex-wrap">
+                <span className="text-sm font-medium text-slate-500 bg-white/60 px-2 py-0.5 rounded-md">{appt.age} tuổi</span>
+                <span className="text-sm font-medium text-slate-500 bg-white/60 px-2 py-0.5 rounded-md">{appt.gender}</span>
+                <span className="text-sm font-medium text-slate-500 bg-white/60 px-2 py-0.5 rounded-md">Nhóm máu <strong className="text-slate-700">{appt.bloodType}</strong></span>
               </div>
-              <span className={`mt-1.5 inline-flex text-xs font-semibold px-2.5 py-0.5 rounded-full ${STATUS_CFG[appt.status].cls}`}>
+              <span className={`mt-2 inline-flex text-xs font-bold px-3 py-1 rounded-lg shadow-sm ${STATUS_CFG[appt.status].cls}`}>
                 {STATUS_CFG[appt.status].label}
               </span>
             </div>
           </div>
           <button onClick={onClose} aria-label="Đóng"
-            className="w-8 h-8 rounded-full bg-white/80 hover:bg-white flex items-center justify-center text-slate-500 transition-colors shadow-sm">
+            className="w-8 h-8 rounded-full bg-white/80 hover:bg-white flex items-center justify-center text-slate-500 transition-all shadow-sm hover:scale-105 active:scale-95 self-start">
             <XIcon size={16} weight="bold" />
           </button>
         </div>
 
         {/* Body */}
-        <div className="px-6 py-5 flex flex-col gap-5">
+        <div className="px-6 py-6 flex flex-col gap-6">
           {/* Appointment info */}
-          <div className="grid grid-cols-3 gap-3">
-            <div className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100">
-              <Clock size={16} className="text-slate-400 mx-auto mb-1" />
-              <div className="text-xs text-slate-500 mb-0.5">Thời gian</div>
+          <div className={`grid grid-cols-3 gap-3 ${staggClass}`} style={getStaggStyle(2)}>
+            <div className="bg-gradient-to-b from-slate-50 to-white rounded-2xl p-3 text-center border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+              <div className="w-8 h-8 mx-auto bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-2">
+                <Clock size={16} weight="bold" />
+              </div>
+              <div className="text-xs font-semibold text-slate-500 mb-0.5">Thời gian</div>
               <div className="font-bold text-slate-800 text-sm">
                 {fmtTime(appt.startHour, appt.startMin)} – {fmtTime(endH, endM)}
               </div>
             </div>
-            <div className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100">
-              <VideoCamera size={16} className="text-slate-400 mx-auto mb-1" />
-              <div className="text-xs text-slate-500 mb-0.5">Hình thức</div>
-              <div className={`font-bold text-sm ${cs.text}`}>{appt.type}</div>
+            <div className="bg-gradient-to-b from-slate-50 to-white rounded-2xl p-3 text-center border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+              <div className={`w-8 h-8 mx-auto ${cs.bg} ${cs.text} rounded-full flex items-center justify-center mb-2`}>
+                <VideoCamera size={16} weight="bold" />
+              </div>
+              <div className="text-xs font-semibold text-slate-500 mb-0.5">Hình thức</div>
+              <div className={`font-black text-sm ${cs.text}`}>{appt.type}</div>
             </div>
-            <div className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100">
-              <Heart size={16} className="text-slate-400 mx-auto mb-1" />
-              <div className="text-xs text-slate-500 mb-0.5">Chuyên khoa</div>
+            <div className="bg-gradient-to-b from-slate-50 to-white rounded-2xl p-3 text-center border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+              <div className="w-8 h-8 mx-auto bg-rose-100 text-rose-600 rounded-full flex items-center justify-center mb-2">
+                <Heart size={16} weight="bold" />
+              </div>
+              <div className="text-xs font-semibold text-slate-500 mb-0.5">Chuyên khoa</div>
               <div className="font-bold text-slate-800 text-sm">{appt.specialty}</div>
             </div>
           </div>
 
-          {/* Allergies */}
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <Warning size={15} className="text-amber-500" weight="fill" />
-              <span className="text-sm font-bold text-slate-800">Dị ứng</span>
-            </div>
-            {appt.allergies.length === 0 ? (
-              <p className="text-sm text-slate-400 italic">Không có dị ứng đã ghi nhận</p>
-            ) : (
-              <div className="flex flex-wrap gap-2">
-                {appt.allergies.map(a => (
-                  <span key={a} className="px-2.5 py-1 bg-amber-50 border border-amber-200 text-amber-700 rounded-lg text-xs font-semibold">
-                    ⚠ {a}
-                  </span>
-                ))}
+          {/* Allergies & Medical History */}
+          <div className={`flex flex-col gap-5 ${staggClass}`} style={getStaggStyle(3)}>
+            <div className="bg-amber-50/50 border border-amber-100 rounded-2xl p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-6 h-6 rounded-md bg-amber-100 text-amber-600 flex items-center justify-center">
+                  <Warning size={14} weight="bold" />
+                </div>
+                <span className="text-sm font-black text-amber-900">Thông tin Dị ứng</span>
               </div>
-            )}
-          </div>
-
-          {/* Medical history */}
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <FileText size={15} className="text-blue-500" weight="fill" />
-              <span className="text-sm font-bold text-slate-800">Lịch sử khám bệnh</span>
+              {appt.allergies.length === 0 ? (
+                <p className="text-sm text-amber-700/60 font-medium">Không có dị ứng đã ghi nhận</p>
+              ) : (
+                <div className="flex flex-wrap gap-2">
+                  {appt.allergies.map(a => (
+                    <span key={a} className="px-3 py-1.5 bg-white border border-amber-200 text-amber-700 rounded-lg text-xs font-bold shadow-sm flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span> {a}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
-            {appt.medicalHistory.length === 0 ? (
-              <p className="text-sm text-slate-400 italic">Chưa có lịch sử</p>
-            ) : (
-              <ul className="flex flex-col gap-2">
-                {appt.medicalHistory.map((h, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
-                    <span className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 shrink-0" />
-                    {h}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
 
-          {/* Contact */}
-          <div className="flex items-center gap-2 text-sm text-slate-500 bg-slate-50 rounded-xl px-4 py-3 border border-slate-100">
-            <Phone size={14} className="text-slate-400" />
-            {appt.phone}
+            <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-6 h-6 rounded-md bg-blue-100 text-blue-600 flex items-center justify-center">
+                  <FileText size={14} weight="bold" />
+                </div>
+                <span className="text-sm font-black text-blue-900">Lịch sử Khám bệnh</span>
+              </div>
+              {appt.medicalHistory.length === 0 ? (
+                <p className="text-sm text-blue-700/60 font-medium">Chưa có lịch sử khám bệnh</p>
+              ) : (
+                <ul className="flex flex-col gap-2.5">
+                  {appt.medicalHistory.map((h, i) => (
+                    <li key={i} className="flex items-start gap-3 text-sm text-blue-900 font-medium bg-white px-3 py-2 rounded-xl border border-blue-50 shadow-sm">
+                      <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 shrink-0" />
+                      <span className="leading-relaxed">{h}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            
+            <div className="flex items-center justify-between bg-slate-50 rounded-2xl p-4 border border-slate-100">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center text-slate-400">
+                  <Phone size={14} weight="bold" />
+                </div>
+                <div>
+                  <div className="text-xs font-semibold text-slate-400">Số điện thoại liên hệ</div>
+                  <div className="font-bold text-slate-700">{appt.phone}</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Footer — CTAs */}
-        <div className="px-6 py-4 border-t border-slate-100 flex gap-3 bg-slate-50/50">
+        <div className={`px-6 py-5 border-t border-slate-100 flex gap-3 bg-slate-50/80 ${staggClass}`} style={getStaggStyle(4)}>
           <button
             onClick={() => {
               if (appt.type === 'Online') {
-                navigate('/doctor/messages?call=true&contact=c4');
+                navigate(`/doctor/messages?call=true&contact=${appt.id}`);
               } else {
-                navigate('/doctor/records/p1');
+                navigate(`/doctor/records/${appt.id}`);
               }
             }}
-            className="flex-1 flex items-center justify-center gap-2 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-blue-200 active:scale-95"
+            className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-600/30 active:scale-95"
             aria-label={appt.type === 'Online' ? 'Tư vấn trực tuyến' : 'Bắt đầu khám'}>
             {appt.type === 'Online' ? <VideoCamera size={18} weight="fill" /> : <Heart size={18} weight="fill" />}
             {appt.type === 'Online' ? 'Tư vấn trực tuyến' : 'Bắt đầu khám'}
           </button>
           <button
-            onClick={() => navigate('/doctor/messages')}
-            className="flex-1 flex items-center justify-center gap-2 py-3 bg-white border-2 border-slate-200 hover:border-blue-300 text-slate-700 font-bold text-sm rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-md active:scale-95"
+            onClick={() => navigate(`/doctor/messages?contact=${appt.id}`)}
+            className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-white border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-700 font-bold text-sm rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-md active:scale-95"
             aria-label="Nhắn tin">
             <ChatCircle size={18} weight="fill" />
             Nhắn tin
@@ -557,6 +587,17 @@ const DoctorSchedule = () => {
   const [dayOffset,   setDayOffset]   = useState(0);
   const [weekOffset,  setWeekOffset]  = useState(0);
   const [selectedAppt, setSelectedAppt] = useState<Appointment | null>(null);
+  const [animIn, setAnimIn] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setAnimIn(true), 50);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const getStaggStyle = (idx: number) => ({
+    transitionDelay: `${idx * 100}ms`
+  });
+  const staggClass = `transition-all duration-700 ease-out transform ${animIn ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`;
 
   const totalAppts = viewMode === 'day'
     ? (() => {
@@ -572,7 +613,7 @@ const DoctorSchedule = () => {
   return (
     <div id="doctor-schedule-main" className="flex flex-col h-full">
           {/* Page header */}
-          <div className="flex items-start justify-between mb-6">
+          <div className={`flex items-start justify-between mb-6 ${staggClass}`} style={getStaggStyle(1)}>
             <div>
               <h1 className="text-xl font-bold text-slate-900">Lịch trình làm việc</h1>
               <p className="text-sm text-slate-500 mt-0.5">
@@ -602,6 +643,7 @@ const DoctorSchedule = () => {
           </div>
 
           {/* Calendar view */}
+          <div className={`${staggClass}`} style={getStaggStyle(2)}>
           {viewMode === 'day' ? (
             <DayView
               dayOffset={dayOffset}
@@ -617,6 +659,7 @@ const DoctorSchedule = () => {
               onSelectAppt={setSelectedAppt}
             />
           )}
+          </div>
 
       {/* Patient detail modal */}
       {selectedAppt && (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   CaretLeft, CaretRight, Plus, DownloadSimple,
   CaretDown, X, SunHorizon, Sun, Moon, Warning
@@ -106,6 +106,17 @@ const Schedule = () => {
   const [formErrors, setFormErrors] = useState(EMPTY_ERRORS);
   const [detailEntry, setDetailEntry] = useState<{ entry: ShiftEntry; date: Date } | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<ShiftEntry | null>(null);
+  const [animIn, setAnimIn] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setAnimIn(true), 50);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const getStaggStyle = (idx: number) => ({
+    transitionDelay: `${idx * 100}ms`
+  });
+  const staggClass = `transition-all duration-700 ease-out transform ${animIn ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`;
 
   // Navigation
   const prevWeek = () => setMonday(prev => addDays(prev, -7));
@@ -168,7 +179,7 @@ const Schedule = () => {
   return (
     <>
       {/* HEADER */}
-      <div className="flex items-center justify-between mb-6">
+      <div className={`flex items-center justify-between mb-6 ${staggClass}`} style={getStaggStyle(1)}>
         <div>
           <h1 className="text-2xl font-bold">Phân bổ lịch trực</h1>
           <p className="text-sm text-slate-500 mt-1">Quản lý ca làm việc theo tuần cho toàn bộ bác sĩ và nhân viên</p>
@@ -201,7 +212,7 @@ const Schedule = () => {
       </div>
 
       {/* WEEK NAVIGATION */}
-      <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+      <div className={`bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden ${staggClass}`} style={getStaggStyle(2)}>
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200">
           <div className="flex items-center gap-3">
             <button onClick={prevWeek} className="w-8 h-8 rounded-lg border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-100 transition-colors">

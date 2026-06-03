@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   CurrencyDollar, CaretDown, DotsThreeVertical, FileText,
@@ -33,6 +33,17 @@ const DashboardOverview = () => {
   const navigate = useNavigate();
   const [filterDoctor, setFilterDoctor] = useState('');
   const [detailRow, setDetailRow] = useState<ApptRow | null>(null);
+  const [animIn, setAnimIn] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setAnimIn(true), 50);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const getStaggStyle = (idx: number) => ({
+    transitionDelay: `${idx * 100}ms`
+  });
+  const staggClass = `transition-all duration-700 ease-out transform ${animIn ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`;
 
   const filtered = APPOINTMENTS.filter(a =>
     !filterDoctor || a.doctor === filterDoctor
@@ -41,7 +52,7 @@ const DashboardOverview = () => {
   return (
     <>
       {/* ---- HEADER ---- */}
-      <div className="flex justify-between items-center mb-6">
+      <div className={`flex justify-between items-center mb-6 ${staggClass}`} style={getStaggStyle(1)}>
         <h1 className="text-2xl font-bold">Trang tổng quan Quản lý</h1>
         <div className="flex gap-3">
           <button
@@ -60,7 +71,7 @@ const DashboardOverview = () => {
       </div>
 
       {/* ---- STATS ---- */}
-      <div className="grid grid-cols-3 gap-6 mb-8">
+      <div className={`grid grid-cols-3 gap-6 mb-8 ${staggClass}`} style={getStaggStyle(2)}>
         <div
           className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm cursor-pointer hover:border-blue-300 hover:shadow-md transition-all"
           onClick={() => navigate('/dashboard/export')}
@@ -114,7 +125,7 @@ const DashboardOverview = () => {
       </div>
 
       {/* ---- APPOINTMENTS TABLE ---- */}
-      <div className="bg-white border border-slate-200 rounded-xl mb-8 shadow-sm">
+      <div className={`bg-white border border-slate-200 rounded-xl mb-8 shadow-sm ${staggClass}`} style={getStaggStyle(3)}>
         <div className="p-6 border-b border-slate-200 flex justify-between items-center">
           <div>
             <h2 className="text-lg font-bold">Tổng quan lịch hẹn hôm nay</h2>
@@ -214,7 +225,7 @@ const DashboardOverview = () => {
       </div>
 
       {/* ---- BOTTOM SECTION ---- */}
-      <div className="grid grid-cols-2 gap-6">
+      <div className={`grid grid-cols-2 gap-6 ${staggClass}`} style={getStaggStyle(4)}>
         {/* Specialty Activity */}
         <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
           <div className="mb-6">

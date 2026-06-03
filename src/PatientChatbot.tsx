@@ -6,7 +6,7 @@ const INITIAL_SESSIONS = [
   {
     id: 1, title: 'Đau đầu', level: 'Nhẹ', levelColor: 'bg-green-100 text-green-700', lastMsg: 'Hiện bạn có đang dùng thuốc...', time: '20:49', status: 'active',
     messages: [
-      { id: 1, text: 'Chào bạn, tôi là Trợ lý AI. Bạn đang gặp triệu chứng gì?', isMe: false, time: '20:45', suggestions: ['Tôi hay bị đau nhức đầu', 'Tôi thấy khó thở quá', 'Tôi đang bị sốt', 'Tôi bị đau họng'] },
+      { id: 1, text: 'Chào bạn, tôi là SageCare. Bạn đang gặp triệu chứng gì?', isMe: false, time: '20:45', suggestions: ['Tôi hay bị đau nhức đầu', 'Tôi thấy khó thở quá', 'Tôi đang bị sốt', 'Tôi bị đau họng'] },
       { id: 2, text: 'Tôi hay bị đau nhức đầu', isMe: true, time: '20:46' },
       { id: 3, text: 'Bạn bị đau đầu vùng nào?', isMe: false, time: '20:46', suggestions: ['Nửa đầu', 'Cả đầu', 'Sau gáy'] },
       { id: 4, text: 'Đau nửa đầu bên phải', isMe: true, time: '20:48' },
@@ -16,7 +16,7 @@ const INITIAL_SESSIONS = [
   {
     id: 2, title: 'Khó thở', level: 'Khẩn cấp', levelColor: 'bg-red-100 text-red-700', lastMsg: 'Bạn có cảm thấy tức ngực...', time: '20:49', status: 'active',
     messages: [
-      { id: 1, text: 'Chào bạn, tôi là Trợ lý AI. Bạn đang gặp triệu chứng gì?', isMe: false, time: '20:45', suggestions: ['Tôi hay bị đau nhức đầu', 'Tôi thấy khó thở quá', 'Tôi đang bị sốt', 'Tôi bị đau họng'] },
+      { id: 1, text: 'Chào bạn, tôi là SageCare. Bạn đang gặp triệu chứng gì?', isMe: false, time: '20:45', suggestions: ['Tôi hay bị đau nhức đầu', 'Tôi thấy khó thở quá', 'Tôi đang bị sốt', 'Tôi bị đau họng'] },
       { id: 2, text: 'Tôi thấy khó thở quá', isMe: true, time: '20:46' },
       { id: 3, text: 'Bạn có cảm thấy tức ngực hay nhói ở tim không?', isMe: false, time: '20:46', suggestions: ['Có đau tức ngực', 'Chỉ khó thở'] }
     ]
@@ -24,7 +24,7 @@ const INITIAL_SESSIONS = [
   {
     id: 3, title: 'Sốt', level: 'Theo dõi', levelColor: 'bg-amber-100 text-amber-700', lastMsg: 'Nhiệt độ hiện tại...', time: '20:49', status: 'active',
     messages: [
-      { id: 1, text: 'Chào bạn, tôi là Trợ lý AI. Bạn đang gặp triệu chứng gì?', isMe: false, time: '20:45', suggestions: ['Tôi hay bị đau nhức đầu', 'Tôi thấy khó thở quá', 'Tôi đang bị sốt', 'Tôi bị đau họng'] },
+      { id: 1, text: 'Chào bạn, tôi là SageCare. Bạn đang gặp triệu chứng gì?', isMe: false, time: '20:45', suggestions: ['Tôi hay bị đau nhức đầu', 'Tôi thấy khó thở quá', 'Tôi đang bị sốt', 'Tôi bị đau họng'] },
       { id: 2, text: 'Tôi đang bị sốt', isMe: true, time: '20:46' },
       { id: 3, text: 'Nhiệt độ hiện tại của bạn là bao nhiêu?', isMe: false, time: '20:46', suggestions: ['37.5 - 38.5 độ', 'Trên 38.5 độ'] }
     ]
@@ -32,7 +32,7 @@ const INITIAL_SESSIONS = [
   {
     id: 4, title: 'Ho, đau họng', level: 'Nhẹ', levelColor: 'bg-green-100 text-green-700', lastMsg: 'Phiên tư vấn đã kết thúc', time: '20/05/2026', status: 'ended',
     messages: [
-      { id: 1, text: 'Chào bạn, tôi là Trợ lý AI. Bạn đang gặp triệu chứng gì?', isMe: false, time: '10:00', suggestions: ['Tôi hay bị đau nhức đầu', 'Tôi thấy khó thở quá', 'Tôi đang bị sốt', 'Tôi bị đau họng'] },
+      { id: 1, text: 'Chào bạn, tôi là SageCare. Bạn đang gặp triệu chứng gì?', isMe: false, time: '10:00', suggestions: ['Tôi hay bị đau nhức đầu', 'Tôi thấy khó thở quá', 'Tôi đang bị sốt', 'Tôi bị đau họng'] },
       { id: 2, text: 'Tôi bị đau họng', isMe: true, time: '10:05' },
       { id: 3, text: 'Đánh giá AI', isMe: false, time: '10:05', result: { level: 'BÌNH THƯỜNG', color: 'bg-green-100 text-green-700', desc: 'Các triệu chứng của bạn phù hợp với viêm họng thông thường.', spec: 'Tai Mũi Họng' } }
     ]
@@ -89,7 +89,7 @@ export default function PatientChatbot() {
     }
 
     // KỊCH BẢN 1
-    if (lower.includes('xin chào trợ lý')) return { text: 'Chào bạn! Hãy mô tả chi tiết triệu chứng bạn đang gặp phải để tôi tư vấn nhé.', suggestions: ['Hôm qua tôi đi ăn buffet hải sản xong thì bị đau bụng'] };
+    if (lower.includes('xin chào sagecare') || lower.includes('xin chào trợ lý')) return { text: 'Chào bạn! Hãy mô tả chi tiết triệu chứng bạn đang gặp phải để tôi tư vấn nhé.', suggestions: ['Hôm qua tôi đi ăn buffet hải sản xong thì bị đau bụng'] };
     if (lower.includes('buffet') || lower.includes('hải sản') || lower.includes('đau bụng')) {
       return { text: 'Đau ở vùng nào của bụng vậy bạn (trên rốn, dưới rốn, hay bên phải)? Có kèm theo tiêu chảy hay nôn mửa không?', suggestions: ['Tôi đau râm ran quanh rốn'] };
     }
@@ -261,7 +261,7 @@ export default function PatientChatbot() {
       time: 'Vừa xong',
       status: 'active',
       messages: [
-        { id: 1, text: 'Xin chào! Tôi là Trợ lý Y tế AI. Bạn đang gặp vấn đề gì về sức khỏe?', isMe: false, time: 'Vừa xong', suggestions: ['Xin chào trợ lý', 'Hello AI', 'Hi'] }
+        { id: 1, text: 'Xin chào! Tôi là SageCare. Bạn đang gặp vấn đề gì về sức khỏe?', isMe: false, time: 'Vừa xong', suggestions: ['Xin chào SageCare', 'Hello AI', 'Hi'] }
       ]
     };
     setSessions([newSession, ...sessions]);
@@ -279,14 +279,31 @@ export default function PatientChatbot() {
           animation: slideUp 0.3s ease-out forwards;
         }
         
-        .typing-dot {
-          animation: typing 1.4s infinite ease-in-out both;
+        .medical-pulse-ring {
+          position: absolute;
+          z-index: 1;
+          width: 100%;
+          height: 100%;
+          background: #BAE6FD;
+          border-radius: 50%;
+          animation: gentle-pulse 3s infinite cubic-bezier(0.4, 0, 0.6, 1);
         }
-        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
-        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
-        @keyframes typing {
-          0%, 80%, 100% { transform: scale(0); }
-          40% { transform: scale(1); }
+        @keyframes gentle-pulse {
+          0% { transform: scale(0.9); opacity: 0.6; }
+          50% { transform: scale(1.3); opacity: 0; }
+          100% { transform: scale(0.9); opacity: 0; }
+        }
+
+        .typing-dot {
+          opacity: 0.2;
+          animation: gentle-fade 1.5s infinite ease-in-out;
+        }
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.3s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.6s; }
+        @keyframes gentle-fade {
+          0%, 100% { opacity: 0.2; transform: scale(0.95); }
+          50% { opacity: 0.8; transform: scale(1); }
         }
 
         .scrollbar-hide::-webkit-scrollbar {
@@ -373,12 +390,15 @@ export default function PatientChatbot() {
         {/* Header */}
         <header className="h-[76px] shrink-0 border-b border-slate-200 bg-white px-6 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="w-11 h-11 rounded-full flex items-center justify-center bg-gradient-to-br from-blue-100 to-indigo-50 text-blue-600 shadow-inner border border-blue-100">
-              <Robot size={24} weight="fill" />
+            <div className="relative w-11 h-11 flex items-center justify-center">
+              <div className="medical-pulse-ring"></div>
+              <div className="relative z-10 w-full h-full rounded-full flex items-center justify-center bg-gradient-to-br from-blue-100 to-indigo-50 text-blue-600 shadow-inner border border-blue-100">
+                <Robot size={24} weight="fill" />
+              </div>
             </div>
             <div>
               <h2 className="font-bold text-slate-800 text-[16px] flex items-center gap-1.5">
-                Trợ lý AI <Sparkle size={16} className="text-blue-500" weight="fill" />
+                SageCare <Sparkle size={16} className="text-blue-500" weight="fill" />
               </h2>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
@@ -428,7 +448,7 @@ export default function PatientChatbot() {
                 <div className="mt-2 w-full animate-slide-up">
                   <div className={`px-4 py-3 rounded-lg border text-[13px] shadow-sm ${msg.severity.color}`}>
                     <div className="flex items-center gap-1.5 mb-1.5 font-bold uppercase tracking-wide opacity-90">
-                      <Sparkle size={16} weight="fill" /> KẾT LUẬN TỪ TRỢ LÝ AI:
+                      <Sparkle size={16} weight="fill" /> KẾT LUẬN TỪ SAGECARE:
                     </div>
                     <div className="font-semibold text-sm">{msg.severity.level}</div>
                   </div>
@@ -483,10 +503,10 @@ export default function PatientChatbot() {
           {/* Typing Indicator */}
           {isTyping && (
             <div className="flex flex-col max-w-[75%] self-start animate-slide-up">
-              <div className="px-5 py-4 rounded-2xl bg-white border border-slate-200 text-slate-500 rounded-tl-sm flex gap-1 items-center shadow-sm">
-                <div className="w-2 h-2 rounded-full bg-slate-300 typing-dot"></div>
-                <div className="w-2 h-2 rounded-full bg-slate-300 typing-dot"></div>
-                <div className="w-2 h-2 rounded-full bg-slate-300 typing-dot"></div>
+              <div className="px-5 py-4 rounded-2xl bg-white border border-slate-200 text-slate-500 rounded-tl-sm flex gap-1.5 items-center shadow-sm">
+                <div className="w-2.5 h-2.5 rounded-full bg-blue-400 typing-dot"></div>
+                <div className="w-2.5 h-2.5 rounded-full bg-blue-400 typing-dot"></div>
+                <div className="w-2.5 h-2.5 rounded-full bg-blue-400 typing-dot"></div>
               </div>
             </div>
           )}
