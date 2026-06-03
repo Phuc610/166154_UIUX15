@@ -8,6 +8,20 @@ import Modal from './components/Modal';
 import { useToast } from './contexts/ToastContext';
 import { useNavigate } from 'react-router-dom';
 
+export const MOCK_PATIENTS_LIST = [
+  { id: 'BN-00124', name: 'Nguyễn Hồng Minh', phone: '0424 707 55', gender: 'Nam', age: 34, lastVisit: '12/05/2026', status: 'Đang điều trị', statusColor: 'blue' },
+  { id: 'BN-00125', name: 'Trần Thị Mai', phone: '0987 654 32', gender: 'Nữ', age: 28, lastVisit: '15/05/2026', status: 'Đã hoàn thành', statusColor: 'emerald' },
+  { id: 'BN-00126', name: 'Lê Văn Tám', phone: '0123 456 78', gender: 'Nam', age: 45, lastVisit: '20/05/2026', status: 'Chờ khám', statusColor: 'amber' },
+  { id: 'BN-00127', name: 'Phạm Thu Trang', phone: '0912 345 67', gender: 'Nữ', age: 52, lastVisit: '01/06/2026', status: 'Đang điều trị', statusColor: 'blue' },
+  { id: 'BN-00128', name: 'Hoàng Minh Tuấn', phone: '0901 234 56', gender: 'Nam', age: 19, lastVisit: '28/04/2026', status: 'Đã hoàn thành', statusColor: 'emerald' },
+  { id: 'BN-00129', name: 'Ngô Thanh Hải', phone: '0911 223 34', gender: 'Nam', age: 60, lastVisit: '02/06/2026', status: 'Chờ khám', statusColor: 'amber' },
+  { id: 'BN-00130', name: 'Vũ Thị Nhung', phone: '0988 776 65', gender: 'Nữ', age: 41, lastVisit: '01/06/2026', status: 'Đang điều trị', statusColor: 'blue' },
+  { id: 'BN-00131', name: 'Bùi Văn Hùng', phone: '0933 445 56', gender: 'Nam', age: 33, lastVisit: '10/05/2026', status: 'Đã hoàn thành', statusColor: 'emerald' },
+  { id: 'BN-00132', name: 'Đặng Mai Phương', phone: '0944 556 67', gender: 'Nữ', age: 25, lastVisit: '03/06/2026', status: 'Chờ khám', statusColor: 'amber' },
+  { id: 'BN-00133', name: 'Phan Tuấn Kiệt', phone: '0955 667 78', gender: 'Nam', age: 29, lastVisit: '18/05/2026', status: 'Đang điều trị', statusColor: 'blue' },
+  { id: 'BN-00134', name: 'Lý Thu Hà', phone: '0966 778 89', gender: 'Nữ', age: 48, lastVisit: '22/05/2026', status: 'Đã hoàn thành', statusColor: 'emerald' },
+];
+
 const Patients = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
@@ -24,23 +38,8 @@ const Patients = () => {
   const [formData, setFormData] = useState({ id: '', name: '', phone: '', gender: '', age: '' });
   const [formErrors, setFormErrors] = useState({ name: '', phone: '', gender: '', age: '' });
 
-  // Mock data (extended for pagination)
-  const patientsData = [
-    { id: 'BN-00124', name: 'Nguyễn Hồng Minh', phone: '0424 707 55', gender: 'Nam', age: 34, lastVisit: '12/05/2026', status: 'Đang điều trị', statusColor: 'blue' },
-    { id: 'BN-00125', name: 'Trần Thị Mai', phone: '0987 654 32', gender: 'Nữ', age: 28, lastVisit: '15/05/2026', status: 'Đã hoàn thành', statusColor: 'emerald' },
-    { id: 'BN-00126', name: 'Lê Văn Tám', phone: '0123 456 78', gender: 'Nam', age: 45, lastVisit: '20/05/2026', status: 'Chờ khám', statusColor: 'amber' },
-    { id: 'BN-00127', name: 'Phạm Thu Trang', phone: '0912 345 67', gender: 'Nữ', age: 52, lastVisit: '01/06/2026', status: 'Đang điều trị', statusColor: 'blue' },
-    { id: 'BN-00128', name: 'Hoàng Minh Tuấn', phone: '0901 234 56', gender: 'Nam', age: 19, lastVisit: '28/04/2026', status: 'Đã hoàn thành', statusColor: 'emerald' },
-    { id: 'BN-00129', name: 'Ngô Thanh Hải', phone: '0911 223 34', gender: 'Nam', age: 60, lastVisit: '02/06/2026', status: 'Chờ khám', statusColor: 'amber' },
-    { id: 'BN-00130', name: 'Vũ Thị Nhung', phone: '0988 776 65', gender: 'Nữ', age: 41, lastVisit: '01/06/2026', status: 'Đang điều trị', statusColor: 'blue' },
-    { id: 'BN-00131', name: 'Bùi Văn Hùng', phone: '0933 445 56', gender: 'Nam', age: 33, lastVisit: '10/05/2026', status: 'Đã hoàn thành', statusColor: 'emerald' },
-    { id: 'BN-00132', name: 'Đặng Mai Phương', phone: '0944 556 67', gender: 'Nữ', age: 25, lastVisit: '03/06/2026', status: 'Chờ khám', statusColor: 'amber' },
-    { id: 'BN-00133', name: 'Phan Tuấn Kiệt', phone: '0955 667 78', gender: 'Nam', age: 29, lastVisit: '18/05/2026', status: 'Đang điều trị', statusColor: 'blue' },
-    { id: 'BN-00134', name: 'Lý Thu Hà', phone: '0966 778 89', gender: 'Nữ', age: 48, lastVisit: '22/05/2026', status: 'Đã hoàn thành', statusColor: 'emerald' },
-  ];
-
   // Filtering
-  const filteredPatients = patientsData.filter(p => {
+  const filteredPatients = MOCK_PATIENTS_LIST.filter(p => {
     const term = searchTerm.toLowerCase();
     const matchSearch = p.name.toLowerCase().includes(term) || 
                         p.id.toLowerCase().includes(term) || 

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Outlet, useNavigate, useLocation, NavLink } from 'react-router-dom';
 import {
   CalendarBlank, CaretLeft, Chat, FileText, Gear, Hexagon, Bell, User,
   X as XIcon, SquaresFour, MagnifyingGlass, Sparkle, CaretDown
 } from '@phosphor-icons/react';
+import { MOCK_PATIENTS_LIST } from '../Patients';
 
 const DoctorLayout = () => {
   const navigate = useNavigate();
@@ -12,6 +13,40 @@ const DoctorLayout = () => {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+        setSearchOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+        setSearchOpen(true);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  const filteredSearch = searchQuery.trim() === ''
+    ? []
+    : SEARCH_ITEMS_DOCTOR.filter(item =>
+        item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.subtitle.toLowerCase().includes(searchQuery.toLowerCase())
+      );
 
   const [notifications, setNotifications] = useState([
     { id: 1, type: 'calendar', title: 'Nguyễn Văn A', message: 'vừa đặt lịch khám mới lúc 09:00.', time: '10 phút trước', isRead: false },
@@ -146,12 +181,54 @@ const DoctorLayout = () => {
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
         <header className="h-[62px] bg-white border-b border-slate-200 flex items-center justify-between px-6 shrink-0">
-          <div className="relative w-80">
+          <div ref={searchRef} className="relative w-80">
             <MagnifyingGlass size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-            <input type="text" placeholder="Tìm kiếm bệnh nhân, lịch hẹn..."
+            <input 
+              ref={searchInputRef}
+              type="text" 
+              placeholder="Tìm kiếm bệnh nhân, lịch hẹn..."
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setSearchOpen(true);
+              }}
+              onFocus={() => setSearchOpen(true)}
               className="w-full py-2 pl-9 pr-12 bg-slate-50 border border-slate-200 focus:border-blue-500 focus:bg-white rounded-lg text-sm outline-none transition-colors"
-              aria-label="Tìm kiếm" />
+              aria-label="Tìm kiếm" 
+            />
             <kbd className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-slate-400 bg-white px-1.5 py-0.5 rounded border border-slate-200 font-mono">⌘K</kbd>
+
+            {/* Search Dropdown */}
+            {searchOpen && searchQuery.trim() !== '' && (
+              <div className="absolute left-0 right-0 top-[calc(100%+8px)] max-h-[320px] overflow-y-auto bg-white rounded-xl border border-slate-200 shadow-xl z-50 py-2">
+                {filteredSearch.length > 0 ? (
+                  filteredSearch.map((item, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => {
+                        setSearchQuery('');
+                        setSearchOpen(false);
+                        navigate(item.path);
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 text-left transition-colors"
+                    >
+                      <div className="w-8 h-8 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
+                        {item.type === 'page' && <SquaresFour size={16} className="text-blue-500" />}
+                        {item.type === 'patient' && <User size={16} className="text-violet-500" />}
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-sm font-semibold text-slate-800 truncate">{item.title}</span>
+                        <span className="text-xs text-slate-400 truncate">{item.subtitle}</span>
+                      </div>
+                    </button>
+                  ))
+                ) : (
+                  <div className="px-4 py-6 text-center text-sm text-slate-400 font-medium">
+                    Không tìm thấy kết quả cho "{searchQuery}"
+                  </div>
+                )}
+              </div>
+            )}
           </div>
           <div className="flex items-center gap-3">
 
@@ -255,3 +332,19 @@ const DoctorLayout = () => {
 };
 
 export default DoctorLayout;
+
+// ─── Search Items Data Source ──────────────────────────────────────────────────
+const SEARCH_ITEMS_DOCTOR = [
+  { type: 'page', title: 'Tổng quan', subtitle: 'Bảng điều khiển chung', path: '/doctor/dashboard' },
+  { type: 'page', title: 'Bệnh nhân', subtitle: 'Danh sách bệnh nhân', path: '/doctor/patients' },
+  { type: 'page', title: 'Lịch hẹn', subtitle: 'Lịch khám bệnh', path: '/doctor/schedule' },
+  { type: 'page', title: 'Hồ sơ bệnh án', subtitle: 'Quản lý bệnh án', path: '/doctor/records' },
+  { type: 'page', title: 'Nhắn tin', subtitle: 'Trao đổi với bệnh nhân', path: '/doctor/messages' },
+  { type: 'page', title: 'Trợ lý AI', subtitle: 'Trợ lý ảo hỗ trợ khám', path: '/doctor/ai-assistant' },
+  ...MOCK_PATIENTS_LIST.map(p => ({
+    type: 'patient',
+    title: p.name,
+    subtitle: `Mã BN: ${p.id}`,
+    path: '/doctor/patients'
+  }))
+];

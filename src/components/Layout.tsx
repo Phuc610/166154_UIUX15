@@ -4,9 +4,11 @@ import {
   Hexagon, CaretLeft, Target, ArrowsDownUp,
   SquaresFour, User, Users, CalendarBlank,
   UsersThree, Clock, Receipt, CreditCard, Gear,
-  MagnifyingGlass, Sparkle, Bell, UserCircle,
+  MagnifyingGlass, UserCircle,
   PencilSimple, Lock, BellSimple, SignOut, X,
 } from '@phosphor-icons/react';
+import { MOCK_PATIENTS_LIST } from '../Patients';
+import { MOCK_DOCTORS_LIST } from '../Doctors';
 
 // ─── Logout Confirmation Modal ────────────────────────────────────────────────
 interface LogoutModalProps {
@@ -64,16 +66,56 @@ const Layout = () => {
   const [showLogout, setShowLogout] = useState(false);
   const avatarRef = useRef<HTMLDivElement>(null);
 
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const [adminName, setAdminName] = useState(() => localStorage.getItem('admin_display_name') || 'Quản lý phòng khám');
+  const [adminEmail, setAdminEmail] = useState(() => localStorage.getItem('admin_email') || 'admin@trustcare.vn');
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      setAdminName(localStorage.getItem('admin_display_name') || 'Quản lý phòng khám');
+      setAdminEmail(localStorage.getItem('admin_email') || 'admin@trustcare.vn');
+    };
+    window.addEventListener('admin_profile_updated', handleUpdate);
+    return () => window.removeEventListener('admin_profile_updated', handleUpdate);
+  }, []);
+
   // Close dropdown on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (avatarRef.current && !avatarRef.current.contains(e.target as Node)) {
         setAvatarOpen(false);
       }
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+        setSearchOpen(false);
+      }
     };
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
   }, []);
+
+  // Keyboard shortcut (Ctrl+K or Cmd+K) to focus search input
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+        setSearchOpen(true);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  const filteredSearch = searchQuery.trim() === ''
+    ? []
+    : SEARCH_ITEMS.filter(item =>
+        item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.subtitle.toLowerCase().includes(searchQuery.toLowerCase())
+      );
 
   const handleLogoutConfirm = () => {
     setShowLogout(false);
@@ -121,9 +163,6 @@ const Layout = () => {
               <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider px-3 mb-1">MENU CHÍNH</div>
               <NavLink to="/dashboard" end className={navLinkClass}>
                 <SquaresFour size={20} /><span>Tổng quan</span>
-              </NavLink>
-              <NavLink to="/dashboard/ai-assistant" className={navLinkClass}>
-                <Sparkle size={20} /><span>Trợ lý AI</span>
               </NavLink>
             </div>
 
@@ -177,28 +216,58 @@ const Layout = () => {
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* Header */}
           <header className="h-[70px] bg-white border-b border-slate-200 flex items-center justify-between px-8 shrink-0">
-            <div className="relative w-96">
+            <div ref={searchRef} className="relative w-96">
               <MagnifyingGlass size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
               <input
+                ref={searchInputRef}
                 type="text"
                 placeholder="Tìm kiếm..."
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setSearchOpen(true);
+                }}
+                onFocus={() => setSearchOpen(true)}
                 className="w-full py-2.5 pl-10 pr-12 bg-slate-50 border border-slate-200 focus:border-blue-600 focus:bg-white rounded-lg text-sm outline-none transition-colors"
               />
               <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-slate-400 bg-white px-1.5 py-0.5 rounded border border-slate-200 font-medium">⌘K</span>
+
+              {/* Search Dropdown */}
+              {searchOpen && searchQuery.trim() !== '' && (
+                <div className="absolute left-0 right-0 top-[calc(100%+8px)] max-h-[320px] overflow-y-auto bg-white rounded-xl border border-slate-200 shadow-xl z-50 py-2">
+                  {filteredSearch.length > 0 ? (
+                    filteredSearch.map((item, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => {
+                          setSearchQuery('');
+                          setSearchOpen(false);
+                          navigate(item.path);
+                        }}
+                        className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 text-left transition-colors"
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
+                          {item.type === 'page' && <SquaresFour size={16} className="text-blue-500" />}
+                          {item.type === 'doctor' && <User size={16} className="text-emerald-500" />}
+                          {item.type === 'patient' && <Users size={16} className="text-violet-500" />}
+                          {item.type === 'invoice' && <Receipt size={16} className="text-amber-500" />}
+                        </div>
+                        <div className="flex flex-col min-w-0">
+                          <span className="text-sm font-semibold text-slate-800 truncate">{item.title}</span>
+                          <span className="text-xs text-slate-400 truncate">{item.subtitle}</span>
+                        </div>
+                      </button>
+                    ))
+                  ) : (
+                    <div className="px-4 py-6 text-center text-sm text-slate-400 font-medium">
+                      Không tìm thấy kết quả cho "{searchQuery}"
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             <div className="flex items-center gap-4">
-              <button className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors">
-                <CalendarBlank size={20} />
-              </button>
-              <button className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors">
-                <Gear size={20} />
-              </button>
-              <button className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors relative">
-                <Bell size={20} />
-                <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />
-              </button>
-
               {/* ── Avatar + Dropdown ── */}
               <div ref={avatarRef} className="relative">
                 <button
@@ -228,8 +297,8 @@ const Layout = () => {
                   {/* User info header */}
                   <div className="px-4 py-3 border-b border-slate-100 bg-slate-50">
                     <p className="text-xs text-slate-500">Đăng nhập với tư cách</p>
-                    <p className="text-sm font-semibold text-slate-900 mt-0.5 truncate">Quản lý phòng khám</p>
-                    <p className="text-xs text-slate-400 truncate">admin@trustcare.vn</p>
+                    <p className="text-sm font-semibold text-slate-900 mt-0.5 truncate">{adminName}</p>
+                    <p className="text-xs text-slate-400 truncate">{adminEmail}</p>
                   </div>
 
                   {/* Menu items */}
@@ -295,3 +364,38 @@ const Layout = () => {
 };
 
 export default Layout;
+
+// ─── Search Items Data Source ──────────────────────────────────────────────────
+const SEARCH_ITEMS = [
+  // Pages
+  { type: 'page', title: 'Tổng quan', subtitle: 'Báo cáo hoạt động phòng khám', path: '/dashboard' },
+  { type: 'page', title: 'Bác sĩ', subtitle: 'Quản lý danh sách bác sĩ', path: '/dashboard/doctors' },
+  { type: 'page', title: 'Bệnh nhân', subtitle: 'Quản lý thông tin bệnh nhân', path: '/dashboard/patients' },
+  { type: 'page', title: 'Lịch hẹn', subtitle: 'Xem & đặt lịch khám bệnh', path: '/dashboard/appointments' },
+  { type: 'page', title: 'Nhân viên', subtitle: 'Quản lý nhân viên phòng khám', path: '/dashboard/staff' },
+  { type: 'page', title: 'Lịch làm việc', subtitle: 'Xem lịch trực & phân ca', path: '/dashboard/schedule' },
+  { type: 'page', title: 'Hóa đơn', subtitle: 'Quản lý hóa đơn & thanh toán', path: '/dashboard/invoices' },
+  { type: 'page', title: 'Chi phí', subtitle: 'Chi phí vận hành & vật tư', path: '/dashboard/expenses' },
+  { type: 'page', title: 'Cài đặt phòng khám', subtitle: 'Thông tin chung phòng khám', path: '/dashboard/settings' },
+  { type: 'page', title: 'Cài đặt hồ sơ', subtitle: 'Chỉnh sửa hồ sơ cá nhân', path: '/dashboard/profile' },
+  { type: 'page', title: 'Đổi mật khẩu', subtitle: 'Thay đổi mật khẩu tài khoản', path: '/dashboard/change-password' },
+  { type: 'page', title: 'Cài đặt thông báo', subtitle: 'Tùy chỉnh thông báo cá nhân', path: '/dashboard/notifications' },
+  // Doctors
+  ...MOCK_DOCTORS_LIST.map(d => ({
+    type: 'doctor',
+    title: d.name,
+    subtitle: `Mã: ${d.id} • ${d.specialty}`,
+    path: '/dashboard/doctors'
+  })),
+  // Patients
+  ...MOCK_PATIENTS_LIST.map(p => ({
+    type: 'patient',
+    title: p.name,
+    subtitle: `Mã: ${p.id} • SĐT: ${p.phone}`,
+    path: '/dashboard/patients'
+  })),
+  // Invoices
+  { type: 'invoice', title: 'Hóa đơn HD-001', subtitle: 'Số tiền: 500,000 đ • Trạng thái: Đã thanh toán', path: '/dashboard/invoices' },
+  { type: 'invoice', title: 'Hóa đơn HD-002', subtitle: 'Số tiền: 1,200,000 đ • Trạng thái: Chờ thanh toán', path: '/dashboard/invoices' },
+  { type: 'invoice', title: 'Hóa đơn HD-003', subtitle: 'Số tiền: 850,000 đ • Trạng thái: Đã thanh toán', path: '/dashboard/invoices' },
+];

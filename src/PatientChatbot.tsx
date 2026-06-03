@@ -6,7 +6,7 @@ const INITIAL_SESSIONS = [
   {
     id: 1, title: 'Đau đầu', level: 'Nhẹ', levelColor: 'bg-green-100 text-green-700', lastMsg: 'Hiện bạn có đang dùng thuốc...', time: '20:49', status: 'active',
     messages: [
-      { id: 1, text: 'Chào bạn, tôi là Trợ lý AI. Bạn đang gặp triệu chứng gì?', isMe: false, time: '20:45' },
+      { id: 1, text: 'Chào bạn, tôi là Trợ lý AI. Bạn đang gặp triệu chứng gì?', isMe: false, time: '20:45', suggestions: ['Tôi hay bị đau nhức đầu', 'Tôi thấy khó thở quá', 'Tôi đang bị sốt', 'Tôi bị đau họng'] },
       { id: 2, text: 'Tôi hay bị đau nhức đầu', isMe: true, time: '20:46' },
       { id: 3, text: 'Bạn bị đau đầu vùng nào?', isMe: false, time: '20:46', suggestions: ['Nửa đầu', 'Cả đầu', 'Sau gáy'] },
       { id: 4, text: 'Đau nửa đầu bên phải', isMe: true, time: '20:48' },
@@ -16,7 +16,7 @@ const INITIAL_SESSIONS = [
   {
     id: 2, title: 'Khó thở', level: 'Khẩn cấp', levelColor: 'bg-red-100 text-red-700', lastMsg: 'Bạn có cảm thấy tức ngực...', time: '20:49', status: 'active',
     messages: [
-      { id: 1, text: 'Chào bạn, tôi là Trợ lý AI. Bạn đang gặp triệu chứng gì?', isMe: false, time: '20:45' },
+      { id: 1, text: 'Chào bạn, tôi là Trợ lý AI. Bạn đang gặp triệu chứng gì?', isMe: false, time: '20:45', suggestions: ['Tôi hay bị đau nhức đầu', 'Tôi thấy khó thở quá', 'Tôi đang bị sốt', 'Tôi bị đau họng'] },
       { id: 2, text: 'Tôi thấy khó thở quá', isMe: true, time: '20:46' },
       { id: 3, text: 'Bạn có cảm thấy tức ngực hay nhói ở tim không?', isMe: false, time: '20:46', suggestions: ['Có đau tức ngực', 'Chỉ khó thở'] }
     ]
@@ -24,7 +24,7 @@ const INITIAL_SESSIONS = [
   {
     id: 3, title: 'Sốt', level: 'Theo dõi', levelColor: 'bg-amber-100 text-amber-700', lastMsg: 'Nhiệt độ hiện tại...', time: '20:49', status: 'active',
     messages: [
-      { id: 1, text: 'Chào bạn, tôi là Trợ lý AI. Bạn đang gặp triệu chứng gì?', isMe: false, time: '20:45' },
+      { id: 1, text: 'Chào bạn, tôi là Trợ lý AI. Bạn đang gặp triệu chứng gì?', isMe: false, time: '20:45', suggestions: ['Tôi hay bị đau nhức đầu', 'Tôi thấy khó thở quá', 'Tôi đang bị sốt', 'Tôi bị đau họng'] },
       { id: 2, text: 'Tôi đang bị sốt', isMe: true, time: '20:46' },
       { id: 3, text: 'Nhiệt độ hiện tại của bạn là bao nhiêu?', isMe: false, time: '20:46', suggestions: ['37.5 - 38.5 độ', 'Trên 38.5 độ'] }
     ]
@@ -32,7 +32,7 @@ const INITIAL_SESSIONS = [
   {
     id: 4, title: 'Ho, đau họng', level: 'Nhẹ', levelColor: 'bg-green-100 text-green-700', lastMsg: 'Phiên tư vấn đã kết thúc', time: '20/05/2026', status: 'ended',
     messages: [
-      { id: 1, text: 'Chào bạn, tôi là Trợ lý AI. Bạn đang gặp triệu chứng gì?', isMe: false, time: '10:00' },
+      { id: 1, text: 'Chào bạn, tôi là Trợ lý AI. Bạn đang gặp triệu chứng gì?', isMe: false, time: '10:00', suggestions: ['Tôi hay bị đau nhức đầu', 'Tôi thấy khó thở quá', 'Tôi đang bị sốt', 'Tôi bị đau họng'] },
       { id: 2, text: 'Tôi bị đau họng', isMe: true, time: '10:05' },
       { id: 3, text: 'Đánh giá AI', isMe: false, time: '10:05', result: { level: 'BÌNH THƯỜNG', color: 'bg-green-100 text-green-700', desc: 'Các triệu chứng của bạn phù hợp với viêm họng thông thường.', spec: 'Tai Mũi Họng' } }
     ]
@@ -61,9 +61,33 @@ export default function PatientChatbot() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping, activeSessionId]);
 
-  const getBotResponse = (text: string) => {
+  const getBotResponse = (text: string, msgCount: number = 0) => {
     const lower = text.toLowerCase();
     
+    // Custom handling for sưng/đau buốt ở bộ phận nhạy cảm (based on user test)
+    if (lower.includes('sưng') || lower.includes('đau buốt') || lower.includes('mẩn đỏ') || lower.includes('buồi') || lower.includes('cu') || lower.includes('dương vật') || lower.includes('bộ phận sinh dục')) {
+      return {
+        text: 'Tình trạng sưng tấy hoặc đau buốt ở bộ phận nhạy cảm có thể do viêm nhiễm hoặc kích ứng. Bạn có thấy đau rát khi đi tiểu hay có dịch lạ không?',
+        suggestions: ['Có đau buốt khi đi tiểu', 'Chỉ sưng tấy, không đau rát', 'Tôi muốn đặt lịch khám Nam khoa']
+      };
+    }
+    if (lower.includes('tiểu') || lower.includes('đi tiểu') || lower.includes('dịch lạ')) {
+      return {
+        text: 'Triệu chứng này cần được bác sĩ chuyên khoa Nam học / Tiết niệu thăm khám để chẩn đoán chính xác. Bạn có muốn đặt lịch hẹn khám trực tiếp không?',
+        suggestions: ['Tôi muốn đặt lịch khám', 'Bác sĩ Nam khoa nào tốt?']
+      };
+    }
+    if (lower.includes('nam khoa')) {
+      return {
+        text: 'Dưới đây là bác sĩ chuyên khoa phù hợp để tư vấn cho bạn:',
+        type: 'doctors',
+        doctors: [
+          { name: 'BS. Phạm Văn Đức', spec: 'Nội tổng hợp / Nam khoa', bg: 'bg-green-100' }
+        ],
+        suggestions: ['Ok, đặt lịch khám ngay', 'Cảm ơn AI']
+      };
+    }
+
     // KỊCH BẢN 1
     if (lower.includes('xin chào trợ lý')) return { text: 'Chào bạn! Hãy mô tả chi tiết triệu chứng bạn đang gặp phải để tôi tư vấn nhé.', suggestions: ['Hôm qua tôi đi ăn buffet hải sản xong thì bị đau bụng'] };
     if (lower.includes('buffet') || lower.includes('hải sản') || lower.includes('đau bụng')) {
@@ -95,43 +119,60 @@ export default function PatientChatbot() {
         suggestions: ['Ok, cảm ơn AI nhiều nhé']
       };
     }
-    if (lower.includes('cảm ơn ai nhiều nhé')) return { text: 'Không có chi! Chúc bạn thật nhiều sức khỏe. Dựa trên các thông tin bạn cung cấp, hệ thống AI đã đánh giá sơ bộ mức độ triệu chứng của bạn:', severity: { level: 'Nhẹ (Có thể tự theo dõi ở nhà)', color: 'bg-green-100 text-green-700 border-green-300' } };
+    if (lower.includes('cảm ơn ai nhiều nhé')) return { text: 'Không có chi! Chúc bạn thật nhiều sức khỏe. Dựa trên các thông tin bạn cung cấp, hệ thống AI đã đánh giá sơ bộ mức độ triệu chứng của bạn:', suggestions: ['Tư vấn triệu chứng khác', 'Đặt lịch hẹn'], severity: { level: 'Nhẹ (Có thể tự theo dõi ở nhà)', color: 'bg-green-100 text-green-700 border-green-300' } };
     
     // KỊCH BẢN 2
-    if (lower.includes('hello ai')) return { text: 'Chào bạn! Hãy mô tả chi tiết triệu chứng bạn đang gặp phải để tôi tư vấn nhé.' };
-    if (lower.includes('chóng mặt xây xẩm')) return { text: 'Bạn bị triệu chứng này lâu chưa? Có kèm theo buồn nôn hay nhạy cảm với ánh sáng không? Nếu đau dữ dội, bạn nên đặt lịch khám chuyên khoa Thần kinh nhé.' };
-    if (lower.includes('chiều hôm qua')) return { text: 'Cảm ơn bạn đã cung cấp thời gian. Tình trạng này có làm ảnh hưởng nhiều đến giấc ngủ hay sinh hoạt của bạn không?' };
-    if (lower.includes('rất mệt mỏi không làm được gì')) return { text: 'Tôi hiểu sự bất tiện này. Dựa trên mô tả, tình trạng của bạn cần được bác sĩ đánh giá trực tiếp. Bạn có muốn xem danh sách bác sĩ để đặt khám không?' };
-    if (lower.includes('hơi ớn lạnh')) return { text: 'Nhiệt độ hiện tại của bạn là bao nhiêu? Bạn nên uống nhiều nước, mặc đồ thoáng mát và có thể dùng Paracetamol nếu sốt trên 38.5°C.' };
-    if (lower.includes('điều hòa nhiều')) return { text: 'Bạn có đang sử dụng loại thuốc nào để điều trị triệu chứng này không?' };
-    if (lower.includes('chưa dùng loại thuốc nào')) return { text: 'Vậy thì tạm thời bạn đừng quá lo lắng. Hãy nghỉ ngơi, uống đủ nước và tiếp tục theo dõi thêm. Nếu triệu chứng trở nặng, hãy quay lại đây nhé.' };
+    if (lower.includes('hello ai')) return { text: 'Chào bạn! Hãy mô tả chi tiết triệu chứng bạn đang gặp phải để tôi tư vấn nhé.', suggestions: ['Tôi bị chóng mặt xây xẩm', 'Tôi bị sốt', 'Tôi bị ho, đau họng'] };
+    if (lower.includes('chóng mặt xây xẩm')) return { text: 'Bạn bị triệu chứng này lâu chưa? Có kèm theo buồn nôn hay nhạy cảm với ánh sáng không? Nếu đau dữ dội, bạn nên đặt lịch khám chuyên khoa Thần kinh nhé.', suggestions: ['Từ chiều hôm qua', 'Mới xuất hiện sáng nay', 'Bị vài ngày rồi'] };
+    if (lower.includes('chiều hôm qua')) return { text: 'Cảm ơn bạn đã cung cấp thời gian. Tình trạng này có làm ảnh hưởng nhiều đến giấc ngủ hay sinh hoạt của bạn không?', suggestions: ['Rất mệt mỏi không làm được gì', 'Chỉ hơi khó chịu', 'Bình thường'] };
+    if (lower.includes('rất mệt mỏi không làm được gì')) return { text: 'Tôi hiểu sự bất tiện này. Dựa trên mô tả, tình trạng của bạn cần được bác sĩ đánh giá trực tiếp. Bạn có muốn xem danh sách bác sĩ để đặt khám không?', suggestions: ['Tôi muốn đặt lịch khám', 'Bác sĩ thần kinh không?'] };
+    if (lower.includes('hơi ớn lạnh')) return { text: 'Nhiệt độ hiện tại của bạn là bao nhiêu? Bạn nên uống nhiều nước, mặc đồ thoáng mát và có thể dùng Paracetamol nếu sốt trên 38.5°C.', suggestions: ['Chưa dùng loại thuốc nào', 'Đã uống Paracetamol'] };
+    if (lower.includes('điều hòa nhiều')) return { text: 'Bạn có đang sử dụng loại thuốc nào để điều trị triệu chứng này không?', suggestions: ['Chưa dùng loại thuốc nào', 'Đang uống thuốc'] };
+    if (lower.includes('chưa dùng loại thuốc nào')) return { text: 'Vậy thì tạm thời bạn đừng quá lo lắng. Hãy nghỉ ngơi, uống đủ nước và tiếp tục theo dõi thêm. Nếu triệu chứng trở nặng, hãy quay lại đây nhé.', suggestions: ['Cám ơn bạn đã gợi ý', 'Tôi muốn khám trực tiếp'] };
     if (lower.includes('bác sĩ thần kinh không')) return { 
       text: 'Dựa trên nhu cầu của bạn, tôi đề xuất một số bác sĩ chuyên khoa phù hợp dưới đây. Bạn có thể đặt lịch hẹn trực tiếp:', 
-      type: 'doctors', doctors: [ { name: 'BS. Ezra Belcher', spec: 'Ngoại thần kinh', bg: 'bg-red-300' } ] 
+      type: 'doctors', doctors: [ { name: 'BS. Ezra Belcher', spec: 'Ngoại thần kinh', bg: 'bg-red-300' } ],
+      suggestions: ['Cám ơn bạn đã gợi ý']
     };
-    if (lower.includes('cám ơn bạn đã gợi ý')) return { text: 'Không có chi! Chúc bạn thật nhiều sức khỏe. Dựa trên các thông tin bạn cung cấp, hệ thống AI đã đánh giá sơ bộ mức độ triệu chứng của bạn:', severity: { level: 'Trung bình (Cần theo dõi thêm)', color: 'bg-amber-100 text-amber-700 border-amber-300' } };
+    if (lower.includes('cám ơn bạn đã gợi ý')) return { text: 'Không có chi! Chúc bạn thật nhiều sức khỏe. Dựa trên các thông tin bạn cung cấp, hệ thống AI đã đánh giá sơ bộ mức độ triệu chứng của bạn:', suggestions: ['Tư vấn triệu chứng khác', 'Đặt lịch hẹn'], severity: { level: 'Trung bình (Cần theo dõi thêm)', color: 'bg-amber-100 text-amber-700 border-amber-300' } };
 
     // KỊCH BẢN 3
-    if (lower === 'hi') return { text: 'Chào bạn! Hãy mô tả chi tiết triệu chứng bạn đang gặp phải để tôi tư vấn nhé.' };
-    if (lower.includes('có một vấn đề về sức khỏe')) return { text: 'Bạn có thể mô tả chi tiết hơn về vấn đề sức khỏe mà bạn đang gặp phải không?' };
-    if (lower.includes('nhức đầu kinh khủng')) return { text: 'Bạn bị triệu chứng này lâu chưa? Có kèm theo buồn nôn hay nhạy cảm với ánh sáng không? Nếu đau dữ dội, bạn nên đặt lịch khám chuyên khoa Thần kinh nhé.' };
-    if (lower.includes('nó đau lắm')) return { text: 'Tôi hiểu sự bất tiện này. Dựa trên mô tả, tình trạng của bạn cần được bác sĩ đánh giá trực tiếp. Bạn có muốn xem danh sách bác sĩ để đặt khám không?' };
-    if (lower.includes('mắt tôi mờ đi')) return { text: 'Ngoài ra bạn còn cảm thấy đau hay khó chịu ở bộ phận nào khác không?' };
+    if (lower === 'hi') return { text: 'Chào bạn! Hãy mô tả chi tiết triệu chứng bạn đang gặp phải để tôi tư vấn nhé.', suggestions: ['Tôi có một vấn đề về sức khỏe', 'Tôi muốn đặt lịch hẹn'] };
+    if (lower.includes('có một vấn đề về sức khỏe')) return { text: 'Bạn có thể mô tả chi tiết hơn về vấn đề sức khỏe mà bạn đang gặp phải không?', suggestions: ['Tôi bị nhức đầu kinh khủng', 'Tôi bị đau bụng dữ dội'] };
+    if (lower.includes('nhức đầu kinh khủng')) return { text: 'Bạn bị triệu chứng này lâu chưa? Có kèm theo buồn nôn hay nhạy cảm với ánh sáng không? Nếu đau dữ dội, bạn nên đặt lịch khám chuyên khoa Thần kinh nhé.', suggestions: ['Nó đau lắm', 'Hơi đau thôi'] };
+    if (lower.includes('nó đau lắm')) return { text: 'Tôi hiểu sự bất tiện này. Dựa trên mô tả, tình trạng của bạn cần được bác sĩ đánh giá trực tiếp. Bạn có muốn xem danh sách bác sĩ để đặt khám không?', suggestions: ['Mắt tôi mờ đi', 'Tôi muốn đặt lịch khám'] };
+    if (lower.includes('mắt tôi mờ đi')) return { text: 'Ngoài ra bạn còn cảm thấy đau hay khó chịu ở bộ phận nào khác không?', suggestions: ['Muốn đặt lịch khám', 'Tôi sợ bị đột quỵ'] };
     if (lower.includes('muốn đặt lịch khám')) return { 
       text: 'Dựa trên nhu cầu của bạn, tôi đề xuất một số bác sĩ chuyên khoa phù hợp dưới đây. Bạn có thể đặt lịch hẹn trực tiếp:', 
-      type: 'doctors', doctors: [ { name: 'BS. Ezra Belcher', spec: 'Ngoại thần kinh', bg: 'bg-red-300' } ] 
+      type: 'doctors', doctors: [ { name: 'BS. Ezra Belcher', spec: 'Ngoại thần kinh', bg: 'bg-red-300' } ],
+      suggestions: ['Đặt hẹn BS. Ezra Belcher']
     };
-    if (lower.includes('bị đột quỵ')) return { text: '⚠️ CẢNH BÁO: Từ khóa khẩn cấp được nhận diện! Vui lòng gọi ngay cho số Cấp cứu 115 hoặc nhờ người nhà đưa đến Cơ sở Y tế gần nhất ngay lập tức.', severity: { level: 'Khẩn cấp (Cần gọi 115 ngay)', color: 'bg-red-100 text-red-700 border-red-300' } };
-    if (lower.includes('tôi sẽ gọi cấp cứu')) return { text: '⚠️ CẢNH BÁO: Đội cấp cứu 115 đã được thông báo. Vui lòng giữ máy hoặc chờ liên hệ.', severity: { level: 'Khẩn cấp (Cần gọi 115 ngay)', color: 'bg-red-100 text-red-700 border-red-300' } };
-    if (lower.includes('dạ cảm ơn')) return { text: 'Không có chi! Chúc bạn thật nhiều sức khỏe. Dựa trên các thông tin bạn cung cấp, hệ thống AI đã đánh giá sơ bộ mức độ triệu chứng của bạn:', severity: { level: 'Khẩn cấp (Cần gọi 115 ngay)', color: 'bg-red-100 text-red-700 border-red-300' } };
-    if (lower.includes('chưa chết')) return { text: '⚠️ CẢNH BÁO: Từ khóa khẩn cấp được nhận diện! Vui lòng gọi ngay cho số Cấp cứu 115 hoặc nhờ người nhà đưa đến Cơ sở Y tế gần nhất ngay lập tức.', severity: { level: 'Khẩn cấp (Cần gọi 115 ngay)', color: 'bg-red-100 text-red-700 border-red-300' } };
+    if (lower.includes('bị đột quỵ')) return { text: '⚠️ CẢNH BÁO: Từ khóa khẩn cấp được nhận diện! Vui lòng gọi ngay cho số Cấp cứu 115 hoặc nhờ người nhà đưa đến Cơ sở Y tế gần nhất ngay lập tức.', suggestions: ['Tôi sẽ gọi cấp cứu', 'Đã đỡ hơn rồi'], severity: { level: 'Khẩn cấp (Cần gọi 115 ngay)', color: 'bg-red-100 text-red-700 border-red-300' } };
+    if (lower.includes('tôi sẽ gọi cấp cứu')) return { text: '⚠️ CẢNH BÁO: Đội cấp cứu 115 đã được thông báo. Vui lòng giữ máy hoặc chờ liên hệ.', suggestions: ['Dạ cảm ơn'], severity: { level: 'Khẩn cấp (Cần gọi 115 ngay)', color: 'bg-red-100 text-red-700 border-red-300' } };
+    if (lower.includes('dạ cảm ơn')) return { text: 'Không có chi! Chúc bạn thật nhiều sức khỏe. Dựa trên các thông tin bạn cung cấp, hệ thống AI đã đánh giá sơ bộ mức độ triệu chứng của bạn:', suggestions: ['Tư vấn triệu chứng khác'], severity: { level: 'Khẩn cấp (Cần gọi 115 ngay)', color: 'bg-red-100 text-red-700 border-red-300' } };
+    if (lower.includes('chưa chết')) return { text: '⚠️ CẢNH BÁO: Từ khóa khẩn cấp được nhận diện! Vui lòng gọi ngay cho số Cấp cứu 115 hoặc nhờ người nhà đưa đến Cơ sở Y tế gần nhất ngay lập tức.', suggestions: ['Tôi sẽ gọi cấp cứu'], severity: { level: 'Khẩn cấp (Cần gọi 115 ngay)', color: 'bg-red-100 text-red-700 border-red-300' } };
+
+    const FALLBACK_RESPONSES = [
+      "Dạ, tôi đã ghi nhận thông tin. Để tư vấn chính xác hơn, bạn có thể nói chi tiết hơn về mức độ khó chịu được không?",
+      "Tôi hiểu rồi. Bạn có cảm giác đau buốt, sưng tấy hay có triệu chứng nào khác kèm theo không?",
+      "Thông tin này rất hữu ích. Bạn bị tình trạng này lâu chưa, và có tự dùng thuốc gì ở nhà chưa ạ?",
+      "Để hỗ trợ tốt nhất, bạn có muốn tôi kết nối với Bác sĩ chuyên khoa tại phòng khám để tư vấn trực tiếp không?"
+    ];
+    const fallbackIndex = msgCount % FALLBACK_RESPONSES.length;
 
     return {
-      text: 'Dạ, tôi đã ghi nhận thông tin. Để tư vấn chính xác hơn, bạn có thể nói chi tiết hơn được không?'
+      text: FALLBACK_RESPONSES[fallbackIndex],
+      suggestions: [
+        ['Tôi bị đau đầu', 'Tôi bị sốt', 'Tôi bị khó thở'],
+        ['Tôi muốn xem bác sĩ', 'Tôi cần tư vấn thêm', 'Cảm ơn AI'],
+        ['Có đau nhức', 'Không đau nhức', 'Tư vấn triệu chứng khác'],
+        ['Đặt lịch khám ngay', 'Tôi tự theo dõi thêm']
+      ][fallbackIndex % 4]
     };
   };
 
   const handleSend = (overrideText?: string) => {
+    if (isTyping) return;
     const textToSend = overrideText || msgInput;
     if (!textToSend.trim()) return;
 
@@ -141,13 +182,19 @@ export default function PatientChatbot() {
 
     const updatedSessions = [...sessions];
     const sessionIdx = updatedSessions.findIndex(s => s.id === activeSessionId);
-    updatedSessions[sessionIdx].messages.push(userMsg);
-    updatedSessions[sessionIdx].lastMsg = textToSend;
+    if (sessionIdx === -1) return;
+    
+    const updatedSession = { ...updatedSessions[sessionIdx] };
+    updatedSession.messages = [...updatedSession.messages, userMsg];
+    updatedSession.lastMsg = textToSend;
 
     // Auto-detect title if it's a new session
-    if (updatedSessions[sessionIdx].title === 'Tư vấn mới' && textToSend.split(' ').length <= 5) {
-      updatedSessions[sessionIdx].title = textToSend;
+    if (updatedSession.title === 'Tư vấn mới' && textToSend.split(' ').length <= 5) {
+      updatedSession.title = textToSend;
     }
+
+    const currentMsgCount = updatedSession.messages.length;
+    updatedSessions[sessionIdx] = updatedSession;
 
     setSessions(updatedSessions);
     setMsgInput('');
@@ -155,37 +202,49 @@ export default function PatientChatbot() {
     inputRef.current?.focus();
 
     setTimeout(() => {
-      const response = getBotResponse(textToSend);
-      const newSessions = [...sessions];
-      const s = newSessions[sessionIdx];
-
-      const botMsg = {
-        id: Date.now() + 1,
-        text: response.text,
-        suggestions: response.suggestions,
-        type: response.type,
-        doctors: response.doctors,
-        severity: (response as any).severity,
-        isMe: false,
-        time: 'Vừa xong'
-      };
-
-      s.messages.push(botMsg);
-      s.lastMsg = botMsg.text;
-
-      if ((response as any).severity) {
-        const sev = (response as any).severity;
-        s.level = sev.level.split(' (')[0];
-        
-        // Remove border classes for the sidebar badge, keep only bg and text colors
-        s.levelColor = sev.color.split(' ').filter((c: string) => !c.includes('border')).join(' ');
-      }
-
-      if (textToSend.toLowerCase().includes('kết thúc tư vấn')) {
-        s.status = 'ended';
-      }
-
-      setSessions(newSessions);
+      const response = getBotResponse(textToSend, currentMsgCount);
+      setSessions(prevSessions => {
+        return prevSessions.map(s => {
+          if (s.id === activeSessionId) {
+            const botMsg = {
+              id: Date.now() + 1,
+              text: response.text,
+              suggestions: response.suggestions,
+              type: response.type,
+              doctors: response.doctors,
+              severity: (response as any).severity,
+              isMe: false,
+              time: 'Vừa xong'
+            };
+            
+            const updatedMessages = [...s.messages, botMsg];
+            
+            let updatedLevel = s.level;
+            let updatedLevelColor = s.levelColor;
+            let updatedStatus = s.status;
+            
+            if ((response as any).severity) {
+              const sev = (response as any).severity;
+              updatedLevel = sev.level.split(' (')[0];
+              updatedLevelColor = sev.color.split(' ').filter((c: string) => !c.includes('border')).join(' ');
+            }
+            
+            if (textToSend.toLowerCase().includes('kết thúc tư vấn')) {
+              updatedStatus = 'ended';
+            }
+            
+            return {
+              ...s,
+              messages: updatedMessages,
+              lastMsg: botMsg.text,
+              level: updatedLevel,
+              levelColor: updatedLevelColor,
+              status: updatedStatus
+            };
+          }
+          return s;
+        });
+      });
       setIsTyping(false);
     }, 1200);
   };
@@ -319,7 +378,7 @@ export default function PatientChatbot() {
             </div>
             <div>
               <h2 className="font-bold text-slate-800 text-[16px] flex items-center gap-1.5">
-                Trợ lý AI — TriageAI <Sparkle size={16} className="text-blue-500" weight="fill" />
+                Trợ lý AI <Sparkle size={16} className="text-blue-500" weight="fill" />
               </h2>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
@@ -401,7 +460,7 @@ export default function PatientChatbot() {
                 </div>
               )}
 
-              {msg.suggestions && msg.suggestions.length > 0 && !isTyping && (
+              {msg.suggestions && msg.suggestions.length > 0 && !isTyping && msg.id === messages[messages.length - 1].id && (
                 <div className="flex flex-wrap gap-2 mt-2">
                   {msg.suggestions.map((sug: string, idx: number) => (
                     <button
@@ -442,16 +501,21 @@ export default function PatientChatbot() {
                 ref={inputRef}
                 type="text"
                 value={msgInput}
-                disabled={activeSession.status === 'ended'}
+                disabled={activeSession.status === 'ended' || isTyping}
                 placeholder={activeSession.status === 'ended' ? "Phiên tư vấn này đã kết thúc..." : "Nhập triệu chứng của bạn để AI tư vấn..."}
                 onChange={e => setMsgInput(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && handleSend()}
+                onKeyDown={e => {
+                  if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
+                    e.preventDefault();
+                    handleSend();
+                  }
+                }}
                 className="flex-1 bg-transparent border-none outline-none px-3 text-[15px] text-slate-700 placeholder-slate-400 disabled:opacity-60"
               />
             </div>
             <button
               onClick={() => handleSend()}
-              disabled={!msgInput.trim() || activeSession.status === 'ended'}
+              disabled={!msgInput.trim() || activeSession.status === 'ended' || isTyping}
               className="w-[44px] h-[44px] rounded-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed text-white flex items-center justify-center shrink-0 shadow-sm transition-colors"
             >
               <PaperPlaneRight size={20} weight="fill" />

@@ -198,11 +198,20 @@ export default function PatientConsultDoctor() {
               placeholder="Nhập tin nhắn..."
               value={msgInput}
               onChange={e => setMsgInput(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && handleSend()}
+              onKeyDown={e => {
+                if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
+                  e.preventDefault();
+                  handleSend();
+                }
+              }}
               className="flex-1 bg-transparent border-none outline-none px-3 text-sm text-slate-700 placeholder-slate-400"
             />
           </div>
-          <button onClick={handleSend} className="w-12 h-12 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center shrink-0 shadow-md shadow-blue-200 transition-colors">
+          <button 
+            onClick={handleSend} 
+            disabled={!msgInput.trim()}
+            className="w-12 h-12 rounded-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white flex items-center justify-center shrink-0 shadow-md shadow-blue-200 transition-colors"
+          >
             <PaperPlaneRight size={20} weight="fill" />
           </button>
         </div>

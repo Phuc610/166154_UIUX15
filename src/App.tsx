@@ -35,6 +35,9 @@ import DoctorProfileSettings from './DoctorProfileSettings';
 import DoctorChangePassword from './DoctorChangePassword';
 import DoctorNotificationsSettings from './DoctorNotificationsSettings';
 import ClinicSettings from './ClinicSettings';
+import AdminProfileSettings from './AdminProfileSettings';
+import AdminChangePassword from './AdminChangePassword';
+import AdminNotificationsSettings from './AdminNotificationsSettings';
 function App() {
   return (
     <BrowserRouter>
@@ -85,6 +88,9 @@ function App() {
           <Route path="invoices"     element={<Invoices />} />
           <Route path="expenses"     element={<Expenses />} />
           <Route path="settings"     element={<ClinicSettings />} />
+          <Route path="profile"      element={<AdminProfileSettings />} />
+          <Route path="change-password" element={<AdminChangePassword />} />
+          <Route path="notifications" element={<AdminNotificationsSettings />} />
         </Route>
       </Routes>
     </BrowserRouter>

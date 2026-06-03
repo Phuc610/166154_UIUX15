@@ -6,6 +6,13 @@ import {
 import Modal from './components/Modal';
 import { useToast } from './contexts/ToastContext';
 
+export const MOCK_DOCTORS_LIST = [
+  { id: 'BS-001', name: 'Dr. Sarah Connor', phone: '0987 123 456', specialty: 'Khoa Nhi', schedule: 'T2, T3, T5', status: 'Sẵn sàng', statusColor: 'emerald' },
+  { id: 'BS-002', name: 'Dr. Andrew Billard', phone: '0912 345 678', specialty: 'Khoa Tổng quát', schedule: 'T2 - T6', status: 'Đang khám', statusColor: 'red' },
+  { id: 'BS-003', name: 'Dr. John Doe', phone: '0905 555 111', specialty: 'Khoa Ngoại', schedule: 'T4, T6, T7', status: 'Sẵn sàng', statusColor: 'emerald' },
+  { id: 'BS-004', name: 'Dr. Jane Smith', phone: '0933 444 222', specialty: 'Khoa Sản', schedule: 'T3, T5, CN', status: 'Nghỉ phép', statusColor: 'slate' },
+];
+
 const Doctors = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,15 +22,7 @@ const Doctors = () => {
   const [formData, setFormData] = useState({ name: '', phone: '', specialty: '' });
   const [formErrors, setFormErrors] = useState({ name: '', phone: '', specialty: '' });
 
-  // Mock data
-  const doctors = [
-    { id: 'BS-001', name: 'Dr. Sarah Connor', phone: '0987 123 456', specialty: 'Khoa Nhi', schedule: 'T2, T3, T5', status: 'Sẵn sàng', statusColor: 'emerald' },
-    { id: 'BS-002', name: 'Dr. Andrew Billard', phone: '0912 345 678', specialty: 'Khoa Tổng quát', schedule: 'T2 - T6', status: 'Đang khám', statusColor: 'red' },
-    { id: 'BS-003', name: 'Dr. John Doe', phone: '0905 555 111', specialty: 'Khoa Ngoại', schedule: 'T4, T6, T7', status: 'Sẵn sàng', statusColor: 'emerald' },
-    { id: 'BS-004', name: 'Dr. Jane Smith', phone: '0933 444 222', specialty: 'Khoa Sản', schedule: 'T3, T5, CN', status: 'Nghỉ phép', statusColor: 'slate' },
-  ];
-
-  const filteredDoctors = doctors.filter(d => {
+  const filteredDoctors = MOCK_DOCTORS_LIST.filter(d => {
     const term = searchTerm.toLowerCase();
     return d.name.toLowerCase().includes(term) || 
            d.id.toLowerCase().includes(term) || 

@@ -6,7 +6,7 @@ import {
 } from '@phosphor-icons/react';
 import NewAppointmentModal from './NewAppointmentModal';
 
-const DOCTORS = [
+export const DOCTORS = [
   { name: 'BS. Mick Thompson', spec: 'Tim mạch', phone: '+84 912 345 678', lastVisit: '30 Thg 4 2025', bg: 'bg-indigo-200' },
   { name: 'BS. Sarah Johnson', spec: 'Chỉnh hình', phone: '+84 987 654 321', lastVisit: '15 Thg 4 2025', bg: 'bg-red-300' },
   { name: 'BS. Emily Carter', spec: 'Nhi khoa', phone: '+84 905 123 456', lastVisit: '02 Thg 4 2025', bg: 'bg-blue-300' },

@@ -346,13 +346,19 @@ const Messages = () => {
                     type="text" 
                     value={inputText}
                     onChange={e => setInputText(e.target.value)}
-                    onKeyDown={e => e.key === 'Enter' && handleSendMessage()}
+                    onKeyDown={e => {
+                      if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
+                        e.preventDefault();
+                        handleSendMessage();
+                      }
+                    }}
                     placeholder="Nhập tin nhắn..." 
                     className="flex-1 bg-transparent text-sm focus:outline-none py-2"
                   />
                   <button 
                     onClick={handleSendMessage}
-                    className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white hover:bg-blue-700 transition-colors shadow-sm shrink-0"
+                    disabled={!inputText.trim()}
+                    className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white hover:bg-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed transition-colors shadow-sm shrink-0"
                   >
                     <PaperPlaneRight size={18} weight="fill" />
                   </button>
