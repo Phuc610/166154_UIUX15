@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Eye, Download, Scales, Ruler, Drop, Thermometer,
   TrendUp, Wind, FileText
@@ -7,6 +7,17 @@ import NewAppointmentModal from './NewAppointmentModal';
 
 const PatientDashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [animIn, setAnimIn] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setAnimIn(true), 50);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const getStaggStyle = (idx: number) => ({
+    transitionDelay: `${idx * 100}ms`
+  });
+  const staggClass = `transition-all duration-700 ease-out transform ${animIn ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`;
 
   return (
     <div>
@@ -23,7 +34,7 @@ const PatientDashboard = () => {
       <div className="p-8">
 
       {/* 4 Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 ${staggClass}`} style={getStaggStyle(1)}>
         {/* Card 1 */}
         <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-300 flex flex-col justify-between h-[140px]">
           <div className="flex items-start gap-3">
@@ -106,7 +117,7 @@ const PatientDashboard = () => {
       </div>
 
       {/* 3 Columns Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+      <div className={`grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8 ${staggClass}`} style={getStaggStyle(2)}>
 
         {/* Bác sĩ của tôi */}
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
@@ -188,7 +199,7 @@ const PatientDashboard = () => {
       </div>
 
       {/* Vitals */}
-      <div className="bg-transparent mb-8">
+      <div className={`bg-transparent mb-8 ${staggClass}`} style={getStaggStyle(3)}>
         <h2 className="text-sm font-bold text-slate-900 mb-4">Chỉ số cơ thể (Vitals)</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {[
@@ -213,12 +224,12 @@ const PatientDashboard = () => {
       </div>
 
       {/* Charts & Transactions */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+      <div className={`grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8 ${staggClass}`} style={getStaggStyle(4)}>
 
-        {/* Tần suất tương tác Trợ lý AI */}
+        {/* Tần suất tương tác SageCare */}
         <div className="lg:col-span-2 bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
           <div className="flex justify-between items-center mb-3">
-            <h2 className="text-sm font-bold text-slate-900">Tần suất tương tác Trợ lý AI</h2>
+            <h2 className="text-sm font-bold text-slate-900">Tần suất tương tác SageCare</h2>
             <button className="text-xs text-slate-500 border border-slate-200 rounded px-3 py-1 hover:bg-slate-50">7 ngày qua</button>
           </div>
           {/* Compact chart: viewBox 560×150, data area y: 10→130, scale=(130-10)/40=3 */}
@@ -284,7 +295,7 @@ const PatientDashboard = () => {
       </div>
 
       {/* Lịch hẹn gần đây */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden mb-4">
+      <div className={`bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden mb-4 ${staggClass}`} style={getStaggStyle(5)}>
         <div className="flex justify-between items-center p-6 border-b border-slate-100">
           <h2 className="text-sm font-bold text-slate-900">Lịch hẹn gần đây</h2>
           <button className="text-xs text-slate-500 border border-slate-200 rounded px-3 py-1 hover:bg-slate-50">Hàng tuần</button>

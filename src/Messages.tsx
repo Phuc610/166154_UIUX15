@@ -16,27 +16,44 @@ const MOCK_NOTES_DB: Record<string, any[]> = {
 };
 
 const INITIAL_CONTACTS = [
-  { id: 'c1', name: 'Phạm Văn Đức', avatarBg: 'bg-emerald-100', lastMessage: 'Bác sĩ ơi, tôi hơi mệt...', time: '10:30', status: 'online', unread: 2 },
-  { id: 'c2', name: 'Nguyễn Thị Hoa', avatarBg: 'bg-rose-100', lastMessage: 'Cảm ơn bác sĩ nhiều ạ.', time: 'Hôm qua', status: 'offline', unread: 1 },
-  { id: 'c3', name: 'Trần Minh Tuấn', avatarBg: 'bg-blue-100', lastMessage: 'Mai tôi ghé phòng khám.', time: 'Hôm qua', status: 'offline', unread: 0 },
-  { id: 'c4', name: 'Hoàng Thị Mai', avatarBg: 'bg-amber-200', lastMessage: 'Chào bác sĩ, lát nữa mình gọi ạ.', time: '09:50', status: 'online', unread: 1 },
+  { id: 'a1', name: 'Nguyễn Hồng Minh', avatarBg: 'bg-red-200', lastMessage: 'Bác sĩ ơi, tôi hơi mệt...', time: '10:30', status: 'online', unread: 2 },
+  { id: 'a2', name: 'Trần Thị Hoa', avatarBg: 'bg-pink-200', lastMessage: 'Cảm ơn bác sĩ nhiều ạ.', time: 'Hôm qua', status: 'offline', unread: 1 },
+  { id: 'a3', name: 'Lê Ngọc Linh', avatarBg: 'bg-sky-200', lastMessage: 'Mai tôi ghé phòng khám.', time: 'Hôm qua', status: 'offline', unread: 0 },
+  { id: 'a4', name: 'Phạm Văn Đức', avatarBg: 'bg-emerald-200', lastMessage: 'Chào bác sĩ, lát nữa mình gọi ạ.', time: '09:50', status: 'online', unread: 1 },
+  { id: 'a5', name: 'Hoàng Thị Mai', avatarBg: 'bg-amber-200', lastMessage: 'Cho tôi hỏi về thuốc...', time: 'Hôm kia', status: 'offline', unread: 0 },
+  { id: 'a6', name: 'Nguyễn Văn Bình', avatarBg: 'bg-violet-200', lastMessage: 'Tôi sẽ đến đúng giờ.', time: 'Hôm kia', status: 'offline', unread: 0 },
+  { id: 'a7', name: 'Vũ Thị Lan', avatarBg: 'bg-fuchsia-200', lastMessage: 'Cảm ơn bác sĩ!', time: 'Tuần trước', status: 'offline', unread: 0 },
+  { id: 'a8', name: 'Đỗ Quang Huy', avatarBg: 'bg-orange-200', lastMessage: 'Bác sĩ xem giúp tôi kết quả này.', time: 'Vừa xong', status: 'online', unread: 1 },
 ];
 
 const MOCK_MESSAGES_DB: Record<string, { id: string, text: string, sender: string, time: string, attachment?: string }[]> = {
-  'c1': [
-    { id: 'm1', text: 'Chào chú Đức, chú thấy mệt thế nào ạ?', sender: 'doctor', time: '10:32' },
+  'a1': [
+    { id: 'm1', text: 'Chào anh Minh, anh thấy mệt thế nào ạ?', sender: 'doctor', time: '10:32' },
     { id: 'm2', text: 'Tôi hơi tức ngực bên trái từ sáng.', sender: 'patient', time: '10:33' },
     { id: 'm3', text: 'Bác sĩ ơi, tôi hơi mệt...', sender: 'patient', time: '10:35' },
   ],
-  'c2': [
-    { id: 'm4', text: 'Nhớ uống thuốc đúng giờ nhé chị.', sender: 'doctor', time: 'Hôm qua' },
+  'a2': [
+    { id: 'm4', text: 'Nhớ uống thuốc đúng giờ nhé chị Hoa.', sender: 'doctor', time: 'Hôm qua' },
     { id: 'm5', text: 'Cảm ơn bác sĩ nhiều ạ.', sender: 'patient', time: 'Hôm qua' },
   ],
-  'c3': [
+  'a3': [
     { id: 'm6', text: 'Mai tôi ghé phòng khám.', sender: 'patient', time: 'Hôm qua' },
   ],
-  'c4': [
+  'a4': [
     { id: 'm7', text: 'Chào bác sĩ, lát nữa mình gọi ạ.', sender: 'patient', time: '09:50' },
+  ],
+  'a5': [
+    { id: 'm8', text: 'Cho tôi hỏi về thuốc...', sender: 'patient', time: 'Hôm kia' }
+  ],
+  'a6': [
+    { id: 'm9', text: 'Tôi sẽ đến đúng giờ.', sender: 'patient', time: 'Hôm kia' }
+  ],
+  'a7': [
+    { id: 'm10', text: 'Cảm ơn bác sĩ!', sender: 'patient', time: 'Tuần trước' }
+  ],
+  'a8': [
+    { id: 'm11', text: 'Chào Huy, tôi có thể giúp gì cho em?', sender: 'doctor', time: '14:00' },
+    { id: 'm12', text: 'Bác sĩ xem giúp tôi kết quả này.', sender: 'patient', time: 'Vừa xong', attachment: 'record' }
   ]
 };
 
@@ -45,6 +62,17 @@ const Messages = () => {
   const [activeContactId, setActiveContactId] = useState(INITIAL_CONTACTS[0].id);
   const [messagesDb, setMessagesDb] = useState(MOCK_MESSAGES_DB);
   const [inputText, setInputText] = useState('');
+  const [animIn, setAnimIn] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setAnimIn(true), 50);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const getStaggStyle = (idx: number) => ({
+    transitionDelay: `${idx * 100}ms`
+  });
+  const staggClass = `transition-all duration-700 ease-out transform ${animIn ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`;
   
   const activeContact = contacts.find(c => c.id === activeContactId)!;
   const activeMessages = messagesDb[activeContactId] || [];
@@ -164,7 +192,7 @@ const Messages = () => {
     <div className="h-full flex bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden relative">
       
       {/* ── Left Sidebar: Contacts ── */}
-      <div className="w-[320px] border-r border-slate-200 flex flex-col shrink-0 bg-slate-50/50">
+      <div className={`w-[320px] border-r border-slate-200 flex flex-col shrink-0 bg-slate-50/50 ${staggClass}`} style={getStaggStyle(1)}>
         <div className="p-4 border-b border-slate-200 bg-white">
           <h2 className="font-bold text-slate-800 text-lg mb-4">Nhắn tin</h2>
           <div className="relative">
@@ -218,7 +246,7 @@ const Messages = () => {
       </div>
 
       {/* ── Right Content: Chat / Call UI ── */}
-      <div className="flex-1 flex flex-col relative bg-[#f8fafc]">
+      <div className={`flex-1 flex flex-col relative bg-[#f8fafc] ${staggClass}`} style={getStaggStyle(2)}>
         
         {/* Header */}
         <div className="px-6 py-4 bg-white border-b border-slate-200 flex justify-between items-center z-10 shadow-sm relative">
@@ -371,7 +399,7 @@ const Messages = () => {
       </div>
 
       {/* ── Right Sidebar (Notes) ── */}
-      <div className="w-[340px] flex flex-col shrink-0 bg-white border-l border-slate-200">
+      <div className={`w-[340px] flex flex-col shrink-0 bg-white border-l border-slate-200 ${staggClass}`} style={getStaggStyle(3)}>
         <div className="flex border-b border-slate-200">
           <div className="flex-1 py-4 text-sm font-bold text-blue-700 border-b-2 border-blue-600 flex items-center justify-center gap-2">
             <FileText size={18} weight="fill" /> Ghi chú nội bộ

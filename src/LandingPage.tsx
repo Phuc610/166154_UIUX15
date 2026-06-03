@@ -5,7 +5,7 @@ import {
   ChatCircle, Star, ShieldCheck, Clock, Users,
   CheckCircle, X, ArrowRight, Sparkle,
   UserCircle, Buildings, FirstAid,
-  ChatTeardropDots
+  ChatTeardropDots, Robot
 } from '@phosphor-icons/react';
 
 // ─── Role Selection Modal ────────────────────────────────────────────────────
@@ -70,69 +70,68 @@ const RoleModal = ({ onClose }: { onClose: () => void }) => {
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       role="dialog" aria-modal="true" aria-labelledby="role-modal-title"
     >
-      {/* Backdrop */}
       <div
-        className={`absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300 ${animIn ? 'opacity-100' : 'opacity-0'}`}
+        className={`absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity duration-300 ${animIn ? 'opacity-100' : 'opacity-0'}`}
         onClick={onClose}
         aria-hidden="true"
       />
 
-      {/* Modal card */}
-      <div className={`relative z-10 bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden transition-all duration-300 ${animIn ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-6 scale-95'}`}>
+      <div className={`relative z-10 bg-white rounded-[2rem] shadow-2xl w-full max-w-4xl overflow-hidden transition-all duration-300 ${animIn ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-95'}`}>
         {/* Header */}
-        <div className="px-8 pt-8 pb-6 border-b border-slate-100">
+        <div className="px-10 pt-10 pb-6 border-b border-slate-100">
           <div className="flex items-start justify-between">
             <div>
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <Stethoscope size={16} className="text-white" weight="bold" />
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30">
+                  <UserCircle size={22} className="text-white" weight="fill" />
                 </div>
-                <span className="font-bold text-blue-600 text-base">Preclinic</span>
+                <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 text-lg">Đăng Nhập</span>
               </div>
-              <h2 id="role-modal-title" className="text-xl font-bold text-slate-900">Chọn vai trò của bạn</h2>
-              <p className="text-sm text-slate-500 mt-1">Chọn đúng vai trò để truy cập đúng giao diện phù hợp với bạn.</p>
+              <h2 id="role-modal-title" className="text-3xl font-black text-slate-900 tracking-tight">Xác nhận vai trò</h2>
+              <p className="text-slate-500 mt-2 text-base">Vui lòng chọn đúng vai trò để hệ thống tải giao diện phù hợp nhất.</p>
             </div>
             <button
               onClick={onClose}
-              aria-label="Đóng"
-              className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 transition-colors"
+              className="w-10 h-10 rounded-full bg-slate-50 hover:bg-slate-100 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors"
             >
-              <X size={16} weight="bold" />
+              <X size={20} weight="bold" />
             </button>
           </div>
         </div>
 
         {/* Role cards */}
-        <div className="px-8 py-6 grid grid-cols-3 gap-4">
-          {ROLES.map(role => (
+        <div className="px-10 py-8 grid grid-cols-1 md:grid-cols-3 gap-6 bg-slate-50/50">
+          {ROLES.map((role, idx) => (
             <button
               key={role.key}
               onClick={() => setSelected(role.key)}
-              className={`group relative text-left p-5 rounded-xl border-2 transition-all duration-200 cursor-pointer
+              className={`group relative text-left p-6 rounded-2xl border-2 transition-all duration-500 cursor-pointer overflow-hidden transform
+                ${animIn ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
                 ${selected === role.key
-                  ? 'border-blue-500 bg-blue-50 shadow-md shadow-blue-100'
-                  : `border-slate-200 bg-white ${role.border} hover:shadow-md`
+                  ? 'border-blue-600 bg-white shadow-xl shadow-blue-100/50 scale-[1.02] ring-4 ring-blue-50'
+                  : `border-slate-200 bg-white hover:border-blue-300 hover:shadow-lg hover:-translate-y-1`
                 }`}
-              aria-pressed={selected === role.key}
+              style={{ transitionDelay: `${idx * 75}ms` }}
             >
-              {/* Selected indicator */}
               {selected === role.key && (
-                <div className="absolute top-3 right-3 w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center">
-                  <CheckCircle size={14} className="text-white" weight="fill" />
+                <div className="absolute top-4 right-4 w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center shadow-sm animate-fade-in-up">
+                  <CheckCircle size={16} className="text-white" weight="bold" />
                 </div>
               )}
 
-              <div className={`w-14 h-14 rounded-xl ${role.iconBg} ${role.iconColor} flex items-center justify-center mb-4 transition-transform group-hover:scale-105`}>
+              <div className={`w-16 h-16 rounded-2xl ${role.iconBg} ${role.iconColor} flex items-center justify-center mb-5 transition-transform duration-500 ease-out group-hover:scale-110 shadow-sm`}>
                 {role.icon}
               </div>
 
-              <div className="font-bold text-slate-900 text-base mb-1">{role.label}</div>
-              <div className="text-xs text-slate-500 leading-relaxed mb-3">{role.desc}</div>
+              <div className="font-black text-slate-900 text-lg mb-2">{role.label}</div>
+              <div className="text-sm text-slate-500 leading-relaxed mb-4">{role.desc}</div>
+              
+              <div className="w-8 h-1 bg-slate-200 rounded-full mb-4 transition-colors group-hover:bg-blue-300" />
 
-              <ul className="flex flex-col gap-1">
+              <ul className="flex flex-col gap-2">
                 {role.features.map(f => (
-                  <li key={f} className="flex items-center gap-1.5 text-xs text-slate-600">
-                    <CheckCircle size={12} className="text-emerald-500 shrink-0" weight="fill" />
+                  <li key={f} className="flex items-center gap-2 text-xs font-medium text-slate-600">
+                    <CheckCircle size={14} className={selected === role.key ? 'text-blue-600' : 'text-slate-400'} weight="fill" />
                     {f}
                   </li>
                 ))}
@@ -142,22 +141,23 @@ const RoleModal = ({ onClose }: { onClose: () => void }) => {
         </div>
 
         {/* Footer */}
-        <div className="px-8 py-5 border-t border-slate-100 flex items-center justify-between bg-slate-50/50">
-          <p className="text-xs text-slate-400">🔒 Đăng nhập bảo mật · Dữ liệu được mã hoá</p>
+        <div className="px-10 py-6 border-t border-slate-100 flex items-center justify-between bg-white">
+          <div className="flex items-center gap-2 text-xs font-semibold text-slate-400">
+            <ShieldCheck size={18} weight="fill" className="text-emerald-500" /> Dữ liệu mã hóa chuẩn y tế E2E
+          </div>
           <div className="flex gap-3">
             <button
               onClick={onClose}
-              className="px-5 py-2.5 bg-white border border-slate-200 text-slate-700 rounded-xl font-semibold text-sm hover:bg-slate-50 transition-colors"
+              className="px-6 py-3.5 bg-slate-50 border border-slate-200 text-slate-600 rounded-xl font-bold text-sm hover:bg-slate-100 hover:text-slate-900 transition-colors"
             >
               Hủy bỏ
             </button>
             <button
               onClick={handleConfirm}
               disabled={!selected}
-              className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-xl font-semibold text-sm transition-colors flex items-center gap-2"
-              aria-label="Xác nhận vai trò và vào hệ thống"
+              className="px-8 py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl font-bold text-sm transition-all shadow-lg shadow-blue-500/30 flex items-center gap-2"
             >
-              Vào hệ thống <ArrowRight size={16} weight="bold" />
+              Đăng Nhập Ngay <ArrowRight size={18} weight="bold" />
             </button>
           </div>
         </div>
@@ -166,12 +166,134 @@ const RoleModal = ({ onClose }: { onClose: () => void }) => {
   );
 };
 
+const BookingModal = ({ onClose }: { onClose: () => void }) => {
+  const [animIn, setAnimIn] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  useEffect(() => {
+    requestAnimationFrame(() => setAnimIn(true));
+  }, []);
+
+  const handleSubmit = () => {
+    setIsSubmitted(true);
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {/* Backdrop */}
+      <div
+        className={`absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity duration-300 ${animIn ? 'opacity-100' : 'opacity-0'}`}
+        onClick={onClose}
+      />
+      {/* Modal Card */}
+      <div className={`relative z-10 bg-white rounded-[2rem] shadow-2xl w-full max-w-xl overflow-hidden transition-all duration-300 ${animIn ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-95'}`}>
+        {!isSubmitted ? (
+          <>
+            <div className="px-8 pt-8 pb-6 border-b border-slate-100 flex items-start justify-between">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shadow-md">
+                    <Buildings size={16} className="text-white" weight="bold" />
+                  </div>
+                  <span className="font-bold text-indigo-600 text-base">Preclinic Booking</span>
+                </div>
+                <h2 className="text-2xl font-black text-slate-900">Đặt Lịch Khám</h2>
+                <p className="text-sm text-slate-500 mt-1">Nhanh chóng, tiện lợi, không phải chờ đợi.</p>
+              </div>
+              <button
+                onClick={onClose}
+                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 transition-colors"
+              >
+                <X size={16} weight="bold" />
+              </button>
+            </div>
+            
+            <div className="p-8 bg-slate-50/50">
+               {/* Simple Booking Form */}
+               <div className="flex flex-col gap-5">
+                 <div>
+                   <label className="text-sm font-bold text-slate-700 mb-2 block">Chuyên khoa</label>
+                   <select className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-indigo-500 shadow-sm transition-colors">
+                     <option>Nội khoa tổng quát</option>
+                     <option>Tim mạch</option>
+                     <option>Nhi khoa</option>
+                   </select>
+                 </div>
+                 <div className="flex gap-4">
+                   <div className="flex-1">
+                     <label className="text-sm font-bold text-slate-700 mb-2 block">Ngày khám</label>
+                     <input type="date" className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-indigo-500 shadow-sm transition-colors" />
+                   </div>
+                   <div className="flex-1">
+                     <label className="text-sm font-bold text-slate-700 mb-2 block">Giờ khám</label>
+                     <select className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-indigo-500 shadow-sm transition-colors">
+                       <option>08:00 - 09:00</option>
+                       <option>09:00 - 10:00</option>
+                       <option>10:00 - 11:00</option>
+                     </select>
+                   </div>
+                 </div>
+                 <div>
+                   <label className="text-sm font-bold text-slate-700 mb-2 block">Thông tin liên hệ</label>
+                   <input type="text" placeholder="Họ và tên" className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-indigo-500 shadow-sm transition-colors mb-3" />
+                   <input type="tel" placeholder="Số điện thoại" className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-indigo-500 shadow-sm transition-colors" />
+                 </div>
+               </div>
+            </div>
+
+            <div className="px-8 py-5 border-t border-slate-100 flex items-center justify-between bg-white">
+              <div className="flex items-center gap-2 text-xs font-semibold text-slate-400">
+                <ShieldCheck size={18} weight="fill" className="text-emerald-500" /> Dữ liệu được bảo mật
+              </div>
+              <div className="flex gap-3">
+                <button onClick={onClose} className="px-6 py-3.5 bg-white border border-slate-200 text-slate-700 rounded-xl font-bold text-sm hover:bg-slate-50 transition-colors">Hủy</button>
+                <button onClick={handleSubmit} className="px-6 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-sm transition-colors shadow-lg shadow-indigo-200 flex items-center gap-2">Xác nhận đặt lịch <ArrowRight size={16} weight="bold" /></button>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="p-10 text-center flex flex-col items-center">
+            <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mb-6 shadow-inner">
+              <CheckCircle size={40} className="text-emerald-600" weight="fill" />
+            </div>
+            <h2 className="text-2xl font-black text-slate-900 mb-2">Đặt Lịch Thành Công!</h2>
+            <p className="text-slate-500 text-center max-w-sm mb-8 leading-relaxed">
+              Cảm ơn bạn đã tin tưởng Preclinic. Mã số khám bệnh và hướng dẫn chi tiết đã được gửi đến số điện thoại của bạn.
+            </p>
+            <button 
+              onClick={onClose} 
+              className="px-8 py-3.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold text-sm transition-colors w-full sm:w-auto"
+            >
+              Trở về trang chủ
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 // ─── Mini components ─────────────────────────────────────────────────────────
-const NavLink = ({ children }: { children: React.ReactNode }) => (
-  <a href="#" className="text-sm text-slate-600 hover:text-blue-700 font-medium transition-colors">
-    {children}
-  </a>
-);
+const NavLink = ({ children, href }: { children: React.ReactNode, href: string }) => {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (href === '#') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
+  return (
+    <a href={href} onClick={handleClick} className="text-sm text-slate-600 hover:text-blue-700 font-medium transition-colors relative group">
+      {children}
+      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full"></span>
+    </a>
+  );
+};
 
 const ServiceCard = ({
   icon, title, desc, price, highlight
@@ -193,33 +315,92 @@ const ServiceCard = ({
 
 const SERVICES = [
   { icon: <Stethoscope size={22} />, title: 'Nội khoa tổng quát', desc: 'Khám, theo dõi và điều trị các bệnh lý nội khoa thường gặp', price: '200.000đ' },
-  { icon: <Heart size={22} />, title: 'Tim mạch', desc: 'Đo ECG, siêu âm tim, tư vấn bệnh lý tim mạch và huyết áp', price: '350.000đ', highlight: true },
+  { icon: <Heart size={22} />, title: 'Tim mạch', desc: 'Đo ECG, siêu âm tim, tư vấn bệnh lý tim mạch và huyết áp', price: '350.000đ' },
   { icon: <Baby size={22} />, title: 'Nhi khoa', desc: 'Chăm sóc sức khỏe toàn diện cho trẻ từ sơ sinh đến 16 tuổi', price: '220.000đ' },
   { icon: <Brain size={22} />, title: 'Thần kinh', desc: 'Đau đầu, chóng mặt, rối loạn giấc ngủ, căng thẳng mạn tính', price: '300.000đ' },
   { icon: <Flask size={22} />, title: 'Xét nghiệm', desc: 'Xét nghiệm máu, nước tiểu, sinh hóa tổng quát & chuyên sâu', price: 'từ 150.000đ' },
   { icon: <Syringe size={22} />, title: 'Tiêm chủng', desc: 'Vaccine theo lịch khuyến nghị của Bộ Y tế cho mọi độ tuổi', price: 'theo vaccine' },
 ];
 
-const CHAT_MESSAGES = [
-  { from: 'bot', text: 'Xin chào! Tôi có thể hỗ trợ khảo sát triệu chứng bạn đang gặp phải.' },
-  { from: 'user', text: 'Tôi bị đau đầu từ hôm qua' },
-  { from: 'bot', text: 'Triệu chứng xuất hiện từ bao lâu và mức độ đau như thế nào (nhẹ / vừa / nặng)?' },
-  { from: 'user', text: 'Từ hôm qua, vừa phải thôi' },
+type ChatMsg = {
+  id: number;
+  from: 'bot' | 'user';
+  text: string;
+  options?: string[];
+};
+
+const INITIAL_SCENARIO: ChatMsg[] = [
+  { id: 1, from: 'bot', text: 'Tôi có thể hỗ trợ khảo sát triệu chứng ban đầu, nhưng không thay thế bác sĩ. Thông tin của bạn được bảo mật hoàn toàn.' },
+  { id: 2, from: 'bot', text: 'Hôm nay bạn đang gặp vấn đề gì?', options: ['Sốt / Ớn lạnh', 'Đau đầu / Chóng mặt', 'Đau tức ngực', 'Triệu chứng khác'] }
+];
+
+const HERO_IMAGES = [
+  'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2053&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=2000&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=2000&auto=format&fit=crop',
 ];
 
 // ─── Main Landing Page ────────────────────────────────────────────────────────
 const LandingPage = () => {
   const location = useLocation();
   const [showRoleModal, setShowRoleModal] = useState(false);
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [showServicesModal, setShowServicesModal] = useState(false);
   const [chatVisible, setChatVisible] = useState(false);
+  const [messages, setMessages] = useState<ChatMsg[]>(INITIAL_SCENARIO);
+  const [isTyping, setIsTyping] = useState(false);
   const [typingText, setTypingText] = useState('');
-  const heroText = 'Chăm Sóc Sức Khỏe';
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const heroText = 'Giải Pháp Sức Khỏe';
 
   useEffect(() => {
     if (location.search.includes('login=true')) {
       setShowRoleModal(true);
     }
   }, [location.search]);
+
+  const handleOptionClick = (option: string) => {
+    setMessages(prev => {
+      const newMsgs = [...prev];
+      if (newMsgs.length > 0) {
+        newMsgs[newMsgs.length - 1] = { ...newMsgs[newMsgs.length - 1], options: undefined };
+      }
+      return [...newMsgs, { id: Date.now(), from: 'user', text: option }];
+    });
+
+    setIsTyping(true);
+
+    setTimeout(() => {
+      setIsTyping(false);
+      setMessages(prev => {
+        const nextId = Date.now();
+        if (option === 'Sốt / Ớn lạnh') {
+          return [...prev, { id: nextId, from: 'bot', text: 'Triệu chứng này xuất hiện từ bao lâu rồi?', options: ['Vừa mới hôm nay', '1-3 ngày', '4-7 ngày', 'Hơn 1 tuần'] }];
+        }
+        if (option === 'Đau đầu / Chóng mặt') {
+          return [...prev, { id: nextId, from: 'bot', text: 'Bạn có kèm theo dấu hiệu buồn nôn hay mờ mắt không?', options: ['Chỉ đau đầu', 'Kèm buồn nôn', 'Mờ mắt', 'Cả hai'] }];
+        }
+        if (option === 'Đau tức ngực') {
+          return [...prev, { id: nextId, from: 'bot', text: 'Đây là triệu chứng có nguy cơ cao. Cơn đau có lan ra tay trái hoặc sau lưng không?', options: ['Có lan ra', 'Chỉ đau tại chỗ', 'Đau khi hít sâu'] }];
+        }
+        if (['Vừa mới hôm nay', '1-3 ngày', '4-7 ngày', 'Hơn 1 tuần'].includes(option)) {
+           return [...prev, { id: nextId, from: 'bot', text: 'Bạn có đo nhiệt độ cơ thể không?', options: ['Trên 38.5 độ', 'Dưới 38.5 độ', 'Không đo'] }];
+        }
+        if (['Trên 38.5 độ', 'Dưới 38.5 độ', 'Không đo', 'Chỉ đau đầu', 'Kèm buồn nôn', 'Mờ mắt', 'Cả hai'].includes(option)) {
+           return [...prev, { id: nextId, from: 'bot', text: 'Dựa trên triệu chứng, bạn nên gặp bác sĩ sớm để được thăm khám chi tiết.', options: ['Đặt lịch ngay', 'Tôi sẽ theo dõi thêm'] }];
+        }
+        if (['Có lan ra', 'Chỉ đau tại chỗ', 'Đau khi hít sâu'].includes(option)) {
+           return [...prev, { id: nextId, from: 'bot', text: '⚠️ CẢNH BÁO: Hãy đến cơ sở y tế gần nhất hoặc gọi cấp cứu ngay!', options: ['Gọi cấp cứu (115)', 'Đặt lịch khám khẩn'] }];
+        }
+        if (option === 'Đặt lịch ngay' || option === 'Đặt lịch khám khẩn') {
+           setShowBookingModal(true);
+           return [...prev, { id: nextId, from: 'bot', text: 'Mời bạn điền thông tin vào phiếu đặt lịch vừa mở nhé.' }];
+        }
+        
+        return [...prev, { id: nextId, from: 'bot', text: 'Cảm ơn bạn. Nếu có triệu chứng bất thường, hãy đến phòng khám ngay.', options: ['Bắt đầu lại khảo sát'] }];
+      });
+    }, 1000);
+  };
 
   // Simple typing animation for hero
   useEffect(() => {
@@ -232,8 +413,16 @@ const LandingPage = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // Slider animation
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide(prev => (prev + 1) % HERO_IMAGES.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-slate-50 font-sans" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-screen bg-slate-50 font-sans" style={{ fontFamily: "'Be Vietnam Pro', sans-serif" }}>
 
       {/* ── Navbar ──────────────────────────────────────────────────────────── */}
       <nav className="fixed top-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm">
@@ -248,12 +437,10 @@ const LandingPage = () => {
 
           {/* Nav links */}
           <div className="hidden md:flex items-center gap-8">
-            <NavLink>Trang chủ</NavLink>
-            <NavLink>Dịch vụ</NavLink>
-            <NavLink>Bác sĩ</NavLink>
-            <NavLink>Cơ sở</NavLink>
-            <NavLink>Bảng giá</NavLink>
-            <NavLink>FAQ</NavLink>
+            <NavLink href="#">Trang chủ</NavLink>
+            <NavLink href="#services">Chuyên khoa</NavLink>
+            <NavLink href="#ai-chatbot">SageCare</NavLink>
+            <NavLink href="#pricing">Bảng giá</NavLink>
           </div>
 
           {/* Actions */}
@@ -267,6 +454,7 @@ const LandingPage = () => {
               Đăng nhập
             </button>
             <button
+              onClick={() => setShowBookingModal(true)}
               className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl transition-all hover:shadow-md hover:shadow-blue-200 active:scale-95"
               aria-label="Đặt lịch khám"
             >
@@ -276,115 +464,79 @@ const LandingPage = () => {
         </div>
       </nav>
 
-      {/* ── Hero Section ────────────────────────────────────────────────────── */}
-      <section className="pt-24 pb-0 bg-[#f5f5f0] min-h-[90vh] flex items-center relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 w-full">
-          <div className="grid grid-cols-2 gap-12 items-center">
+      {/* ── New Centered Hero Section ────────────────────────────────────────── */}
+      <section className="pt-32 pb-20 bg-gradient-to-b from-blue-50/50 to-white relative overflow-hidden text-center">
+        <div className="max-w-5xl mx-auto px-6 relative z-10 mb-12">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-5 py-2 bg-white border border-slate-200 shadow-sm text-blue-700 rounded-full text-xs font-bold uppercase tracking-widest mb-8">
+            <Sparkle size={14} weight="fill" className="text-amber-500" />
+            Hệ thống y tế tiêu chuẩn quốc tế
+          </div>
 
-            {/* Left: Text */}
-            <div className="py-16">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-200 text-blue-700 rounded-full text-xs font-semibold mb-6">
-                <Sparkle size={14} weight="fill" className="text-blue-500" />
-                Chuỗi phòng khám gia đình #1 Hà Nội
-              </div>
+          {/* Heading */}
+          <h1 className="text-5xl md:text-6xl font-black text-slate-900 leading-tight mb-6 tracking-tight">
+            <span className="text-blue-600">Giải Pháp Sức Khỏe</span>
+            <br /> Tối Ưu Dành Cho Gia Đình
+          </h1>
 
-              {/* Heading */}
-              <h1 className="text-5xl font-extrabold text-slate-900 leading-tight mb-4">
-                {typingText}
-                <br />
-                <span className="text-blue-600 italic font-extrabold">Toàn Diện</span> Cho Cả
-                <br />
-                Gia Đình
-              </h1>
+          <p className="text-slate-500 text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
+            Tích hợp trí tuệ nhân tạo thông minh nhằm nhận diện triệu chứng nhanh chóng, đồng thời kết nối bạn với chuyên gia y tế hàng đầu.
+          </p>
 
-              <p className="text-slate-500 text-base leading-relaxed mb-8 max-w-md">
-                Trợ lý AI hỗ trợ khảo sát triệu chứng ban đầu, kết nối bác sĩ chuyên khoa,
-                và đặt lịch khám tại 4 cơ sở khắp Hà Nội.
-              </p>
+          {/* CTA buttons */}
+          <div className="flex items-center justify-center gap-4">
+            <button onClick={() => setShowRoleModal(true)} className="flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-full text-sm transition-all hover:shadow-xl hover:-translate-y-1">
+              <ChatCircle size={18} weight="fill" />
+              Tư vấn miễn phí ngay
+            </button>
+            <button 
+              onClick={() => setShowBookingModal(true)}
+              className="flex items-center gap-2 px-8 py-4 bg-white border border-slate-200 hover:border-slate-300 text-slate-700 font-bold rounded-full text-sm transition-all hover:shadow-md hover:-translate-y-1">
+              <Buildings size={18} />
+              Đặt lịch khám
+            </button>
+          </div>
+        </div>
 
-              {/* CTA buttons */}
-              <div className="flex items-center gap-4 mb-10">
+        {/* Wide Slider Container */}
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="relative h-[450px] md:h-[550px] rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white">
+            {HERO_IMAGES.map((img, idx) => (
+              <img
+                key={idx}
+                src={img}
+                alt={`Slide ${idx + 1}`}
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+                  idx === currentSlide ? 'opacity-100' : 'opacity-0'
+                }`}
+              />
+            ))}
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/10 to-transparent" />
+            
+            {/* Slider indicators */}
+            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-3 z-20">
+              {HERO_IMAGES.map((_, idx) => (
                 <button
-                  className="flex items-center gap-2 px-6 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-sm transition-all hover:shadow-lg hover:shadow-blue-200 hover:-translate-y-0.5 active:scale-95"
-                  aria-label="Tư vấn miễn phí ngay"
-                >
-                  <ChatCircle size={18} weight="fill" />
-                  Tư vấn miễn phí ngay
-                </button>
-                <button
-                  className="flex items-center gap-2 px-6 py-3.5 bg-white border-2 border-slate-200 hover:border-blue-300 text-slate-700 font-bold rounded-xl text-sm transition-all hover:shadow-md hover:-translate-y-0.5"
-                  aria-label="Đặt lịch khám"
-                >
-                  <Buildings size={18} />
-                  Đặt lịch khám
-                </button>
-              </div>
-
-              {/* Trust badges */}
-              <div className="flex items-center gap-6 text-xs text-slate-500">
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle size={15} className="text-emerald-500" weight="fill" />
-                  50.000+ lượt khám
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle size={15} className="text-emerald-500" weight="fill" />
-                  4 cơ sở Hà Nội
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle size={15} className="text-emerald-500" weight="fill" />
-                  Bác sĩ có chứng chỉ hành nghề
-                </div>
-              </div>
+                  key={idx}
+                  onClick={() => setCurrentSlide(idx)}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    idx === currentSlide ? 'w-8 bg-white' : 'w-2 bg-white/50 hover:bg-white/80'
+                  }`}
+                />
+              ))}
             </div>
 
-            {/* Right: Image + floating cards */}
-            <div className="relative h-[580px]">
-              {/* Main image */}
-              <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl">
-                <img
-                  src="/clinic_hero.png"
-                  alt="Phòng khám Preclinic hiện đại"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent" />
+            {/* Floating Trust Card inside Hero */}
+            <div className="absolute bottom-8 right-8 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex items-center gap-4 text-white hidden md:flex">
+              <div className="flex -space-x-2">
+                <img src="https://i.pravatar.cc/100?img=1" className="w-10 h-10 rounded-full border-2 border-white" />
+                <img src="https://i.pravatar.cc/100?img=2" className="w-10 h-10 rounded-full border-2 border-white" />
+                <img src="https://i.pravatar.cc/100?img=3" className="w-10 h-10 rounded-full border-2 border-white" />
+                <div className="w-10 h-10 rounded-full border-2 border-white bg-blue-500 flex items-center justify-center font-bold text-xs">+50k</div>
               </div>
-
-              {/* Rating card — top right */}
-              <div className="absolute top-5 right-5 bg-white rounded-2xl shadow-xl px-4 py-3 flex items-center gap-3 z-10 border border-slate-100">
-                <div>
-                  <div className="flex items-center gap-0.5 mb-0.5">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} size={13} weight="fill" className="text-amber-400" />
-                    ))}
-                  </div>
-                  <div className="text-lg font-extrabold text-slate-900 leading-none">4.9/5</div>
-                  <div className="text-[10px] text-slate-400">12.950+ đánh giá</div>
-                </div>
-              </div>
-
-              {/* AI chat floating card — bottom left */}
-              <div className="absolute bottom-6 left-6 right-6 bg-white rounded-2xl shadow-xl p-4 z-10 border border-slate-100">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-9 h-9 bg-blue-600 rounded-full flex items-center justify-center shrink-0">
-                    <ChatTeardropDots size={18} className="text-white" weight="fill" />
-                  </div>
-                  <div>
-                    <div className="font-bold text-slate-900 text-sm">Trợ lý MedCare</div>
-                    <div className="flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse inline-block" />
-                      <span className="text-[11px] text-emerald-600 font-medium">Đang hoạt động</span>
-                    </div>
-                  </div>
-                </div>
-                <p className="text-xs text-slate-600 mb-3 font-medium">Bạn đang có triệu chứng gì hôm nay?</p>
-                <div className="flex gap-2">
-                  {['Sốt', 'Đau đầu', 'Ho'].map(s => (
-                    <button key={s} className="px-3 py-1.5 bg-slate-100 hover:bg-blue-100 hover:text-blue-700 text-slate-700 rounded-lg text-xs font-semibold transition-colors">
-                      {s}
-                    </button>
-                  ))}
-                </div>
+              <div>
+                <div className="font-bold">Bệnh nhân tin tưởng</div>
+                <div className="text-xs text-blue-100">Đã trải nghiệm dịch vụ</div>
               </div>
             </div>
           </div>
@@ -410,148 +562,185 @@ const LandingPage = () => {
         </div>
       </div>
 
-      {/* ── Services Section ─────────────────────────────────────────────────── */}
-      <section id="services" className="py-20 bg-[#f5f5f0]">
+      {/* ── Services Section (New Layout) ────────────────────────────────────── */}
+      <section id="services" className="py-24 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-6">
-          {/* Section header */}
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white border border-slate-200 text-blue-600 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
-              Dịch vụ khám
+          <div className="flex flex-col lg:flex-row gap-16">
+            
+            {/* Left: Title & Info */}
+            <div className="lg:w-1/3 flex flex-col items-start">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-indigo-50 border border-indigo-100 text-indigo-700 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
+                Danh Mục Chuyên Khoa
+              </div>
+              <h2 className="text-4xl font-extrabold text-slate-900 mb-6 leading-tight">
+                Đội Ngũ Chuyên Gia Giàu Kinh Nghiệm
+              </h2>
+              <p className="text-slate-500 text-base leading-relaxed mb-8">
+                Cơ sở y tế <span className="text-indigo-600 font-bold">Preclinic</span> tự hào mang đến các phác đồ điều trị chuẩn y khoa, đáp ứng mọi nhu cầu từ tổng quát tới chuyên sâu. Hệ thống trang thiết bị tối tân giúp việc chẩn đoán nhanh chóng và chính xác.
+              </p>
+              <button onClick={() => setShowServicesModal(true)} className="px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-semibold text-sm transition-colors flex items-center gap-2">
+                Xem toàn bộ dịch vụ <ArrowRight size={16} />
+              </button>
             </div>
-            <h2 className="text-3xl font-extrabold text-slate-900 mb-3">Chuyên khoa đa dạng, đội ngũ chuyên nghiệp</h2>
-            <p className="text-slate-500 max-w-lg mx-auto text-sm leading-relaxed">
-              Phòng khám gia đình <span className="text-blue-600 font-semibold">Preclinic</span> cung cấp đầy đủ dịch vụ y tế
-              từ khám tổng quát đến chuyên khoa sâu.
-            </p>
-          </div>
 
-          <div className="grid grid-cols-3 gap-5">
-            {SERVICES.map(svc => (
-              <ServiceCard key={svc.title} {...svc} />
-            ))}
+            {/* Right: Grid */}
+            <div className="lg:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-4">
+              {SERVICES.map(svc => (
+                <div key={svc.title} className="group p-6 rounded-2xl border transition-all duration-300 hover:shadow-xl hover:-translate-y-2 bg-slate-50 text-slate-900 border-slate-100 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 cursor-pointer">
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 transition-colors duration-300 bg-white shadow-sm text-indigo-600 group-hover:bg-white/20 group-hover:text-white group-hover:shadow-none">
+                    {svc.icon}
+                  </div>
+                  <h3 className="font-bold text-lg mb-2">{svc.title}</h3>
+                  <p className="text-sm leading-relaxed mb-4 transition-colors duration-300 text-slate-500 group-hover:text-indigo-100">{svc.desc}</p>
+                </div>
+              ))}
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* ── AI Chatbot Section ───────────────────────────────────────────────── */}
-      <section className="py-20 bg-white">
+      {/* ── AI Chatbot Section (Flipped) ─────────────────────────────────────── */}
+      <section id="ai-chatbot" className="py-24 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-2 gap-16 items-center">
+          <div className="flex flex-col lg:flex-row gap-16 items-center">
 
-            {/* Left: steps */}
-            <div>
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-50 border border-blue-200 text-blue-700 rounded-full text-xs font-bold uppercase tracking-widest mb-5">
-                Trợ lý AI sức khỏe
-              </div>
-              <h2 className="text-3xl font-extrabold text-slate-900 mb-4 leading-tight">
-                Khảo sát triệu chứng thông minh, nhanh chóng
-              </h2>
-              <p className="text-slate-500 text-sm leading-relaxed mb-8">
-                Chatbot Preclinic giúp bạn hiểu tình trạng sức khỏe ban đầu trước khi quyết định đi khám.
-              </p>
-
-              <div className="flex flex-col gap-6 mb-8">
-                {[
-                  { num: '01', title: 'Mô tả triệu chứng', desc: 'Trả lời các câu hỏi ngắn về triệu chứng, thời gian và mức độ.' },
-                  { num: '02', title: 'Nhận đánh giá ban đầu', desc: 'Chatbot phân loại mức độ và đưa ra gợi ý phù hợp — tự theo dõi, đi khám, hay liên hệ bác sĩ sớm.' },
-                  { num: '03', title: 'Đặt lịch hoặc tư vấn bác sĩ', desc: 'Đặt lịch khám trực tiếp hoặc nâng cấp lên tư vấn bác sĩ chuyên sâu (có phí).' },
-                ].map(step => (
-                  <div key={step.num} className="flex gap-4">
-                    <div className="w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-sm flex items-center justify-center shrink-0">
-                      {step.num}
+            {/* Left: Mobile Chat UI mockup */}
+            <div className="lg:w-1/2 relative flex justify-center">
+              <div className="w-[320px] bg-white rounded-[2.5rem] border-8 border-slate-900 shadow-2xl overflow-hidden relative">
+                {/* Dynamic Island Notch */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-slate-900 rounded-b-xl z-20"></div>
+                
+                {/* Chat header */}
+                <div className="flex items-center justify-between px-5 py-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white pt-10">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center shrink-0 backdrop-blur-sm">
+                      <Robot size={22} className="text-white" weight="fill" />
                     </div>
                     <div>
-                      <div className="font-bold text-slate-900 mb-1">{step.title}</div>
+                      <div className="font-bold text-sm">SageCare</div>
+                      <div className="text-[10px] text-blue-100 flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span> Online
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Chat messages */}
+                <div className="px-4 py-5 flex flex-col gap-4 h-[400px] overflow-y-auto bg-[#f8faf9] scroll-smooth">
+                  {messages.map((msg) => (
+                    <div key={msg.id} className={`flex flex-col ${msg.from === 'user' ? 'items-end' : 'items-start'}`}>
+                      <div className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'} w-full`}>
+                        {msg.from === 'bot' && (
+                           <div className="w-8 h-8 rounded-full bg-[#e3efeb] flex items-center justify-center shrink-0 mr-2 mt-1">
+                             <ChatCircle size={16} className="text-[#1a5d4a]" weight="regular" />
+                           </div>
+                        )}
+                        <div className={`max-w-[85%] px-4 py-3 rounded-2xl text-sm leading-relaxed shadow-sm ${
+                          msg.from === 'user'
+                            ? 'bg-[#1a5d4a] text-white rounded-br-sm'
+                            : 'bg-[#e3efeb] text-[#1c3c34] rounded-bl-sm'
+                        }`}>
+                          {msg.text}
+                        </div>
+                      </div>
+                      {msg.options && (
+                        <div className="mt-3 flex flex-wrap gap-2 pl-10">
+                          {msg.options.map((opt, idx) => (
+                            <button 
+                              key={idx} 
+                              onClick={() => {
+                                if (opt === 'Bắt đầu lại khảo sát') {
+                                  setMessages(INITIAL_SCENARIO);
+                                } else {
+                                  handleOptionClick(opt);
+                                }
+                              }}
+                              className="px-4 py-2 border border-[#b2cfc6] bg-[#e3efeb] text-[#1a5d4a] rounded-full text-xs font-semibold hover:bg-[#b2cfc6] hover:scale-105 active:scale-95 transition-all shadow-sm"
+                            >
+                              {opt}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                  {isTyping && (
+                    <div className="flex items-start">
+                      <div className="w-8 h-8 rounded-full bg-[#e3efeb] flex items-center justify-center shrink-0 mr-2">
+                        <ChatCircle size={16} className="text-[#1a5d4a]" weight="regular" />
+                      </div>
+                      <div className="px-4 py-3 bg-[#e3efeb] rounded-2xl rounded-bl-sm shadow-sm flex items-center gap-1.5 h-[44px]">
+                        <div className="w-1.5 h-1.5 bg-[#1a5d4a]/50 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                        <div className="w-1.5 h-1.5 bg-[#1a5d4a]/50 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                        <div className="w-1.5 h-1.5 bg-[#1a5d4a]/50 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Decorative blurs */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-blue-400/20 rounded-full blur-[80px] -z-10"></div>
+            </div>
+
+            {/* Right: steps */}
+            <div className="lg:w-1/2">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-50 border border-blue-200 text-blue-700 rounded-full text-xs font-bold uppercase tracking-widest mb-5">
+                Trí Tuệ Nhân Tạo Y Tế
+              </div>
+              <h2 className="text-4xl font-extrabold text-slate-900 mb-6 leading-tight">
+                Phân Tích Sức Khỏe <br/><span className="text-blue-600">Theo Thời Gian Thực</span>
+              </h2>
+              <p className="text-slate-500 text-base leading-relaxed mb-10">
+                Trợ lý số của chúng tôi hỗ trợ sàng lọc thông tin ban đầu, cung cấp phác đồ đánh giá nhanh chóng giúp bạn an tâm hơn trước khi đặt lịch hẹn trực tiếp với bác sĩ.
+              </p>
+
+              <div className="flex flex-col gap-8 relative before:absolute before:left-6 before:top-2 before:bottom-2 before:w-px before:bg-slate-200">
+                {[
+                  { num: '01', title: 'Cung cấp thông tin', desc: 'Nhập các triệu chứng hiện tại của bạn một cách tự nhiên bằng ngôn ngữ đời thường.' },
+                  { num: '02', title: 'AI phân tích & dự đoán', desc: 'Thuật toán y khoa đưa ra xác suất và mức độ nghiêm trọng của bệnh lý.' },
+                  { num: '03', title: 'Chỉ định chuyên khoa', desc: 'Hệ thống tự động đề xuất bác sĩ chuyên khoa phù hợp và hỗ trợ đặt lịch ngay lập tức.' },
+                ].map(step => (
+                  <div key={step.num} className="flex gap-6 relative z-10">
+                    <div className="w-12 h-12 rounded-full bg-white border-4 border-slate-50 shadow-sm text-blue-600 font-black text-sm flex items-center justify-center shrink-0">
+                      {step.num}
+                    </div>
+                    <div className="pt-2">
+                      <div className="font-bold text-slate-900 mb-2 text-lg">{step.title}</div>
                       <div className="text-sm text-slate-500 leading-relaxed">{step.desc}</div>
                     </div>
                   </div>
                 ))}
               </div>
-
-              <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 flex items-start gap-2.5">
-                <span className="text-amber-600 mt-0.5 shrink-0">⚠</span>
-                <p className="text-xs text-amber-700 leading-relaxed">
-                  <strong>Lưu ý quan trọng:</strong> Chatbot không kê đơn thuốc, không chẩn đoán bệnh, và không thay thế bác sĩ. Thông tin chỉ mang tính tham khảo ban đầu.
-                </p>
-              </div>
             </div>
 
-            {/* Right: Chat UI mockup */}
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden">
-              {/* Chat header */}
-              <div className="flex items-center justify-between px-5 py-4 bg-slate-50 border-b border-slate-100">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 bg-blue-600 rounded-full flex items-center justify-center shrink-0">
-                    <ChatTeardropDots size={18} className="text-white" weight="fill" />
-                  </div>
-                  <div>
-                    <div className="font-bold text-slate-900 text-sm">Trợ lý MedCare</div>
-                    <div className="text-[11px] text-slate-500">Hỗ trợ khảo sát ban đầu · Miễn phí</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1.5 text-slate-500 text-xs">
-                  <ShieldCheck size={13} weight="fill" className="text-emerald-500" />
-                  Bảo mật
-                </div>
-              </div>
-
-              {/* Chat messages */}
-              <div className="px-5 py-4 flex flex-col gap-3 h-64 overflow-y-auto">
-                {CHAT_MESSAGES.map((msg, i) => (
-                  <div key={i} className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}>
-                    <div className={`max-w-[75%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
-                      msg.from === 'user'
-                        ? 'bg-blue-600 text-white rounded-br-sm'
-                        : 'bg-slate-100 text-slate-700 rounded-bl-sm'
-                    }`}>
-                      {msg.text}
-                    </div>
-                  </div>
-                ))}
-                {/* Typing indicator */}
-                <div className="flex justify-start">
-                  <div className="bg-slate-100 rounded-2xl rounded-bl-sm px-4 py-3 flex gap-1.5 items-center">
-                    <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                    <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
-                  </div>
-                </div>
-              </div>
-
-              {/* Chat footer */}
-              <div className="px-5 py-4 border-t border-slate-100">
-                <button className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
-                  <ChatCircle size={17} weight="fill" />
-                  Bắt đầu tư vấn miễn phí
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
       {/* ── Pricing Section ──────────────────────────────────────────────────── */}
-      <section className="py-20 bg-[#f5f5f0]">
+      <section id="pricing" className="py-20 bg-[#f5f5f0]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white border border-slate-200 text-blue-600 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
               Gói dịch vụ
             </div>
-            <h2 className="text-3xl font-extrabold text-slate-900 mb-3">Miễn phí và có phí — khác nhau thế nào?</h2>
+            <h2 className="text-3xl font-extrabold text-slate-900 mb-3">Các Lựa Chọn Chăm Sóc Sức Khỏe Linh Hoạt</h2>
             <p className="text-slate-500 max-w-md mx-auto text-sm">
-              Chúng tôi cam kết minh bạch về giá trị và giới hạn của từng gói dịch vụ.
+              Đảm bảo quyền lợi và sự minh bạch trong mọi dịch vụ để bạn đưa ra lựa chọn phù hợp nhất.
             </p>
           </div>
 
           <div className="grid grid-cols-2 gap-6 max-w-3xl mx-auto">
             {/* Free plan */}
-            <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
+            <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm flex flex-col h-full">
               <div className="flex items-center gap-3 mb-2">
                 <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center">
                   <ChatTeardropDots size={20} className="text-slate-600" />
                 </div>
                 <div>
-                  <div className="text-sm font-semibold text-slate-600">Chatbot Miễn Phí</div>
+                  <div className="text-sm font-semibold text-slate-600">Trợ Lý Số Tự Động</div>
                   <div className="text-3xl font-extrabold text-slate-900">0đ</div>
                 </div>
               </div>
@@ -577,31 +766,32 @@ const LandingPage = () => {
                   </li>
                 ))}
               </ul>
-              <button className="w-full py-3 border-2 border-blue-600 text-blue-700 font-bold text-sm rounded-xl hover:bg-blue-50 transition-colors">
+              <button onClick={() => setShowRoleModal(true)} className="mt-auto w-full py-3 border-2 border-blue-600 text-blue-700 font-bold text-sm rounded-xl hover:bg-blue-50 transition-colors">
                 Bắt đầu ngay
               </button>
             </div>
 
             {/* Paid plan */}
-            <div className="bg-blue-700 rounded-2xl border border-blue-600 p-8 shadow-xl relative overflow-hidden">
+            <div className="bg-blue-700 rounded-2xl border border-blue-600 p-8 shadow-xl relative overflow-hidden flex flex-col h-full">
+              {/* Recommended badge */}
+              <div className="absolute top-0 right-0 z-20">
+                <span className="inline-block bg-amber-400 text-amber-900 text-[11px] font-black px-4 py-1.5 rounded-bl-xl">
+                  Khuyến nghị
+                </span>
+              </div>
+              
               {/* Background decoration */}
               <div className="absolute top-0 right-0 w-40 h-40 bg-blue-600 rounded-full -translate-y-1/2 translate-x-1/2 opacity-50" />
               <div className="absolute bottom-0 left-0 w-24 h-24 bg-blue-600 rounded-full translate-y-1/2 -translate-x-1/2 opacity-30" />
 
-              <div className="relative z-10">
-                {/* Recommended badge */}
-                <div className="absolute -top-0 right-0">
-                  <span className="bg-amber-400 text-amber-900 text-[11px] font-black px-3 py-1 rounded-bl-xl rounded-tr-xl">
-                    Khuyến nghị
-                  </span>
-                </div>
+              <div className="relative z-10 flex flex-col h-full">
 
                 <div className="flex items-center gap-3 mb-2 pt-2">
                   <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
                     <UserCircle size={20} className="text-white" />
                   </div>
                   <div>
-                    <div className="text-sm font-semibold text-blue-200">Tư Vấn Bác Sĩ</div>
+                    <div className="text-sm font-semibold text-blue-200">Thăm Khám Chuyên Sâu</div>
                     <div className="text-3xl font-extrabold text-white">150.000đ<span className="text-base font-medium text-blue-200"> /lần</span></div>
                   </div>
                 </div>
@@ -623,7 +813,7 @@ const LandingPage = () => {
                 </ul>
                 <button
                   onClick={() => setShowRoleModal(true)}
-                  className="w-full py-3 bg-white hover:bg-blue-50 text-blue-700 font-bold text-sm rounded-xl transition-colors"
+                  className="mt-auto w-full py-3 bg-white hover:bg-blue-50 text-blue-700 font-bold text-sm rounded-xl transition-colors"
                   aria-label="Tư vấn với bác sĩ"
                 >
                   Tư vấn với bác sĩ
@@ -708,20 +898,134 @@ const LandingPage = () => {
         </div>
       </footer>
 
-      {/* ── Floating Chat Button ─────────────────────────────────────────────── */}
+      {/* ── Floating Chat Button & Widget ──────────────────────────────────── */}
+      {chatVisible && (
+        <div className="fixed bottom-24 right-6 z-40 w-[350px] bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col transform transition-all duration-300 animate-fade-in-up">
+          {/* Chat header */}
+          <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 bg-white/20 rounded-full flex items-center justify-center shrink-0 backdrop-blur-sm">
+                <Robot size={20} className="text-white" weight="fill" />
+              </div>
+              <div>
+                <div className="font-bold text-sm">SageCare</div>
+                <div className="text-[10px] text-blue-100 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span> Online
+                </div>
+              </div>
+            </div>
+            <button onClick={() => setChatVisible(false)} className="text-white/80 hover:text-white transition-colors">
+              <X size={20} weight="bold" />
+            </button>
+          </div>
+
+          {/* Chat messages */}
+          <div className="px-4 py-5 flex flex-col gap-4 h-[400px] overflow-y-auto bg-[#f8faf9] scroll-smooth">
+            {messages.map((msg) => (
+              <div key={msg.id} className={`flex flex-col ${msg.from === 'user' ? 'items-end' : 'items-start'}`}>
+                <div className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'} w-full`}>
+                  {msg.from === 'bot' && (
+                     <div className="w-8 h-8 rounded-full bg-[#e3efeb] flex items-center justify-center shrink-0 mr-2 mt-1">
+                       <ChatCircle size={16} className="text-[#1a5d4a]" weight="regular" />
+                     </div>
+                  )}
+                  <div className={`max-w-[85%] px-4 py-3 rounded-2xl text-sm leading-relaxed shadow-sm ${
+                    msg.from === 'user'
+                      ? 'bg-[#1a5d4a] text-white rounded-br-sm'
+                      : 'bg-[#e3efeb] text-[#1c3c34] rounded-bl-sm'
+                  }`}>
+                    {msg.text}
+                  </div>
+                </div>
+                {msg.options && (
+                  <div className="mt-3 flex flex-wrap gap-2 pl-10">
+                    {msg.options.map((opt, idx) => (
+                      <button 
+                        key={idx} 
+                        onClick={() => {
+                          if (opt === 'Bắt đầu lại khảo sát') {
+                            setMessages(INITIAL_SCENARIO);
+                          } else {
+                            handleOptionClick(opt);
+                          }
+                        }}
+                        className="px-4 py-2 border border-[#b2cfc6] bg-[#e3efeb] text-[#1a5d4a] rounded-full text-xs font-semibold hover:bg-[#b2cfc6] hover:scale-105 active:scale-95 transition-all shadow-sm"
+                      >
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+            {isTyping && (
+              <div className="flex items-start">
+                <div className="w-8 h-8 rounded-full bg-[#e3efeb] flex items-center justify-center shrink-0 mr-2">
+                  <ChatCircle size={16} className="text-[#1a5d4a]" weight="regular" />
+                </div>
+                <div className="px-4 py-3 bg-[#e3efeb] rounded-2xl rounded-bl-sm shadow-sm flex items-center gap-1.5 h-[44px]">
+                  <div className="w-1.5 h-1.5 bg-[#1a5d4a]/50 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <div className="w-1.5 h-1.5 bg-[#1a5d4a]/50 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <div className="w-1.5 h-1.5 bg-[#1a5d4a]/50 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       <button
         onClick={() => setChatVisible(!chatVisible)}
         className="fixed bottom-6 right-6 z-30 w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg shadow-blue-200 flex items-center justify-center transition-all hover:scale-110 active:scale-95"
         aria-label="Mở chat hỗ trợ"
       >
-        <ChatCircle size={26} weight="fill" />
-        <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full border-2 border-white flex items-center justify-center">
-          <span className="text-[8px] font-bold text-white">1</span>
-        </span>
+        {chatVisible ? <X size={26} weight="fill" /> : <ChatCircle size={26} weight="fill" />}
+        {!chatVisible && (
+          <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full border-2 border-white flex items-center justify-center">
+            <span className="text-[8px] font-bold text-white">1</span>
+          </span>
+        )}
       </button>
 
       {/* ── Role Selection Modal ─────────────────────────────────────────────── */}
       {showRoleModal && <RoleModal onClose={() => setShowRoleModal(false)} />}
+      
+      {/* ── Booking Modal ─────────────────────────────────────────────── */}
+      {showBookingModal && <BookingModal onClose={() => setShowBookingModal(false)} />}
+
+      {/* ── Services Modal ─────────────────────────────────────────────── */}
+      {showServicesModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowServicesModal(false)} />
+          <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-4xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="p-6 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white z-10">
+              <div>
+                <h2 className="text-2xl font-bold text-slate-900">Danh Mục Chuyên Khoa</h2>
+                <p className="text-sm text-slate-500 mt-1">Khám tổng quát và chuyên sâu tại Preclinic</p>
+              </div>
+              <button onClick={() => setShowServicesModal(false)} className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors">
+                <X size={20} weight="bold" />
+              </button>
+            </div>
+            <div className="p-6 overflow-y-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {SERVICES.map(svc => (
+                  <div key={svc.title} className="group p-5 rounded-2xl border transition-all duration-300 hover:shadow-xl bg-slate-50 text-slate-900 border-slate-100 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 cursor-pointer flex flex-col h-full">
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-colors duration-300 bg-white shadow-sm text-indigo-600 group-hover:bg-white/20 group-hover:text-white group-hover:shadow-none">
+                      {svc.icon}
+                    </div>
+                    <h3 className="font-bold text-base mb-2">{svc.title}</h3>
+                    <p className="text-xs leading-relaxed mb-4 transition-colors duration-300 text-slate-500 group-hover:text-indigo-100 line-clamp-3">{svc.desc}</p>
+                    <div className="mt-auto font-semibold text-sm transition-colors duration-300 text-indigo-600 group-hover:text-white">
+                      {svc.price}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

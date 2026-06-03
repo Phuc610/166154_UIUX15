@@ -56,7 +56,7 @@ const MedicalExamination = () => {
         <div className="absolute top-4 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-top-4 fade-in duration-300">
           <div className="bg-emerald-500 text-white px-4 py-3 rounded-xl shadow-lg flex items-center gap-3">
             <CheckCircle size={20} weight="fill" />
-            <span className="font-semibold text-sm">Đã điền tự động dữ liệu từ Trợ lý AI</span>
+            <span className="font-semibold text-sm">Đã điền tự động dữ liệu từ SageCare</span>
           </div>
         </div>
       )}
@@ -87,7 +87,7 @@ const MedicalExamination = () => {
               {aiData?.autoFill && (
                 <span className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full border border-emerald-100">
                   <Sparkle size={12} weight="fill" />
-                  Dữ liệu từ Trợ lý AI
+                  Dữ liệu từ SageCare
                 </span>
               )}
             </div>
@@ -136,7 +136,7 @@ const MedicalExamination = () => {
               {aiData?.autoFill && (
                 <span className="inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-700 text-xs font-bold px-2.5 py-1 rounded-full border border-indigo-100">
                   <Sparkle size={12} weight="fill" />
-                  Gợi ý từ Trợ lý AI
+                  Gợi ý từ SageCare
                 </span>
               )}
             </div>

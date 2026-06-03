@@ -2,9 +2,58 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Outlet, useNavigate, useLocation, NavLink } from 'react-router-dom';
 import {
   CalendarBlank, CaretLeft, Chat, FileText, Gear, Hexagon, Bell, User,
-  X as XIcon, SquaresFour, MagnifyingGlass, Sparkle, CaretDown
+  X as XIcon, SquaresFour, MagnifyingGlass, Sparkle, CaretDown, SignOut
 } from '@phosphor-icons/react';
 import { MOCK_PATIENTS_LIST } from '../Patients';
+
+// ─── Logout Confirmation Modal ────────────────────────────────────────────────
+interface LogoutModalProps {
+  open: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
+}
+
+const LogoutModal = ({ open, onConfirm, onCancel }: LogoutModalProps) => {
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center">
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onCancel} />
+      <div
+        className="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm mx-4 p-6"
+        role="dialog"
+        aria-labelledby="logout-title"
+        aria-describedby="logout-desc"
+      >
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center shrink-0">
+            <SignOut size={20} weight="fill" className="text-red-500" />
+          </div>
+          <h2 id="logout-title" className="font-bold text-slate-900 text-base">Đăng xuất?</h2>
+          <button onClick={onCancel} className="ml-auto text-slate-400 hover:text-slate-700 transition-colors">
+            <XIcon size={18} weight="bold" />
+          </button>
+        </div>
+        <p id="logout-desc" className="text-sm text-slate-500 mb-5 leading-relaxed">
+          Bạn có chắc muốn đăng xuất khỏi hệ thống? Phiên làm việc hiện tại sẽ kết thúc.
+        </p>
+        <div className="flex gap-3 justify-end">
+          <button
+            onClick={onCancel}
+            className="px-4 py-2 text-sm font-semibold text-slate-600 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
+          >
+            Huỷ bỏ
+          </button>
+          <button
+            onClick={onConfirm}
+            className="px-4 py-2 text-sm font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors"
+          >
+            Đăng xuất
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const DoctorLayout = () => {
   const navigate = useNavigate();
@@ -13,11 +62,17 @@ const DoctorLayout = () => {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showLogout, setShowLogout] = useState(false);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [searchOpen, setSearchOpen] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const handleLogoutConfirm = () => {
+    setShowLogout(false);
+    navigate('/');
+  };
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -95,7 +150,8 @@ const DoctorLayout = () => {
   );
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-50 font-sans text-slate-900">
+    <>
+      <div className="flex h-screen overflow-hidden bg-slate-50 font-sans text-slate-900">
       {/* ── Doctor Sidebar ─────────────────────────────────────────────────── */}
       <aside className="w-[260px] bg-white border-r border-slate-200 flex flex-col shrink-0 overflow-y-auto">
         {/* Logo */}
@@ -130,7 +186,7 @@ const DoctorLayout = () => {
               MENU CHÍNH
             </div>
             {navItem('dashboard', <SquaresFour size={20} weight={activeNav === 'dashboard' ? 'fill' : 'regular'} />, 'Tổng quan', () => navigate('/doctor/dashboard'))}
-            {navItem('ai-assistant', <Sparkle size={20} weight={activeNav === 'ai-assistant' ? 'fill' : 'regular'} />, 'Trợ lý AI', () => navigate('/doctor/ai-assistant'))}
+            {navItem('ai-assistant', <Sparkle size={20} weight={activeNav === 'ai-assistant' ? 'fill' : 'regular'} />, 'SageCare', () => navigate('/doctor/ai-assistant'))}
           </div>
 
           {/* PHÒNG KHÁM */}
@@ -312,8 +368,8 @@ const DoctorLayout = () => {
                       <Gear size={16} /> Cài đặt tài khoản
                     </button>
                     <div className="border-t border-slate-100 my-2"></div>
-                    <button onClick={() => { setShowProfileMenu(false); navigate('/'); }} className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 font-medium">
-                      <XIcon size={16} /> Đăng xuất
+                    <button onClick={() => { setShowProfileMenu(false); setShowLogout(true); }} className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 font-medium">
+                      <SignOut size={16} /> Đăng xuất
                     </button>
                   </div>
                 </>
@@ -324,10 +380,20 @@ const DoctorLayout = () => {
 
         {/* Content */}
         <main className="flex-1 overflow-y-auto p-6 bg-slate-50">
-          <Outlet />
+          <div key={location.pathname} className="animate-fade-in-up h-full">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>
+
+      {/* Logout Confirmation Modal */}
+      <LogoutModal
+        open={showLogout}
+        onConfirm={handleLogoutConfirm}
+        onCancel={() => setShowLogout(false)}
+      />
+    </>
   );
 };
 
@@ -340,7 +406,7 @@ const SEARCH_ITEMS_DOCTOR = [
   { type: 'page', title: 'Lịch hẹn', subtitle: 'Lịch khám bệnh', path: '/doctor/schedule' },
   { type: 'page', title: 'Hồ sơ bệnh án', subtitle: 'Quản lý bệnh án', path: '/doctor/records' },
   { type: 'page', title: 'Nhắn tin', subtitle: 'Trao đổi với bệnh nhân', path: '/doctor/messages' },
-  { type: 'page', title: 'Trợ lý AI', subtitle: 'Trợ lý ảo hỗ trợ khám', path: '/doctor/ai-assistant' },
+  { type: 'page', title: 'SageCare', subtitle: 'Trợ lý ảo hỗ trợ khám', path: '/doctor/ai-assistant' },
   ...MOCK_PATIENTS_LIST.map(p => ({
     type: 'patient',
     title: p.name,

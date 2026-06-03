@@ -3,11 +3,12 @@ import { Camera, CheckCircle } from '@phosphor-icons/react';
 import { } from 'react-router-dom';
 
 const DoctorProfileSettings: React.FC = () => {
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showToast, setShowToast] = useState(false);
   const [resetKey, setResetKey] = useState(0);
 
   const handleSave = () => {
-    setShowSuccessModal(true);
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 3000);
   };
 
   const handleCancel = () => {
@@ -119,30 +120,21 @@ const DoctorProfileSettings: React.FC = () => {
               Lưu thay đổi
             </button>
           </div>
-
         </div>
+
       </div>
-
-      {/* Success Modal Popup */}
-      {showSuccessModal && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl p-8 max-w-sm w-full mx-4 flex flex-col items-center text-center shadow-xl">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-5 text-green-500">
-              <CheckCircle size={36} weight="fill" />
-            </div>
-            <h3 className="text-xl font-bold text-slate-900 mb-2">Lưu thành công!</h3>
-            <p className="text-slate-500 text-sm mb-6">Thông tin hồ sơ của bạn đã được cập nhật an toàn vào hệ thống.</p>
-            <button 
-              onClick={() => setShowSuccessModal(false)}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition-colors"
-            >
-              Đồng ý
-            </button>
-          </div>
-        </div>
-      )}
     </div>
-  </div>
+
+      {/* Toast Notification */}
+      <div
+        className={`fixed top-5 right-5 z-[9999] flex items-center gap-3 bg-green-500 text-white shadow-xl rounded-xl px-5 py-3.5 transition-all duration-500 ${
+          showToast ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-6 pointer-events-none'
+        }`}
+      >
+        <CheckCircle size={22} weight="fill" className="shrink-0" />
+        <p className="font-bold text-sm">Cập nhật hồ sơ thành công!</p>
+      </div>
+    </div>
   );
 };
 

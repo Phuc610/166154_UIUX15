@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   CalendarBlank, VideoCamera, X as XIcon, ArrowRight,
@@ -135,6 +135,17 @@ const DoctorDashboard = () => {
   const navigate = useNavigate();
   const [filterMode, setFilterMode] = useState<string>('Theo tuần');
   const [detailRow, setDetailRow] = useState<ApptRow | null>(null);
+  const [animIn, setAnimIn] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setAnimIn(true), 50);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const getStaggStyle = (idx: number) => ({
+    transitionDelay: `${idx * 100}ms`
+  });
+  const staggClass = `transition-all duration-700 ease-out transform ${animIn ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`;
 
   return (
     <div id="doctor-dashboard-main">
@@ -145,7 +156,7 @@ const DoctorDashboard = () => {
           <div className="grid grid-cols-3 gap-4 mb-6">
 
             {/* Card 1: Tổng số lịch hẹn */}
-            <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md hover:border-blue-200 transition-all cursor-default">
+            <div className={`bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md hover:border-blue-200 cursor-default ${staggClass}`} style={getStaggStyle(1)}>
               <div className="flex items-start justify-between mb-3">
                 <div>
                   <p className="text-xs font-medium text-slate-500 mb-1">Tổng số lịch hẹn</p>
@@ -166,7 +177,7 @@ const DoctorDashboard = () => {
             </div>
 
             {/* Card 2: Tư vấn trực tuyến */}
-            <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md hover:border-orange-200 transition-all cursor-default">
+            <div className={`bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md hover:border-orange-200 cursor-default ${staggClass}`} style={getStaggStyle(2)}>
               <div className="flex items-start justify-between mb-3">
                 <div>
                   <p className="text-xs font-medium text-slate-500 mb-1">Tư vấn trực tuyến</p>
@@ -187,7 +198,7 @@ const DoctorDashboard = () => {
             </div>
 
             {/* Card 3: Lịch hẹn đã hủy */}
-            <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all cursor-default">
+            <div className={`bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md hover:border-emerald-200 cursor-default ${staggClass}`} style={getStaggStyle(3)}>
               <div className="flex items-start justify-between mb-3">
                 <div>
                   <p className="text-xs font-medium text-slate-500 mb-1">Lịch hẹn đã hủy</p>
@@ -209,7 +220,7 @@ const DoctorDashboard = () => {
           </div>
 
           {/* ── Appointments Table ──────────────────────────────────────────── */}
-          <div className="bg-white border border-slate-200 rounded-xl shadow-sm mb-6">
+          <div className={`bg-white border border-slate-200 rounded-xl shadow-sm mb-6 ${staggClass}`} style={getStaggStyle(4)}>
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
               <h2 className="text-base font-bold text-slate-900">Lịch hẹn gần đây</h2>
               <div className="relative">
@@ -303,7 +314,7 @@ const DoctorDashboard = () => {
           <div className="grid grid-cols-3 gap-4">
 
             {/* Panel 1: Lịch hẹn sắp tới */}
-            <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+            <div className={`bg-white border border-slate-200 rounded-xl p-5 shadow-sm ${staggClass}`} style={getStaggStyle(5)}>
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-sm font-bold text-slate-900">Lịch hẹn sắp tới</h2>
                 <div className="relative">
@@ -381,7 +392,7 @@ const DoctorDashboard = () => {
             </div>
 
             {/* Panel 2: Thống kê lịch hẹn */}
-            <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+            <div className={`bg-white border border-slate-200 rounded-xl p-5 shadow-sm ${staggClass}`} style={getStaggStyle(6)}>
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-sm font-bold text-slate-900">Thống kê lịch hẹn</h2>
                 <div className="relative">
@@ -424,7 +435,7 @@ const DoctorDashboard = () => {
             </div>
 
             {/* Panel 3: Lịch làm việc */}
-            <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+            <div className={`bg-white border border-slate-200 rounded-xl p-5 shadow-sm ${staggClass}`} style={getStaggStyle(7)}>
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-sm font-bold text-slate-900">Lịch làm việc</h2>
                 <div className="relative">

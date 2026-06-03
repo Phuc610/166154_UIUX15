@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import {
   Hexagon, CaretLeft, Target, ArrowsDownUp,
   SquaresFour, User, Users, CalendarBlank,
   UsersThree, Clock, Receipt, CreditCard, Gear,
   MagnifyingGlass, UserCircle,
-  PencilSimple, Lock, BellSimple, SignOut, X,
+  PencilSimple, Lock, BellSimple, SignOut, X, CaretDown,
 } from '@phosphor-icons/react';
 import { MOCK_PATIENTS_LIST } from '../Patients';
 import { MOCK_DOCTORS_LIST } from '../Doctors';
@@ -62,8 +62,11 @@ const LogoutModal = ({ open, onConfirm, onCancel }: LogoutModalProps) => {
 // ─── Layout ───────────────────────────────────────────────────────────────────
 const Layout = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const path = location.pathname;
   const [avatarOpen, setAvatarOpen] = useState(false);
   const [showLogout, setShowLogout] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const avatarRef = useRef<HTMLDivElement>(null);
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -123,11 +126,15 @@ const Layout = () => {
   };
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `flex items-center gap-3 px-3 py-2.5 rounded-lg font-semibold transition-colors ${
+    `flex items-center gap-3 px-3 py-2.5 rounded-lg font-semibold text-sm transition-colors w-full text-left border ${
       isActive
-        ? 'text-blue-600 bg-blue-50 border border-blue-100'
-        : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+        ? 'text-blue-600 bg-blue-50 border-blue-100'
+        : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900 border-transparent'
     }`;
+
+  const subNavCls = ({ isActive }: { isActive: boolean }) =>
+    `relative flex items-center py-2 px-2 text-sm font-medium transition-colors rounded-lg
+    ${isActive ? 'text-blue-600' : 'text-slate-500 hover:text-slate-900'}`;
 
   return (
     <>
@@ -144,17 +151,17 @@ const Layout = () => {
             </button>
           </div>
 
-          <div className="mx-5 mb-5 p-3 border border-slate-200 rounded-xl flex items-center justify-between cursor-pointer hover:border-slate-300 transition-colors">
+          {/* Profile */}
+          <div className="mx-5 mb-5 p-3 border border-slate-200 rounded-xl flex items-center justify-between bg-slate-50/50">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center">
-                <Target size={16} />
+              <div className="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm shadow-sm uppercase">
+                {adminName.substring(0, 2)}
               </div>
-              <div className="flex flex-col">
-                <span className="font-semibold text-sm">Trustcare Clinic</span>
-                <span className="text-xs text-slate-500">Chi nhánh Hà Nội</span>
+              <div className="flex flex-col min-w-0">
+                <span className="font-semibold text-sm text-slate-900 truncate pr-2" title={adminName}>{adminName}</span>
+                <span className="text-xs text-slate-500 truncate">Ban điều hành</span>
               </div>
             </div>
-            <ArrowsDownUp size={16} className="text-slate-500" />
           </div>
 
           <nav className="px-3 pb-6 flex flex-col gap-5">
@@ -205,9 +212,34 @@ const Layout = () => {
             {/* Cài đặt */}
             <div className="flex flex-col gap-1">
               <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider px-3 mb-1">CÀI ĐẶT</div>
-              <NavLink to="/dashboard/settings" className={navLinkClass}>
-                <Gear size={20} /><span>Thông tin phòng khám</span>
-              </NavLink>
+              <button
+                onClick={() => setSettingsOpen(!settingsOpen)}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg font-semibold text-sm transition-colors w-full text-left border ${settingsOpen || path.includes('/dashboard/settings') || path.includes('/dashboard/profile') || path.includes('/dashboard/change-password') || path.includes('/dashboard/notifications') ? 'text-blue-600 bg-blue-50 border-blue-100' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900 border-transparent'}`}
+              >
+                <Gear size={20} />
+                <span className="flex-1">Cài đặt</span>
+                <CaretDown size={14} className={`transition-transform text-slate-400 ${settingsOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {settingsOpen && (
+                <div className="flex flex-col gap-1 mt-1 pl-11 relative before:content-[''] before:absolute before:left-[22px] before:top-2 before:bottom-3 before:w-px before:border-l before:border-dashed before:border-slate-300">
+                  <NavLink to="/dashboard/settings" end className={subNavCls}>
+                    <div className="absolute -left-[26px] top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-slate-200"></div>
+                    Thông tin phòng khám
+                  </NavLink>
+                  <NavLink to="/dashboard/profile" className={subNavCls}>
+                    <div className="absolute -left-[26px] top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-slate-200"></div>
+                    Cài đặt hồ sơ
+                  </NavLink>
+                  <NavLink to="/dashboard/change-password" className={subNavCls}>
+                    <div className="absolute -left-[26px] top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-slate-200"></div>
+                    Đổi mật khẩu
+                  </NavLink>
+                  <NavLink to="/dashboard/notifications" className={subNavCls}>
+                    <div className="absolute -left-[26px] top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-slate-200"></div>
+                    Thông báo
+                  </NavLink>
+                </div>
+              )}
             </div>
           </nav>
         </aside>
@@ -348,7 +380,9 @@ const Layout = () => {
 
           {/* Content Area */}
           <main className="flex-1 overflow-y-auto p-8">
-            <Outlet />
+            <div key={location.pathname} className="animate-fade-in-up h-full">
+              <Outlet />
+            </div>
           </main>
         </div>
       </div>

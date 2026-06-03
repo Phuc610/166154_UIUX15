@@ -108,12 +108,12 @@ const MedicalRecordDetail = () => {
   };
 
   const [patients, setPatients] = useState(() => {
-    const saved = localStorage.getItem('preclinic_patients');
+    const saved = localStorage.getItem('preclinic_patients_v3');
     return saved ? JSON.parse(saved) : [];
   });
 
   useEffect(() => {
-    const saved = localStorage.getItem('preclinic_patients');
+    const saved = localStorage.getItem('preclinic_patients_v3');
     if (saved) {
       setPatients(JSON.parse(saved));
     }
@@ -125,7 +125,7 @@ const MedicalRecordDetail = () => {
   const handleFinishExam = () => {
     const updated = patients.map((p: any) => p.id === id ? { ...p, status: 'Đã khám' } : p);
     setPatients(updated);
-    localStorage.setItem('preclinic_patients', JSON.stringify(updated));
+    localStorage.setItem('preclinic_patients_v3', JSON.stringify(updated));
   };
 
   const handlePrint = (type: string) => {

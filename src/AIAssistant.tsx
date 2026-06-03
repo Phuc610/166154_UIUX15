@@ -64,7 +64,7 @@ const MOCK_PATIENTS = [
 
 const MOCK_CHATS: Record<string, {sender: string, text: string}[]> = {
   p1: [
-    { sender: 'ai', text: 'Chào bác Phạm Văn Đức. Cháu là Trợ lý AI của phòng khám Preclinic. Bác có thể mô tả chi tiết triệu chứng khó chịu hiện tại được không ạ?' },
+    { sender: 'ai', text: 'Chào bác Phạm Văn Đức. Cháu là SageCare của phòng khám Preclinic. Bác có thể mô tả chi tiết triệu chứng khó chịu hiện tại được không ạ?' },
     { sender: 'user', text: 'Tôi bị đau tức ngực bên trái từ sáng hôm qua. Cảm giác đau lan ra sau lưng và có hơi khó thở khi đi lại nhiều.' },
     { sender: 'ai', text: 'Dạ cháu hiểu. Cơn đau của bác có kéo dài không? Bác có kèm theo buồn nôn, vã mồ hôi hay chóng mặt không ạ?' },
     { sender: 'user', text: 'Mỗi cơn đau khoảng 5-10 phút. Không buồn nôn nhưng có toát mồ hôi hột lúc đau thắt lại.' },
@@ -143,7 +143,7 @@ const AIAssistant = () => {
       {/* ── Left Sidebar (Patient List) ────────────────────────────────────── */}
       <div className="w-[320px] border-r border-slate-200 flex flex-col shrink-0 bg-slate-50/50">
         <div className="p-4 border-b border-slate-200 bg-white flex items-center justify-between">
-          <h2 className="font-bold text-slate-800">Phiên Trợ lý AI</h2>
+          <h2 className="font-bold text-slate-800">Phiên SageCare</h2>
           <span className="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded-full">
             {MOCK_PATIENTS.length}
           </span>

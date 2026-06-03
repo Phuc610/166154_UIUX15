@@ -5,11 +5,14 @@ import {
 } from '@phosphor-icons/react';
 
 const INITIAL_MOCK_PATIENTS = [
-  { id: 'p1', code: 'BN001', name: 'Phạm Văn Đức', gender: 'Nam', age: 55, lastVisit: '02/06/2026', doctor: 'BS. Lê Minh', status: 'Đang khám' },
-  { id: 'p2', code: 'BN002', name: 'Nguyễn Thị Hoa', gender: 'Nữ', age: 34, lastVisit: '28/05/2026', doctor: 'BS. Trần Hà', status: 'Đã khám' },
-  { id: 'p3', code: 'BN003', name: 'Trần Minh Tuấn', gender: 'Nam', age: 42, lastVisit: '15/05/2026', doctor: 'BS. Lê Minh', status: 'Đang khám' },
-  { id: 'p4', code: 'BN004', name: 'Lê Hoàng Yến', gender: 'Nữ', age: 28, lastVisit: '10/04/2026', doctor: 'BS. Nguyễn An', status: 'Đã khám' },
-  { id: 'p5', code: 'BN005', name: 'Vũ Thanh Bình', gender: 'Nam', age: 61, lastVisit: '01/06/2026', doctor: 'BS. Trần Hà', status: 'Đã khám' },
+  { id: 'a1', code: 'BN001', name: 'Nguyễn Hồng Minh', gender: 'Nam', age: 45, lastVisit: '02/06/2026', doctor: 'BS. Lê Minh', status: 'Đã khám' },
+  { id: 'a2', code: 'BN002', name: 'Trần Thị Hoa', gender: 'Nữ', age: 34, lastVisit: '28/05/2026', doctor: 'BS. Trần Hà', status: 'Đã khám' },
+  { id: 'a3', code: 'BN003', name: 'Lê Ngọc Linh', gender: 'Nữ', age: 28, lastVisit: '15/05/2026', doctor: 'BS. Lê Minh', status: 'Đã khám' },
+  { id: 'a4', code: 'BN004', name: 'Phạm Văn Đức', gender: 'Nam', age: 55, lastVisit: '10/04/2026', doctor: 'BS. Nguyễn An', status: 'Đã khám' },
+  { id: 'a5', code: 'BN005', name: 'Hoàng Thị Mai', gender: 'Nữ', age: 61, lastVisit: '01/06/2026', doctor: 'BS. Trần Hà', status: 'Đã khám' },
+  { id: 'a6', code: 'BN006', name: 'Nguyễn Văn Bình', gender: 'Nam', age: 50, lastVisit: '03/06/2026', doctor: 'BS. Lê Minh', status: 'Đã khám' },
+  { id: 'a7', code: 'BN007', name: 'Vũ Thị Lan', gender: 'Nữ', age: 40, lastVisit: '04/06/2026', doctor: 'BS. Trần Hà', status: 'Đang khám' },
+  { id: 'a8', code: 'BN008', name: 'Đỗ Quang Huy', gender: 'Nam', age: 29, lastVisit: '04/06/2026', doctor: 'BS. Lê Minh', status: 'Đang khám' },
 ];
 
 const MedicalRecords = () => {
@@ -18,16 +21,16 @@ const MedicalRecords = () => {
   const [statusFilter, setStatusFilter] = useState('Tất cả');
   
   const [patients, setPatients] = useState(() => {
-    const saved = localStorage.getItem('preclinic_patients');
+    const saved = localStorage.getItem('preclinic_patients_v3');
     if (!saved) {
-      localStorage.setItem('preclinic_patients', JSON.stringify(INITIAL_MOCK_PATIENTS));
+      localStorage.setItem('preclinic_patients_v3', JSON.stringify(INITIAL_MOCK_PATIENTS));
       return INITIAL_MOCK_PATIENTS;
     }
     return JSON.parse(saved);
   });
 
   useEffect(() => {
-    const saved = localStorage.getItem('preclinic_patients');
+    const saved = localStorage.getItem('preclinic_patients_v3');
     if (saved) {
       setPatients(JSON.parse(saved));
     }
@@ -53,7 +56,7 @@ const MedicalRecords = () => {
           <div className="flex items-center gap-3 mb-1">
             <h1 className="text-2xl font-bold text-slate-900">Hồ sơ bệnh án</h1>
             <button 
-              onClick={() => { localStorage.removeItem('preclinic_patients'); window.location.reload(); }}
+              onClick={() => { localStorage.removeItem('preclinic_patients_v3'); window.location.reload(); }}
               className="text-[10px] bg-slate-100 text-slate-500 px-2 py-1 rounded-md font-semibold hover:bg-slate-200 hover:text-slate-700 transition-colors"
               title="Khôi phục lại dữ liệu mẫu"
             >
