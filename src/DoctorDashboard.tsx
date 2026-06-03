@@ -135,6 +135,7 @@ const DonutChart = () => {
 };
 
 const DoctorDashboard = () => {
+  const navigate = useNavigate();
   const [filterMode, setFilterMode] = useState<string>('Theo tuần');
   const [detailRow, setDetailRow] = useState<ApptRow | null>(null);
 
@@ -319,58 +320,61 @@ const DoctorDashboard = () => {
 
               {/* Doctor info */}
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center shrink-0">
-                  <User size={18} className="text-slate-500" />
+                <div className="w-10 h-10 rounded-full bg-amber-200 flex items-center justify-center shrink-0">
+                  <span className="font-bold text-slate-700">TM</span>
                 </div>
                 <div>
-                  <div className="font-semibold text-sm text-slate-900">Andrew Billard</div>
-                  <div className="text-xs text-slate-400">#AP455898</div>
+                  <div className="font-semibold text-sm text-slate-900">Hoàng Thị Mai</div>
+                  <div className="text-xs text-slate-400">#BN455898</div>
                 </div>
               </div>
 
               {/* Appointment info */}
               <div className="bg-slate-50 rounded-xl p-3.5 mb-4 border border-slate-100">
-                <div className="font-semibold text-sm text-slate-900 mb-3">Khám tổng quát</div>
+                <div className="font-semibold text-sm text-slate-900 mb-3">Tái khám thần kinh</div>
                 <div className="grid grid-cols-2 gap-2 text-xs text-slate-500">
                   <div className="flex items-center gap-1.5">
                     <CalendarBlank size={13} className="text-slate-400" />
-                    <span>Thu, 31/03/2025</span>
+                    <span>Hôm nay</span>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <Clock size={13} className="text-slate-400" />
-                    <span>06:30 CH</span>
+                    <span>10:00 SA</span>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-2 text-xs text-slate-500 mt-2">
                   <div>
                     <span className="text-slate-400 text-[10px] block mb-0.5">Khoa</span>
-                    <span className="font-medium text-slate-700">Tim mạch</span>
+                    <span className="font-medium text-slate-700">Thần kinh</span>
                   </div>
                   <div>
-                    <span className="text-slate-400 text-[10px] block mb-0.5">Lọai khám</span>
+                    <span className="text-slate-400 text-[10px] block mb-0.5">Loại khám</span>
                     <span className="font-medium text-slate-700">Tư vấn trực tuyến</span>
                   </div>
                 </div>
               </div>
 
               <button
+                onClick={() => navigate('/doctor/messages?call=true&contact=c4')}
                 className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 mb-3 active:scale-[0.98]"
-                aria-label="Bắt đầu buổi khám"
+                aria-label="Tư vấn trực tuyến"
               >
-                <Heartbeat size={16} weight="fill" />
-                Bắt đầu buổi khám
+                <VideoCamera size={16} weight="fill" />
+                Tư vấn trực tuyến
               </button>
 
               <div className="flex gap-2">
                 <button
-                  className="flex-1 py-2 border border-slate-200 bg-slate-900 text-white text-xs font-semibold rounded-lg hover:bg-slate-800 transition-colors flex items-center justify-center gap-1.5"
+                  onClick={() => navigate('/doctor/messages?contact=c4')}
+                  className="flex-1 py-2 border border-slate-200 bg-slate-900 text-white text-xs font-semibold rounded-lg hover:bg-slate-800 transition-colors flex items-center justify-center gap-1.5 active:scale-[0.98]"
                   aria-label="Nhắn tin"
                 >
                   <ChatCircle size={14} />
                   Nhắn tin
                 </button>
                 <button
-                  className="flex-1 py-2 border border-slate-200 bg-white text-slate-700 text-xs font-semibold rounded-lg hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5"
+                  onClick={() => navigate('/doctor/messages?call=true')}
+                  className="flex-1 py-2 border border-slate-200 bg-white text-slate-700 text-xs font-semibold rounded-lg hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5 active:scale-[0.98]"
                   aria-label="Gọi video"
                 >
                   <VideoIcon size={14} />

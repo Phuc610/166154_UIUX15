@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { 
   MagnifyingGlass, PhoneCall, VideoCamera, PaperPlaneRight, 
   PhoneDisconnect, Microphone, VideoCameraSlash, User, FileText, Clock, Paperclip, Pill
@@ -18,6 +19,7 @@ const INITIAL_CONTACTS = [
   { id: 'c1', name: 'Phạm Văn Đức', avatarBg: 'bg-emerald-100', lastMessage: 'Bác sĩ ơi, tôi hơi mệt...', time: '10:30', status: 'online', unread: 2 },
   { id: 'c2', name: 'Nguyễn Thị Hoa', avatarBg: 'bg-rose-100', lastMessage: 'Cảm ơn bác sĩ nhiều ạ.', time: 'Hôm qua', status: 'offline', unread: 1 },
   { id: 'c3', name: 'Trần Minh Tuấn', avatarBg: 'bg-blue-100', lastMessage: 'Mai tôi ghé phòng khám.', time: 'Hôm qua', status: 'offline', unread: 0 },
+  { id: 'c4', name: 'Hoàng Thị Mai', avatarBg: 'bg-amber-200', lastMessage: 'Chào bác sĩ, lát nữa mình gọi ạ.', time: '09:50', status: 'online', unread: 1 },
 ];
 
 const MOCK_MESSAGES_DB: Record<string, { id: string, text: string, sender: string, time: string, attachment?: string }[]> = {
@@ -32,6 +34,9 @@ const MOCK_MESSAGES_DB: Record<string, { id: string, text: string, sender: strin
   ],
   'c3': [
     { id: 'm6', text: 'Mai tôi ghé phòng khám.', sender: 'patient', time: 'Hôm qua' },
+  ],
+  'c4': [
+    { id: 'm7', text: 'Chào bác sĩ, lát nữa mình gọi ạ.', sender: 'patient', time: '09:50' },
   ]
 };
 
@@ -77,8 +82,21 @@ const Messages = () => {
   };
   
   // Call State
+  const location = useLocation();
   const [isCalling, setIsCalling] = useState(false);
   const [callDuration, setCallDuration] = useState(0);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const contactId = searchParams.get('contact');
+    if (contactId) {
+      setActiveContactId(contactId);
+      setContacts(prev => prev.map(c => c.id === contactId ? { ...c, unread: 0 } : c));
+    }
+    if (searchParams.get('call') === 'true') {
+      setIsCalling(true);
+    }
+  }, [location.search]);
 
   useEffect(() => {
     let timer: any;
@@ -241,7 +259,7 @@ const Messages = () => {
           
           {isCalling ? (
             /* --- CALLING UI --- */
-            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-slate-900 animate-fade-in-up">
+            <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-slate-900 animate-fade-in-up">
               {/* Blurred background effect */}
               <div className="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1000&auto=format&fit=crop')] bg-cover bg-center blur-md" />
               
