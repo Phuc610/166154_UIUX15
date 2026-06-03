@@ -19,7 +19,18 @@ import MedicalExamination from './MedicalExamination';
 import MedicalRecords from './MedicalRecords';
 import MedicalRecordDetail from './MedicalRecordDetail';
 import Messages from './Messages';
-
+import PatientLayout from './components/PatientLayout';
+import PatientDashboard from './PatientDashboard';
+import PatientSchedule from './PatientSchedule';
+import PatientDoctors from './PatientDoctors';
+import PatientDoctorDetails from './PatientDoctorDetails';
+import PatientConsultDoctor from './PatientConsultDoctor';
+import PatientChatbot from './PatientChatbot';
+import PatientPrescriptions from './PatientPrescriptions';
+import PatientInvoices from './PatientInvoices';
+import PatientProfileSettings from './PatientProfileSettings';
+import PatientChangePassword from './PatientChangePassword';
+import PatientNotificationsSettings from './PatientNotificationsSettings';
 function App() {
   return (
     <BrowserRouter>
@@ -37,6 +48,21 @@ function App() {
           <Route path="records/:id" element={<MedicalRecordDetail />} />
           <Route path="messages" element={<Messages />} />
           <Route path="patients" element={<Patients />} />
+        </Route>
+
+        {/* ─── Patient Portal ─── */}
+        <Route path="/patient" element={<PatientLayout />}>
+          <Route path="dashboard" element={<PatientDashboard />} />
+          <Route path="schedule"  element={<PatientSchedule />} />
+          <Route path="doctors"   element={<PatientDoctors />} />
+          <Route path="doctors/:name" element={<PatientDoctorDetails />} />
+          <Route path="prescriptions" element={<PatientPrescriptions />} />
+          <Route path="invoices"  element={<PatientInvoices />} />
+          <Route path="consult-doctor" element={<PatientConsultDoctor />} />
+          <Route path="consult-bot" element={<PatientChatbot />} />
+          <Route path="settings/profile" element={<PatientProfileSettings />} />
+          <Route path="settings/password" element={<PatientChangePassword />} />
+          <Route path="settings/notifications" element={<PatientNotificationsSettings />} />
         </Route>
 
         {/* ─── Admin Portal (shared Layout sidebar) ─── */}
