@@ -43,7 +43,7 @@ const ROLES = [
     iconColor: 'text-emerald-600',
     border: 'hover:border-emerald-400',
     badge: 'bg-emerald-50 text-emerald-700',
-    route: '/dashboard',
+    route: '/patient/dashboard',
     features: ['Đặt lịch khám', 'Hồ sơ sức khỏe', 'Tư vấn AI'],
   },
 ];
