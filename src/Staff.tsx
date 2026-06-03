@@ -56,7 +56,7 @@ const Staff = () => {
   const [detailStaff, setDetailStaff] = useState<StaffMember | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<StaffMember | null>(null);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLTableDataCellElement>(null);
 
   // Close dropdown when clicking outside
   useEffect(() => {

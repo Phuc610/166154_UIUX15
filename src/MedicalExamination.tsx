@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { 
-  CheckCircle, WarningCircle, Sparkle, User, Stethoscope, 
-  FileText, ArrowRight, Pill, Drop, Heartbeat, CaretLeft
+  CheckCircle, WarningCircle, Sparkle, Stethoscope, 
+  FileText, Pill, Drop, Heartbeat, CaretLeft
 } from '@phosphor-icons/react';
 
 const CLINICAL_TESTS = [

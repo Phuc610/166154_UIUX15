@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   CalendarPlus, SortAscending, CaretDown,
-  DownloadSimple, CalendarBlank, User, Users,
-  ChartBar, TrendUp, TrendDown, Clock, CheckCircle
+  DownloadSimple, CalendarBlank, ChartBar, TrendUp, TrendDown, Clock, CheckCircle
 } from '@phosphor-icons/react';
 import { useToast } from './contexts/ToastContext';
 

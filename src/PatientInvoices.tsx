@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { CaretLeft, CaretRight, Funnel, MagnifyingGlass, DotsThreeVertical, Eye, FileArrowDown, Receipt, CaretDown, Export } from '@phosphor-icons/react';
+import { CaretLeft, CaretRight, Funnel, MagnifyingGlass, DotsThreeVertical, FileArrowDown, CaretDown, Export } from '@phosphor-icons/react';
 
 const INVOICES = [
   { id: '#INV0025', desc: 'Khám tổng quát', created: '30 Thg 4 2026', due: '30 Thg 4 2026', amount: '800.000đ', status: 'Đã thanh toán', stColor: 'text-emerald-500', dot: 'bg-emerald-500' },

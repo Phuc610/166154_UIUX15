@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   MagnifyingGlass, Funnel, CalendarBlank, DotsThreeVertical,
-  CaretLeft, CaretRight, CaretDown, Eye, CalendarPlus, Export, ChatCircleDots
+  CaretLeft, CaretRight, CaretDown, Eye, Export, ChatCircleDots
 } from '@phosphor-icons/react';
 import NewAppointmentModal from './NewAppointmentModal';
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, CalendarBlank, Clock, CaretDown } from '@phosphor-icons/react';
+import { X, CaretDown } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
 import { saveAppointment } from './data/appointments';
 

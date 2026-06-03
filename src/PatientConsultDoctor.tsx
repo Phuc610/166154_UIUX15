@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { MagnifyingGlass, Phone, Paperclip, PaperPlaneRight, VideoCamera, Microphone, MicrophoneSlash, PhoneDisconnect, FileText, CaretDown } from '@phosphor-icons/react';
+import { MagnifyingGlass, Phone, Paperclip, PaperPlaneRight, VideoCamera, Microphone, MicrophoneSlash, PhoneDisconnect, FileText } from '@phosphor-icons/react';
 import NewAppointmentModal from './NewAppointmentModal';
 
 const INITIAL_DOCTORS = [
@@ -22,7 +22,7 @@ export default function PatientConsultDoctor() {
     dot: 'bg-transparent'
   };
 
-  const [doctorsList, setDoctorsList] = useState(() => {
+  const [doctorsList] = useState(() => {
     if (targetDoctorName && !INITIAL_DOCTORS.some(d => d.name === targetDoctorName)) {
       return [initialNewDoc, ...INITIAL_DOCTORS];
     }
@@ -39,7 +39,7 @@ export default function PatientConsultDoctor() {
   const [isCalling, setIsCalling] = useState(false);
   const [isMicOn, setIsMicOn] = useState(true);
   const [isCamOn, setIsCamOn] = useState(false);
-  const [notes, setNotes] = useState<string[]>([]);
+  
   const [noteText, setNoteText] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [messagesRecord, setMessagesRecord] = useState<Record<number, any[]>>({
@@ -92,12 +92,6 @@ export default function PatientConsultDoctor() {
     });
     setMsgInput('');
     inputRef.current?.focus();
-  };
-
-  const handleSaveNote = () => {
-    if (!noteText.trim()) return;
-    setNotes([noteText, ...notes]);
-    setNoteText('');
   };
 
   return (

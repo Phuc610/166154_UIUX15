@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import {
   MagnifyingGlass, Plus, DownloadSimple, Funnel,
   CaretDown, X, Warning, Check, DotsThreeVertical,
-  ArrowDown, ArrowUp, Money, Pill, Gauge, Megaphone
+  ArrowDown, ArrowUp, Money, Pill, Gauge
 } from '@phosphor-icons/react';
 import Modal from './components/Modal';
 import { useToast } from './contexts/ToastContext';
@@ -75,7 +75,7 @@ const Expenses = () => {
   const [detailExp, setDetailExp]   = useState<Expense | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Expense | null>(null);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLTableDataCellElement>(null);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {

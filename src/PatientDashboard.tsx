@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
-  Eye, Download, Scales, Ruler, Heartbeat, Drop, Thermometer,
-  TrendUp, ArrowUpRight, ArrowDownRight, Wind, FileText
+  Eye, Download, Scales, Ruler, Drop, Thermometer,
+  TrendUp, Wind, FileText
 } from '@phosphor-icons/react';
 import NewAppointmentModal from './NewAppointmentModal';
 

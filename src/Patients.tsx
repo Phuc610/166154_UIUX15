@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {
-  MagnifyingGlass, Plus, DownloadSimple, CheckCircle,
+  MagnifyingGlass, Plus, DownloadSimple,
   DotsThreeVertical, Eye, PencilSimple, CaretLeft, CaretRight,
-  Chat, FileText, User
+  Chat, FileText
 } from '@phosphor-icons/react';
 import Modal from './components/Modal';
 import { useToast } from './contexts/ToastContext';

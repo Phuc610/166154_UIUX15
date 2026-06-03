@@ -5,7 +5,7 @@ import {
   ChatCircle, Star, ShieldCheck, Clock, Users,
   CheckCircle, X, ArrowRight, Sparkle,
   UserCircle, Buildings, FirstAid,
-  CaretRight, ChatTeardropDots
+  ChatTeardropDots
 } from '@phosphor-icons/react';
 
 // ─── Role Selection Modal ────────────────────────────────────────────────────

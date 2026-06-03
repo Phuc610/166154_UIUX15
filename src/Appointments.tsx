@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import {
-  MagnifyingGlass, Funnel, Plus, SquaresFour, List,
-  User, Clock, CaretDown, X, Check, DotsThreeVertical,
-  ArrowRight
+  MagnifyingGlass, Funnel, Plus, User, Clock, CaretDown, X, Check, ArrowRight
 } from '@phosphor-icons/react';
 import Modal from './components/Modal';
 

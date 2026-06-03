@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CaretLeft, CaretRight, CaretDown, Export, Funnel, MagnifyingGlass, DotsThreeVertical, Eye, FileArrowDown } from '@phosphor-icons/react';
+import { CaretLeft, CaretRight, CaretDown, Export, Funnel, DotsThreeVertical, Eye, FileArrowDown } from '@phosphor-icons/react';
 const PRESCRIPTIONS = [
   { id: '#PRE0015', doc: 'BS. Mick Thompson', spec: 'Tim mạch', date: '30 Thg 4 2026', bg: 'bg-indigo-200' },
   { id: '#PRE0014', doc: 'BS. Sarah Johnson', spec: 'Chỉnh hình', date: '15 Thg 4 2026', bg: 'bg-red-300' },

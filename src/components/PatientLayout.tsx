@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { NavLink, Outlet } from 'react-router-dom';
 import {
   Hexagon, CaretLeft, CaretDown,
   SquaresFour, CalendarBlank, User, FileText, Receipt, Gear,
@@ -8,7 +8,6 @@ import {
 } from '@phosphor-icons/react';
 
 const PatientLayout = () => {
-  const navigate = useNavigate();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [displayName, setDisplayName] = useState('Nguyễn Văn A');
 

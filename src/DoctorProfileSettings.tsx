@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Camera, User, Lock, Bell, CheckCircle } from '@phosphor-icons/react';
-import { NavLink } from 'react-router-dom';
+import { Camera, CheckCircle } from '@phosphor-icons/react';
+import { } from 'react-router-dom';
 
 const DoctorProfileSettings: React.FC = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);

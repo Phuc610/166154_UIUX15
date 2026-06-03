@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  MagnifyingGlass, Funnel, CalendarBlank, CaretRight, User, Heartbeat
+  MagnifyingGlass, CalendarBlank, CaretRight, User
 } from '@phosphor-icons/react';
 
 const INITIAL_MOCK_PATIENTS = [

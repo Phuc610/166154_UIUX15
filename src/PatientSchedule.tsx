@@ -92,7 +92,7 @@ function DateRangePicker({ onApply, onClose }: { onApply: (r: DateRange) => void
             const start = isStart(d), end = isEnd(d), inR = inRange(d);
             const hasRange = range.start && (range.end || hover);
             const isStartOfRange = start && hasRange && d <= (range.end ?? hover!);
-            const isEndOfRange = end && hasRange && d >= range.start;
+            const isEndOfRange = end && hasRange && range.start != null && d >= range.start;
 
             return (
               <div
@@ -170,7 +170,7 @@ export default function PatientSchedule() {
   const [filterMode, setFilterMode] = useState('');
   const [filterSpec, setFilterSpec] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [appointments, setAppointments] = useState<Appointment[]>(getAppointments());
+  const [appointments] = useState<Appointment[]>(getAppointments());
   const [view, setView] = useState<ViewMode>('list');
   const today = new Date();
   const [calYear, setCalYear] = useState(today.getFullYear());

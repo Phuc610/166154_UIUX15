@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { User, Lock, Bell, CalendarCheck, CalendarX, FileText, ClockCounterClockwise, Receipt, Info, CheckCircle } from '@phosphor-icons/react';
-import { NavLink } from 'react-router-dom';
+import { CalendarCheck, CalendarX, FileText, Info, CheckCircle } from '@phosphor-icons/react';
+import { } from 'react-router-dom';
 
 const Toggle = ({ defaultChecked = true }: { defaultChecked?: boolean }) => {
   const [checked, setChecked] = useState(defaultChecked);

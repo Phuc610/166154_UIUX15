@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Outlet, useNavigate, useLocation, NavLink } from 'react-router-dom';
 import {
   CalendarBlank, CaretLeft, Chat, FileText, Gear, Hexagon, Bell, User,
-  X as XIcon, ArrowsDownUp, Target, SquaresFour, MagnifyingGlass, Sparkle, CaretDown
+  X as XIcon, SquaresFour, MagnifyingGlass, Sparkle, CaretDown
 } from '@phosphor-icons/react';
 
 const DoctorLayout = () => {

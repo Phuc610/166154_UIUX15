@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   CalendarBlank, VideoCamera, X as XIcon, ArrowRight,
   ChatCircle, VideoCamera as VideoIcon, CheckCircle,
-  DotsThreeVertical, CaretDown, Bell, Clock,
-  User, FileText, Chat, Gear, SquaresFour,
-  Hexagon, Target, ArrowsDownUp, CaretLeft,
-  Stethoscope, Heartbeat
+  DotsThreeVertical, CaretDown, Clock
 } from '@phosphor-icons/react';
 
 // ─── Types ──────────────────────────────────────────────────────────────────

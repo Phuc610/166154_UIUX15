@@ -1,10 +1,9 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  CalendarBlank, CaretLeft, CaretRight, Chat, CheckCircle,
-  Clock, FileText, Gear, Hexagon, Bell, User, VideoCamera,
-  X as XIcon, ArrowsDownUp, Target, SquaresFour,
-  ChatCircle, MagnifyingGlass, Sparkle, Drop, Warning,
+  CalendarBlank, CaretLeft, CaretRight, CheckCircle,
+  Clock, FileText, VideoCamera,
+  X as XIcon, ChatCircle, Warning,
   Heart, Phone
 } from '@phosphor-icons/react';
 

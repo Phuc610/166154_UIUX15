@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
   MagnifyingGlass, Plus, DownloadSimple, Eye,
-  PencilSimple, Trash, X, Warning, CaretDown,
+  Trash, X, Warning, CaretDown,
   CurrencyDollar, CheckCircle, Clock, XCircle, Funnel
 } from '@phosphor-icons/react';
 import Modal from './components/Modal';
@@ -55,7 +55,7 @@ const Invoices = () => {
   const [detailInvoice, setDetailInvoice] = useState<Invoice | null>(null);
   const [deleteTarget, setDeleteTarget]   = useState<Invoice | null>(null);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLTableDataCellElement>(null);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {

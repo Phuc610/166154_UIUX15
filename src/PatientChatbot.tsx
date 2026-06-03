@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Plus, Robot, Sparkle, CalendarBlank, CaretRight, CheckCircle, Warning, MagnifyingGlass, Funnel, PaperPlaneRight, FileText } from '@phosphor-icons/react';
+import { useState, useEffect, useRef } from 'react';
+import { Plus, Robot, Sparkle, CalendarBlank, CaretRight, CheckCircle, Funnel, PaperPlaneRight, FileText } from '@phosphor-icons/react';
 import NewAppointmentModal from './NewAppointmentModal';
 
 const INITIAL_SESSIONS = [

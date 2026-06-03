@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import {
-  Camera, Plus, X, FloppyDisk, ArrowCounterClockwise,
-  Check, Warning
+  Camera, Plus, X, FloppyDisk, Check, Warning
 } from '@phosphor-icons/react';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -307,7 +306,7 @@ const ClinicSettings = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setForm(p => ({ ...p, [field]: e.target.value }));
-    if (errors[field]) setErrors(p => ({ ...p, [field]: undefined }));
+    if (errors[field as keyof FormErrors]) setErrors(p => ({ ...p, [field]: undefined }));
   };
 
   const handleScheduleToggle = (index: number, value: boolean) => {

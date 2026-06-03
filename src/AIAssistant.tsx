@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+
 import { 
-  ChatCircleText, FileText, CaretRight, Sparkle, Clock, User, CheckCircle, Heartbeat, Pill, Stethoscope, ArrowRight
+  FileText, Sparkle, Clock
 } from '@phosphor-icons/react';
 
 const MOCK_PATIENTS = [
@@ -115,7 +115,6 @@ const TAG_STYLES: Record<string, string> = {
 };
 
 const AIAssistant = () => {
-  const navigate = useNavigate();
   const [activePatient, setActivePatient] = useState(MOCK_PATIENTS[0]);
   
   const [notesMap, setNotesMap] = useState<Record<string, Note[]>>(MOCK_NOTES_DB);

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CaretLeft, CheckCircle, EnvelopeSimple, Phone, MapPin, Drop, GenderIntersex, IdentificationCard, IdentificationBadge, Star, Certificate, CalendarBlank } from '@phosphor-icons/react';
+import { CaretLeft, EnvelopeSimple, Phone, MapPin, Drop, GenderIntersex, IdentificationCard, IdentificationBadge, Star, Certificate, CalendarBlank } from '@phosphor-icons/react';
 import NewAppointmentModal from './NewAppointmentModal';
 
 export default function PatientDoctorDetails() {

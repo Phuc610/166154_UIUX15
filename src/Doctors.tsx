@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import {
   MagnifyingGlass, Funnel, Plus, DownloadSimple,
-  DotsThreeVertical, Eye, PencilSimple, CaretLeft, CaretRight,
-  Stethoscope
+  DotsThreeVertical, PencilSimple, Stethoscope
 } from '@phosphor-icons/react';
 import Modal from './components/Modal';
 import { useToast } from './contexts/ToastContext';
