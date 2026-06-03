@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Stethoscope, Heart, Brain, Baby, Flask, Syringe,
   ChatCircle, Star, ShieldCheck, Clock, Users,
@@ -209,10 +209,17 @@ const CHAT_MESSAGES = [
 
 // ─── Main Landing Page ────────────────────────────────────────────────────────
 const LandingPage = () => {
+  const location = useLocation();
   const [showRoleModal, setShowRoleModal] = useState(false);
   const [chatVisible, setChatVisible] = useState(false);
   const [typingText, setTypingText] = useState('');
   const heroText = 'Chăm Sóc Sức Khỏe';
+
+  useEffect(() => {
+    if (location.search.includes('login=true')) {
+      setShowRoleModal(true);
+    }
+  }, [location.search]);
 
   // Simple typing animation for hero
   useEffect(() => {

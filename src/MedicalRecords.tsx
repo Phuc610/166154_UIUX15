@@ -50,7 +50,16 @@ const MedicalRecords = () => {
     <div className="h-full flex flex-col gap-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 mb-1">Hồ sơ bệnh án</h1>
+          <div className="flex items-center gap-3 mb-1">
+            <h1 className="text-2xl font-bold text-slate-900">Hồ sơ bệnh án</h1>
+            <button 
+              onClick={() => { localStorage.removeItem('preclinic_patients'); window.location.reload(); }}
+              className="text-[10px] bg-slate-100 text-slate-500 px-2 py-1 rounded-md font-semibold hover:bg-slate-200 hover:text-slate-700 transition-colors"
+              title="Khôi phục lại dữ liệu mẫu"
+            >
+              Làm mới dữ liệu
+            </button>
+          </div>
           <p className="text-sm text-slate-500">Quản lý và tra cứu lịch sử khám chữa bệnh</p>
         </div>
       </div>
