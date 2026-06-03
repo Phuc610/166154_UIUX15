@@ -35,6 +35,7 @@ import PatientNotificationsSettings from './PatientNotificationsSettings';
 import DoctorProfileSettings from './DoctorProfileSettings';
 import DoctorChangePassword from './DoctorChangePassword';
 import DoctorNotificationsSettings from './DoctorNotificationsSettings';
+import ClinicSettings from './ClinicSettings';
 function App() {
   return (
     <BrowserRouter>
@@ -84,6 +85,7 @@ function App() {
           <Route path="schedule"     element={<Schedule />} />
           <Route path="invoices"     element={<Invoices />} />
           <Route path="expenses"     element={<Expenses />} />
+          <Route path="settings"     element={<ClinicSettings />} />
         </Route>
       </Routes>
     </BrowserRouter>
