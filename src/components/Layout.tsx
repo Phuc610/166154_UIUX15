@@ -45,6 +45,13 @@ const Layout = () => {
               <SquaresFour size={20} />
               <span>Tổng quan</span>
             </NavLink>
+            <NavLink 
+              to="/dashboard/ai-assistant" 
+              className={({isActive}) => `flex items-center gap-3 px-3 py-2.5 rounded-lg font-semibold transition-colors ${isActive ? 'text-blue-600 bg-blue-50 border border-blue-100' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'}`}
+            >
+              <Sparkle size={20} />
+              <span>Trợ lý AI</span>
+            </NavLink>
           </div>
 
           <div className="flex flex-col gap-1">
@@ -133,9 +140,7 @@ const Layout = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            <button className="flex items-center gap-2 bg-[#1e293b] hover:bg-slate-900 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors">
-              Trợ lý AI <Sparkle weight="fill" className="text-teal-400" size={16} />
-            </button>
+
             <button className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors">
               <CalendarBlank size={20} />
             </button>
