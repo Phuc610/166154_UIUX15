@@ -36,7 +36,6 @@ Dưới đây là 3 kịch bản kiểm thử toàn diện được thiết kế
 | **7** | `Tôi chưa dùng loại thuốc nào cả` | Vậy thì tạm thời bạn đừng quá lo lắng... *(Bắt: chưa)* |
 | **8** | `Tôi có thể gặp bác sĩ thần kinh không?` | Dựa trên nhu cầu của bạn, tôi đề xuất... **(Hiển thị UI Danh sách Bác sĩ)** *(Bắt: bác sĩ)* |
 | **9** | `Cám ơn bạn đã gợi ý` | Không có chi! Chúc bạn thật nhiều... *(Bắt: cám ơn)* |
-| **10** | `Tạm biệt nhé` | *(Random Fallback 2 - Phản hồi ngẫu nhiên khác)* |
 
 ---
 
@@ -46,8 +45,8 @@ Dưới đây là 3 kịch bản kiểm thử toàn diện được thiết kế
 | STT | Tin nhắn của Bệnh nhân | Trả lời dự kiến từ AI |
 | :--- | :--- | :--- |
 | **1** | `Hi` | Chào bạn! Hãy mô tả chi tiết... *(Bắt: hi)* |
-| **2** | `Tôi có một vấn đề về sức khỏe` | *(Random Fallback 1)* |
-| **3** | `Tự nhiên tôi thấy đau nhức đầu kinh khủng` | Bạn bị triệu chứng này lâu chưa? Có kèm theo... *(Bắt: nhức đầu)* |
+| **2** | `Tôi có một vấn đề về sức khỏe` | Bạn có thể mô tả chi tiết hơn về vấn đề sức khỏe mà bạn đang gặp phải không? |
+| **3** | `Tự nhiên tôi thấy đau nhức đầu kinh khủng` | Bạn bị triệu chứng này lâu chưa? Có kèm theo... *(Bắt: nhức đầu)* |         
 | **4** | `Nó đau lắm` | Tôi hiểu sự bất tiện này... *(Bắt: đau)* |
 | **5** | `Mắt tôi mờ đi` | *(Random Fallback 2)* |
 | **6** | `Tôi muốn đặt lịch khám` | Dựa trên nhu cầu của bạn, tôi đề xuất... **(Hiển thị UI Danh sách Bác sĩ)** *(Bắt: đặt lịch)* |

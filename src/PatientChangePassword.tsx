@@ -1,13 +1,28 @@
 import React, { useState } from 'react';
-import { User, Lock, Bell, EyeSlash, Eye } from '@phosphor-icons/react';
+import { User, Lock, Bell, EyeSlash, Eye, CheckCircle } from '@phosphor-icons/react';
 import { NavLink } from 'react-router-dom';
 
 const PatientChangePassword: React.FC = () => {
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+
+  const handleSave = () => {
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 3000);
+  };
 
   return (
     <div>
+      {/* Toast Notification */}
+      <div
+        className={`fixed top-5 right-5 z-[9999] flex items-center gap-3 bg-green-500 text-white shadow-xl rounded-xl px-5 py-3.5 transition-all duration-500 ${
+          showToast ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-6 pointer-events-none'
+        }`}
+      >
+        <CheckCircle size={22} weight="fill" className="shrink-0" />
+        <p className="font-bold text-sm">Lưu thành công!</p>
+      </div>
       {/* Page Header */}
       <div className="flex justify-between items-center px-8 pt-6 pb-5">
         <h1 className="text-2xl font-bold text-slate-900">Cài đặt</h1>
@@ -91,10 +106,8 @@ const PatientChangePassword: React.FC = () => {
 
             {/* Action Buttons */}
             <div className="p-6 flex items-center justify-end gap-3 bg-slate-50/50">
-              <button className="px-5 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">
-                Hủy bỏ
-              </button>
-              <button className="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-sm">
+
+              <button onClick={handleSave} className="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-sm">
                 Lưu thay đổi
               </button>
             </div>

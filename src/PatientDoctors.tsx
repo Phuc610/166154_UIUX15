@@ -251,7 +251,7 @@ const PatientDoctors = () => {
                                 <Eye size={16} className="text-slate-400" /> Xem hồ sơ
                               </button>
                               <button
-                                onClick={(e) => { e.stopPropagation(); setOpenMenu(null); navigate('/patient/consult-doctor'); }}
+                                onClick={(e) => { e.stopPropagation(); setOpenMenu(null); navigate('/patient/consult-doctor', { state: { targetDoctorName: doc.name } }); }}
                                 className="w-full text-left px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2.5 transition-colors"
                               >
                                 <ChatCircleDots size={16} className="text-slate-400" /> Nhắn tin

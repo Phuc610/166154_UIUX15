@@ -1,15 +1,41 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { MagnifyingGlass, Phone, Paperclip, PaperPlaneRight, VideoCamera, Microphone, MicrophoneSlash, PhoneDisconnect, FileText, CaretDown } from '@phosphor-icons/react';
 import NewAppointmentModal from './NewAppointmentModal';
 
-const DOCTORS = [
+const INITIAL_DOCTORS = [
   { id: 1, name: 'BS. Phạm Văn Đức', msg: 'Bác sĩ ơi, tôi hơi mệt...', time: '10:30', bg: 'bg-green-100', dot: 'bg-green-500' },
   { id: 2, name: 'BS. Nguyễn Thị Hoa', msg: 'Cảm ơn bác sĩ nhiều ạ.', time: 'Hôm qua', bg: 'bg-red-100', dot: 'bg-transparent' },
   { id: 3, name: 'BS. Trần Minh Tuấn', msg: 'Mai tôi ghé phòng khám.', time: 'Hôm qua', bg: 'bg-slate-100', dot: 'bg-transparent' },
 ];
 
 export default function PatientConsultDoctor() {
-  const [activeDoc, setActiveDoc] = useState(DOCTORS[1]);
+  const location = useLocation();
+  const targetDoctorName = location.state?.targetDoctorName;
+  
+  const initialNewDoc = {
+    id: 999, // use a fixed mock ID for the new doc
+    name: targetDoctorName || '',
+    msg: 'Bắt đầu cuộc trò chuyện',
+    time: 'Vừa xong',
+    bg: 'bg-blue-100',
+    dot: 'bg-transparent'
+  };
+
+  const [doctorsList, setDoctorsList] = useState(() => {
+    if (targetDoctorName && !INITIAL_DOCTORS.some(d => d.name === targetDoctorName)) {
+      return [initialNewDoc, ...INITIAL_DOCTORS];
+    }
+    return INITIAL_DOCTORS;
+  });
+
+  const [activeDoc, setActiveDoc] = useState(() => {
+    if (targetDoctorName) {
+      const existing = INITIAL_DOCTORS.find(d => d.name === targetDoctorName);
+      return existing || initialNewDoc;
+    }
+    return INITIAL_DOCTORS[1];
+  });
   const [isCalling, setIsCalling] = useState(false);
   const [isMicOn, setIsMicOn] = useState(true);
   const [isCamOn, setIsCamOn] = useState(false);
@@ -99,28 +125,28 @@ export default function PatientConsultDoctor() {
             />
           </div>
         </div>
-        <div className="flex-1 overflow-y-auto">
-          {DOCTORS.map(d => (
-            <div
-              key={d.id}
-              onClick={() => setActiveDoc(d)}
-              className={`flex items-center gap-3 p-4 cursor-pointer transition-colors border-l-4 ${activeDoc.id === d.id ? 'border-blue-600 bg-slate-50' : 'border-transparent hover:bg-slate-50'}`}
-            >
+          <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-slate-200 [&::-webkit-scrollbar-thumb]:rounded-full">
+            {doctorsList.map((doc) => (
+              <div
+                key={doc.id}
+                onClick={() => setActiveDoc(doc)}
+                className={`flex items-center gap-3 p-4 cursor-pointer transition-colors border-l-4 ${activeDoc.id === doc.id ? 'border-blue-600 bg-slate-50' : 'border-transparent hover:bg-slate-50'}`}
+              >
               <div className="relative">
-                <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${d.bg} text-slate-600`}>
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${doc.bg} text-slate-600`}>
                   {/* Mock avatar */}
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                 </div>
-                {d.dot !== 'bg-transparent' && (
-                  <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${d.dot}`} />
+                {doc.dot !== 'bg-transparent' && (
+                  <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${doc.dot}`} />
                 )}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex justify-between items-baseline mb-0.5">
-                  <h3 className="font-bold text-slate-900 text-sm truncate">{d.name}</h3>
-                  <span className="text-[10px] text-slate-400 shrink-0 ml-2">{d.time}</span>
+                  <h3 className="font-bold text-slate-900 text-sm truncate">{doc.name}</h3>
+                  <span className="text-[10px] text-slate-400 shrink-0 ml-2">{doc.time}</span>
                 </div>
-                <p className="text-xs text-slate-500 truncate">{d.msg}</p>
+                <p className="text-xs text-slate-500 truncate">{doc.msg}</p>
               </div>
             </div>
           ))}
