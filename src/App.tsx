@@ -32,6 +32,9 @@ import PatientInvoices from './PatientInvoices';
 import PatientProfileSettings from './PatientProfileSettings';
 import PatientChangePassword from './PatientChangePassword';
 import PatientNotificationsSettings from './PatientNotificationsSettings';
+import DoctorProfileSettings from './DoctorProfileSettings';
+import DoctorChangePassword from './DoctorChangePassword';
+import DoctorNotificationsSettings from './DoctorNotificationsSettings';
 function App() {
   return (
     <BrowserRouter>
@@ -49,6 +52,9 @@ function App() {
           <Route path="records/:id" element={<MedicalRecordDetail />} />
           <Route path="messages" element={<Messages />} />
           <Route path="patients" element={<Patients />} />
+          <Route path="settings/profile" element={<DoctorProfileSettings />} />
+          <Route path="settings/password" element={<DoctorChangePassword />} />
+          <Route path="settings/notifications" element={<DoctorNotificationsSettings />} />
         </Route>
 
         {/* ─── Patient Portal ─── */}

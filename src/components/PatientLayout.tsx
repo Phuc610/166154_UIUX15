@@ -76,6 +76,10 @@ const PatientLayout = () => {
               <SquaresFour size={20} />
               <span>Tổng quan</span>
             </NavLink>
+            <NavLink to="/patient/ai-assistant" className={navCls}>
+              <Sparkle size={20} />
+              <span>Trợ lý AI</span>
+            </NavLink>
           </div>
 
           {/* SỨC KHỎE */}
@@ -162,12 +166,6 @@ const PatientLayout = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            <button
-              onClick={() => navigate('/patient/consult-bot')}
-              className="flex items-center gap-2 bg-[#1e293b] hover:bg-slate-900 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors"
-            >
-              Trợ lý AI <Sparkle weight="fill" className="text-teal-400" size={16} />
-            </button>
             <button aria-label="Lịch" className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors">
               <CalendarBlank size={20} />
             </button>
