@@ -134,6 +134,7 @@ const cardStyle = (type: string) =>
 
 // ─── Patient Detail Modal ─────────────────────────────────────────────────────
 const PatientModal = ({ appt, onClose }: { appt: Appointment; onClose: () => void }) => {
+  const navigate = useNavigate();
   const cs = cardStyle(appt.type);
   const endH = appt.startHour + Math.floor((appt.startMin + appt.durationMin) / 60);
   const endM = (appt.startMin + appt.durationMin) % 60;
@@ -241,13 +242,21 @@ const PatientModal = ({ appt, onClose }: { appt: Appointment; onClose: () => voi
         {/* Footer — CTAs */}
         <div className="px-6 py-4 border-t border-slate-100 flex gap-3 bg-slate-50/50">
           <button
+            onClick={() => {
+              if (appt.type === 'Online') {
+                navigate('/doctor/messages?call=true&contact=c4');
+              } else {
+                navigate('/doctor/records/p1');
+              }
+            }}
             className="flex-1 flex items-center justify-center gap-2 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-blue-200 active:scale-95"
-            aria-label="Tư vấn trực tiếp">
-            <VideoCamera size={18} weight="fill" />
-            Tư vấn trực tiếp
+            aria-label={appt.type === 'Online' ? 'Tư vấn trực tuyến' : 'Bắt đầu khám'}>
+            {appt.type === 'Online' ? <VideoCamera size={18} weight="fill" /> : <Heart size={18} weight="fill" />}
+            {appt.type === 'Online' ? 'Tư vấn trực tuyến' : 'Bắt đầu khám'}
           </button>
           <button
-            className="flex-1 flex items-center justify-center gap-2 py-3 bg-white border-2 border-slate-200 hover:border-blue-300 text-slate-700 font-bold text-sm rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-md"
+            onClick={() => navigate('/doctor/messages')}
+            className="flex-1 flex items-center justify-center gap-2 py-3 bg-white border-2 border-slate-200 hover:border-blue-300 text-slate-700 font-bold text-sm rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-md active:scale-95"
             aria-label="Nhắn tin">
             <ChatCircle size={18} weight="fill" />
             Nhắn tin
