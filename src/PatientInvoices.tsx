@@ -230,20 +230,14 @@ const PatientInvoices: React.FC = () => {
                         <div className="flex justify-end">
                           <button
                             onClick={e => { e.stopPropagation(); setShowMenu(showMenu === realIdx ? null : realIdx); }}
-                            className="w-8 h-8 flex items-center justify-center text-slate-400 border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors bg-white"
+                            className="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-colors"
                           >
                             <DotsThreeVertical size={20} weight="bold"/>
                           </button>
                         </div>
                         {showMenu === realIdx && (
-                          <div className="absolute right-6 top-full mt-1 bg-white shadow-xl border border-slate-100 rounded-xl z-30 py-2 w-48">
+                          <div className="absolute right-6 top-full mt-1 bg-white shadow-xl border border-slate-100 rounded-xl z-30 py-2 w-44">
                             <button onClick={() => setShowMenu(null)} className="w-full text-left px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2.5 transition-colors">
-                              <Eye size={16} className="text-slate-400"/> Xem chi tiết
-                            </button>
-                            <button onClick={() => setShowMenu(null)} className="w-full text-left px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2.5 transition-colors">
-                              <Receipt size={16} className="text-slate-400"/> Thanh toán ngay
-                            </button>
-                            <button onClick={() => setShowMenu(null)} className="w-full text-left px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2.5 transition-colors border-t border-slate-100">
                               <FileArrowDown size={16} className="text-slate-400"/> Tải xuống PDF
                             </button>
                           </div>

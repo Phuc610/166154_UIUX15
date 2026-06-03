@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import {
-  Hexagon, CaretLeft, ArrowsDownUp, CaretDown,
+  Hexagon, CaretLeft, CaretDown,
   SquaresFour, CalendarBlank, User, FileText, Receipt, Gear,
   MagnifyingGlass, Sparkle, Bell, UserCircle, Moon,
   ChatCircleDots, Robot
@@ -10,6 +10,22 @@ import {
 const PatientLayout = () => {
   const navigate = useNavigate();
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [displayName, setDisplayName] = useState('Nguyễn Văn A');
+
+  useEffect(() => {
+    const saved = localStorage.getItem('patient_display_name');
+    if (saved) setDisplayName(saved);
+    const onStorage = () => {
+      const updated = localStorage.getItem('patient_display_name');
+      if (updated) setDisplayName(updated);
+    };
+    window.addEventListener('storage', onStorage);
+    window.addEventListener('patient_name_updated', onStorage as any);
+    return () => {
+      window.removeEventListener('storage', onStorage);
+      window.removeEventListener('patient_name_updated', onStorage as any);
+    };
+  }, []);
 
   const navCls = ({ isActive }: { isActive: boolean }) =>
     `flex items-center gap-3 px-3 py-2.5 rounded-lg font-semibold text-sm transition-colors w-full text-left
@@ -37,17 +53,16 @@ const PatientLayout = () => {
         </div>
 
         {/* User selector */}
-        <div className="mx-5 mb-5 p-3 border border-slate-200 rounded-xl flex items-center justify-between cursor-pointer hover:border-slate-300 transition-colors">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-amber-400 text-white flex items-center justify-center font-bold text-sm">
+        <div className="mx-5 mb-5 p-3 border border-slate-200 rounded-xl flex items-center gap-3 cursor-pointer hover:border-slate-300 transition-colors">
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            <div className="w-8 h-8 rounded-full bg-amber-400 text-white flex items-center justify-center font-bold text-sm shrink-0">
               BN
             </div>
-            <div className="flex flex-col">
-              <span className="font-semibold text-sm">Nguyễn Văn A</span>
+            <div className="flex flex-col min-w-0">
+              <span className="font-semibold text-sm truncate">{displayName}</span>
               <span className="text-xs text-slate-500">Bệnh nhân</span>
             </div>
           </div>
-          <ArrowsDownUp size={16} className="text-slate-500" />
         </div>
 
         {/* Navigation */}
@@ -151,7 +166,6 @@ const PatientLayout = () => {
           </div>
 
           <div className="flex items-center gap-4">
-
             <button aria-label="Lịch" className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors">
               <CalendarBlank size={20} />
             </button>

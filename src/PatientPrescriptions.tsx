@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CaretLeft, CaretRight, CaretDown, Export, Funnel, MagnifyingGlass, DotsThreeVertical, Eye, FileArrowDown } from '@phosphor-icons/react';
 const PRESCRIPTIONS = [
   { id: '#PRE0015', doc: 'BS. Mick Thompson', spec: 'Tim mạch', date: '30 Thg 4 2026', bg: 'bg-indigo-200' },
@@ -21,6 +22,7 @@ const PRESCRIPTIONS = [
 const PAGE_SIZE_OPTIONS = [10, 20, 50];
 
 const PatientPrescriptions: React.FC = () => {
+  const navigate = useNavigate();
   const [showExportMenu, setShowExportMenu] = useState(false);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
@@ -186,7 +188,7 @@ const PatientPrescriptions: React.FC = () => {
                 ) : paginated.map((pre, i) => {
                   const realIdx = (page - 1) * pageSize + i;
                   return (
-                    <tr key={realIdx} className="border-b border-slate-200 hover:bg-slate-50/60 transition-colors">
+                    <tr key={realIdx} onClick={() => navigate(`/patient/prescriptions/${encodeURIComponent(pre.id)}`)} className="border-b border-slate-200 hover:bg-slate-50/60 transition-colors cursor-pointer">
                       {/* Prescription ID */}
                       <td className="py-4 px-6">
                         <span className="text-sm font-medium text-slate-500">{pre.id}</span>
@@ -213,14 +215,14 @@ const PatientPrescriptions: React.FC = () => {
                         <div className="flex justify-end">
                           <button
                             onClick={e => { e.stopPropagation(); setShowMenu(showMenu === realIdx ? null : realIdx); }}
-                            className="w-8 h-8 flex items-center justify-center text-slate-400 border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors bg-white"
+                            className="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-colors"
                           >
                             <DotsThreeVertical size={20} weight="bold"/>
                           </button>
                         </div>
                         {showMenu === realIdx && (
                           <div className="absolute right-6 top-full mt-1 bg-white shadow-xl border border-slate-100 rounded-xl z-30 py-2 w-40">
-                            <button onClick={() => setShowMenu(null)} className="w-full text-left px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2.5 transition-colors">
+                            <button onClick={() => { setShowMenu(null); navigate(`/patient/prescriptions/${encodeURIComponent(pre.id)}`); }} className="w-full text-left px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2.5 transition-colors">
                               <Eye size={16} className="text-slate-400"/> Xem chi tiết
                             </button>
                             <button onClick={() => setShowMenu(null)} className="w-full text-left px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2.5 transition-colors">

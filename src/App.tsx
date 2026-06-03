@@ -27,6 +27,7 @@ import PatientDoctorDetails from './PatientDoctorDetails';
 import PatientConsultDoctor from './PatientConsultDoctor';
 import PatientChatbot from './PatientChatbot';
 import PatientPrescriptions from './PatientPrescriptions';
+import PatientPrescriptionDetail from './PatientPrescriptionDetail';
 import PatientInvoices from './PatientInvoices';
 import PatientProfileSettings from './PatientProfileSettings';
 import PatientChangePassword from './PatientChangePassword';
@@ -63,6 +64,7 @@ function App() {
           <Route path="doctors"   element={<PatientDoctors />} />
           <Route path="doctors/:name" element={<PatientDoctorDetails />} />
           <Route path="prescriptions" element={<PatientPrescriptions />} />
+          <Route path="prescriptions/:id" element={<PatientPrescriptionDetail />} />
           <Route path="invoices"  element={<PatientInvoices />} />
           <Route path="consult-doctor" element={<PatientConsultDoctor />} />
           <Route path="consult-bot" element={<PatientChatbot />} />
