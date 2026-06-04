@@ -21,8 +21,9 @@ const Doctors = () => {
   // Form State
   const [formData, setFormData] = useState({ name: '', phone: '', specialty: '' });
   const [formErrors, setFormErrors] = useState({ name: '', phone: '', specialty: '' });
+  const [doctorsList, setDoctorsList] = useState(MOCK_DOCTORS_LIST);
 
-  const filteredDoctors = MOCK_DOCTORS_LIST.filter(d => {
+  const filteredDoctors = doctorsList.filter(d => {
     const term = searchTerm.toLowerCase();
     return d.name.toLowerCase().includes(term) || 
            d.id.toLowerCase().includes(term) || 
@@ -57,7 +58,17 @@ const Doctors = () => {
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      // In a real app, save data here
+      const newDoctor = {
+        id: `BS-00${doctorsList.length + 1}`,
+        name: formData.name,
+        phone: formData.phone,
+        specialty: formData.specialty,
+        schedule: 'Chưa có lịch',
+        status: 'Sẵn sàng',
+        statusColor: 'emerald'
+      };
+      setDoctorsList([newDoctor, ...doctorsList]);
+      showToast('Thêm bác sĩ thành công!');
       setIsModalOpen(false);
       setFormData({ name: '', phone: '', specialty: '' });
       setFormErrors({ name: '', phone: '', specialty: '' });

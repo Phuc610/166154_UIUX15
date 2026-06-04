@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import {
-  Hexagon, CaretLeft, Target, ArrowsDownUp,
+  Hexagon, CaretLeft,
   SquaresFour, User, Users, CalendarBlank,
   UsersThree, Clock, Receipt, CreditCard, Gear,
   MagnifyingGlass, UserCircle,

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Stethoscope, Heart, Brain, Baby, Flask, Syringe,
-  ChatCircle, Star, ShieldCheck, Clock, Users,
+  ChatCircle, ShieldCheck, Clock, Users,
   CheckCircle, X, ArrowRight, Sparkle,
   UserCircle, Buildings, FirstAid,
   ChatTeardropDots, Robot
@@ -295,23 +295,7 @@ const NavLink = ({ children, href }: { children: React.ReactNode, href: string }
   );
 };
 
-const ServiceCard = ({
-  icon, title, desc, price, highlight
-}: {
-  icon: React.ReactNode; title: string; desc: string; price: string; highlight?: boolean;
-}) => (
-  <div className={`group bg-white rounded-2xl p-6 border transition-all duration-200 cursor-pointer hover:shadow-lg hover:-translate-y-1 ${highlight ? 'border-blue-200 hover:border-blue-400' : 'border-slate-100 hover:border-slate-200'}`}>
-    <div className={`w-12 h-12 rounded-xl ${highlight ? 'bg-blue-50 text-blue-600' : 'bg-slate-50 text-slate-600'} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-      {icon}
-    </div>
-    <h3 className="font-bold text-slate-900 mb-2">{title}</h3>
-    <p className={`text-sm leading-relaxed mb-4 ${highlight ? 'text-blue-600' : 'text-slate-500'}`}>{desc}</p>
-    <div className="flex items-center justify-between">
-      <span className="font-bold text-slate-900 text-sm">{price}</span>
-      <ArrowRight size={16} className="text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
-    </div>
-  </div>
-);
+
 
 const SERVICES = [
   { icon: <Stethoscope size={22} />, title: 'Nội khoa tổng quát', desc: 'Khám, theo dõi và điều trị các bệnh lý nội khoa thường gặp', price: '200.000đ' },
@@ -349,7 +333,7 @@ const LandingPage = () => {
   const [chatVisible, setChatVisible] = useState(false);
   const [messages, setMessages] = useState<ChatMsg[]>(INITIAL_SCENARIO);
   const [isTyping, setIsTyping] = useState(false);
-  const [typingText, setTypingText] = useState('');
+
   const [currentSlide, setCurrentSlide] = useState(0);
   const heroText = 'Giải Pháp Sức Khỏe';
 
