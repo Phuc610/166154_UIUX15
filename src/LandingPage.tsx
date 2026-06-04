@@ -335,7 +335,7 @@ const LandingPage = () => {
   const [isTyping, setIsTyping] = useState(false);
 
   const [currentSlide, setCurrentSlide] = useState(0);
-  const heroText = 'Giải Pháp Sức Khỏe';
+
 
   useEffect(() => {
     if (location.search.includes('login=true')) {
@@ -386,16 +386,7 @@ const LandingPage = () => {
     }, 1000);
   };
 
-  // Simple typing animation for hero
-  useEffect(() => {
-    let i = 0;
-    const interval = setInterval(() => {
-      setTypingText(heroText.slice(0, i + 1));
-      i++;
-      if (i >= heroText.length) clearInterval(interval);
-    }, 60);
-    return () => clearInterval(interval);
-  }, []);
+
 
   // Slider animation
   useEffect(() => {
