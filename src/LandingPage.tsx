@@ -335,7 +335,7 @@ const LandingPage = () => {
   const [isTyping, setIsTyping] = useState(false);
 
   const [currentSlide, setCurrentSlide] = useState(0);
-  const heroText = 'Giải Pháp Sức Khỏe';
+
 
   useEffect(() => {
     if (location.search.includes('login=true')) {
