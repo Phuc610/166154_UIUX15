@@ -38,9 +38,11 @@ const Patients = () => {
   const [formData, setFormData] = useState({ id: '', name: '', phone: '', gender: '', age: '' });
   const [formErrors, setFormErrors] = useState({ name: '', phone: '', gender: '', age: '' });
   const [animIn, setAnimIn] = useState(false);
+  
+  const [patientList, setPatientList] = useState(MOCK_PATIENTS_LIST);
 
   // Filtering
-  const filteredPatients = MOCK_PATIENTS_LIST.filter(p => {
+  const filteredPatients = patientList.filter(p => {
     const term = searchTerm.toLowerCase();
     const matchSearch = p.name.toLowerCase().includes(term) || 
                         p.id.toLowerCase().includes(term) || 
@@ -117,8 +119,21 @@ const Patients = () => {
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
+      if (formData.id) {
+        setPatientList(patientList.map(p => p.id === formData.id ? { ...p, ...formData, age: Number(formData.age) } : p));
+        showToast('Cập nhật thông tin thành công!');
+      } else {
+        const newPatient = {
+          id: `BN${Math.floor(1000 + Math.random() * 9000)}`,
+          ...formData,
+          age: Number(formData.age),
+          status: 'Đang điều trị',
+          lastVisit: 'Chưa có',
+        };
+        setPatientList([newPatient, ...patientList]);
+        showToast('Thêm bệnh nhân mới thành công!');
+      }
       setIsFormModalOpen(false);
-      // In a real app, you would save formData to the list here
     }
   };
 

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { User, Lock, Bell, Eye, EyeSlash, CheckCircle } from '@phosphor-icons/react';
-import { NavLink } from 'react-router-dom';
+import { Lock, Eye, EyeSlash, CheckCircle } from '@phosphor-icons/react';
 
 const DoctorChangePassword: React.FC = () => {
   const [showToast, setShowToast] = useState(false);
