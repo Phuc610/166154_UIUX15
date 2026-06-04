@@ -124,10 +124,11 @@ const Patients = () => {
         showToast('Cập nhật thông tin thành công!');
       } else {
         const newPatient = {
-          id: `BN${Math.floor(1000 + Math.random() * 9000)}`,
           ...formData,
+          id: `BN${Math.floor(1000 + Math.random() * 9000)}`,
           age: Number(formData.age),
           status: 'Đang điều trị',
+          statusColor: 'blue',
           lastVisit: 'Chưa có',
         };
         setPatientList([newPatient, ...patientList]);
