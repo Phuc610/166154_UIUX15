@@ -277,119 +277,59 @@ const LandingPage = () => {
       </nav>
 
       {/* ── Hero Section ────────────────────────────────────────────────────── */}
-      <section className="pt-24 pb-0 bg-[#f5f5f0] min-h-[90vh] flex items-center relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 w-full">
-          <div className="grid grid-cols-2 gap-12 items-center">
+      <section className="pt-32 pb-16 bg-[#f8fafc] flex flex-col items-center text-center relative overflow-hidden">
+        <div className="max-w-4xl mx-auto px-6 w-full relative z-10">
+          
+          {/* Badge */}
+          <div className="inline-flex items-center justify-center gap-2 px-5 py-2 bg-white border border-slate-200 rounded-full text-xs font-extrabold text-blue-600 tracking-wider shadow-sm mb-8 uppercase">
+            <Sparkle size={14} weight="fill" className="text-amber-400" />
+            Hệ thống y tế tiêu chuẩn quốc tế
+          </div>
 
-            {/* Left: Text */}
-            <div className="py-16">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-200 text-blue-700 rounded-full text-xs font-semibold mb-6">
-                <Sparkle size={14} weight="fill" className="text-blue-500" />
-                Chuỗi phòng khám gia đình #1 Hà Nội
-              </div>
+          {/* Heading */}
+          <h1 className="text-[56px] font-black tracking-tight text-slate-900 leading-[1.1] mb-6 mx-auto">
+            <span className="text-blue-600">Giải Pháp Sức Khỏe</span> <br/>
+            Tối Ưu Dành Cho Gia Đình
+          </h1>
 
-              {/* Heading */}
-              <h1 className="text-5xl font-extrabold text-slate-900 leading-tight mb-4">
-                {typingText}
-                <br />
-                <span className="text-blue-600 italic font-extrabold">Toàn Diện</span> Cho Cả
-                <br />
-                Gia Đình
-              </h1>
+          {/* Subtitle */}
+          <p className="text-slate-500 text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
+            Tích hợp trí tuệ nhân tạo thông minh nhằm nhận diện triệu chứng nhanh chóng, đồng thời kết nối bạn với chuyên gia y tế hàng đầu.
+          </p>
 
-              <p className="text-slate-500 text-base leading-relaxed mb-8 max-w-md">
-                Trợ lý AI hỗ trợ khảo sát triệu chứng ban đầu, kết nối bác sĩ chuyên khoa,
-                và đặt lịch khám tại 4 cơ sở khắp Hà Nội.
-              </p>
+          {/* CTA buttons */}
+          <div className="flex items-center justify-center gap-4 mb-16">
+            <button
+              className="flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-full text-sm transition-all hover:shadow-xl hover:-translate-y-1"
+              aria-label="Tư vấn miễn phí ngay"
+              onClick={() => setShowRoleModal(true)}
+            >
+              <ChatCircle size={18} weight="fill" />
+              Tư vấn miễn phí ngay
+            </button>
+            <button
+              onClick={() => setShowBookingModal(true)}
+              className="flex items-center gap-2 px-8 py-4 bg-white border border-slate-200 hover:border-slate-300 text-slate-700 font-bold rounded-full text-sm transition-all hover:shadow-md hover:-translate-y-1"
+              aria-label="Đặt lịch khám"
+            >
+              <Buildings size={18} />
+              Đặt lịch khám
+            </button>
+          </div>
+        </div>
 
-              {/* CTA buttons */}
-              <div className="flex items-center gap-4 mb-10">
-                <button
-                  className="flex items-center gap-2 px-6 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-sm transition-all hover:shadow-lg hover:shadow-blue-200 hover:-translate-y-0.5 active:scale-95"
-                  aria-label="Tư vấn miễn phí ngay"
-                >
-                  <ChatCircle size={18} weight="fill" />
-                  Tư vấn miễn phí ngay
-                </button>
-                <button
-                  className="flex items-center gap-2 px-6 py-3.5 bg-white border-2 border-slate-200 hover:border-blue-300 text-slate-700 font-bold rounded-xl text-sm transition-all hover:shadow-md hover:-translate-y-0.5"
-                  aria-label="Đặt lịch khám"
-                >
-                  <Buildings size={18} />
-                  Đặt lịch khám
-                </button>
-              </div>
-
-              {/* Trust badges */}
-              <div className="flex items-center gap-6 text-xs text-slate-500">
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle size={15} className="text-emerald-500" weight="fill" />
-                  50.000+ lượt khám
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle size={15} className="text-emerald-500" weight="fill" />
-                  4 cơ sở Hà Nội
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle size={15} className="text-emerald-500" weight="fill" />
-                  Bác sĩ có chứng chỉ hành nghề
-                </div>
-              </div>
-            </div>
-
-            {/* Right: Image + floating cards */}
-            <div className="relative h-[580px]">
-              {/* Main image */}
-              <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl">
-                <img
-                  src="/clinic_hero.png"
-                  alt="Phòng khám Preclinic hiện đại"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent" />
-              </div>
-
-              {/* Rating card — top right */}
-              <div className="absolute top-5 right-5 bg-white rounded-2xl shadow-xl px-4 py-3 flex items-center gap-3 z-10 border border-slate-100">
-                <div>
-                  <div className="flex items-center gap-0.5 mb-0.5">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} size={13} weight="fill" className="text-amber-400" />
-                    ))}
-                  </div>
-                  <div className="text-lg font-extrabold text-slate-900 leading-none">4.9/5</div>
-                  <div className="text-[10px] text-slate-400">12.950+ đánh giá</div>
-                </div>
-              </div>
-
-              {/* AI chat floating card — bottom left */}
-              <div className="absolute bottom-6 left-6 right-6 bg-white rounded-2xl shadow-xl p-4 z-10 border border-slate-100">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-9 h-9 bg-blue-600 rounded-full flex items-center justify-center shrink-0">
-                    <ChatTeardropDots size={18} className="text-white" weight="fill" />
-                  </div>
-                  <div>
-                    <div className="font-bold text-slate-900 text-sm">Trợ lý MedCare</div>
-                    <div className="flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse inline-block" />
-                      <span className="text-[11px] text-emerald-600 font-medium">Đang hoạt động</span>
-                    </div>
-                  </div>
-                </div>
-                <p className="text-xs text-slate-600 mb-3 font-medium">Bạn đang có triệu chứng gì hôm nay?</p>
-                <div className="flex gap-2">
-                  {['Sốt', 'Đau đầu', 'Ho'].map(s => (
-                    <button key={s} className="px-3 py-1.5 bg-slate-100 hover:bg-blue-100 hover:text-blue-700 text-slate-700 rounded-lg text-xs font-semibold transition-colors">
-                      {s}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
+        {/* Hero Image */}
+        <div className="max-w-6xl w-full mx-auto px-6 relative z-10">
+          <div className="rounded-[2rem] border-8 border-white shadow-2xl overflow-hidden relative w-full aspect-[21/9]">
+            <img 
+              src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2053&auto=format&fit=crop" 
+              alt="Phòng khám" 
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
       </section>
+
 
       {/* ── Stats Bar ───────────────────────────────────────────────────────── */}
       <div className="bg-blue-700 text-white py-4">
